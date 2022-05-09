@@ -126,6 +126,10 @@ public:
 
     };
 
+    void rateHouse() {
+
+    };
+
     void listHouse()
     {
         string start, end;
