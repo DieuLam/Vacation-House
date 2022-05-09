@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
 using std::cerr;
 using std::cin;
 using std::cout;
@@ -14,12 +15,11 @@ class House
 {
 private:
     string city, description, startDate, endDate;
-    double consummingCredits;
-    int minOccRating;
+    double consummingCredits, minOccRating;
     Member *owner, *occupier;
-    bool rentedStatus = false;
-    vector<Member *> requests;
-    vector<int> scores;
+    bool availabity = false;
+    vector<Member *> requests, occupierList;
+    vector<double> scores;
     vector<string> comments;
 
 public:
@@ -38,7 +38,39 @@ public:
         this->endDate = endDate;
         this->minOccRating = minRating;
         this->consummingCredits = conCredits;
+        this->availabity = true;
     };
+
+    void addOccupier(Member *member)
+    {
+        if (member != this->owner)
+        {
+            this->occupier = member;
+        }
+    };
+
+    void setAvailability(Member *member, bool status)
+    {
+        if (checkIfOwner(member)) {
+        this->availabity = status;
+        }
+    };
+
+    vector<Member *> getRequestList(Member *member) {
+        if (checkIfOwner(member)) {
+            return this->requests;
+        }
+    };
+
+    bool checkIfOwner(Member *member) {
+        if (member == this->owner) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    friend double calculateScores();
 
     // friend class Member;
 };
@@ -69,7 +101,7 @@ class Member
 private:
     string username, password, fullName;
     int phone, credit = 500;
-    vector<int> ratingScores;
+    vector<double> ratingScores;
     vector<string> comments;
     House *houseOwned, *houseOccupied;
     vector<House *> availableHouses;
@@ -134,23 +166,38 @@ public:
         this->houseOwned->setData(start, end, rating, credit);
     };
 
-    void viewRequest(){
-
+    void unlistHouse()
+    {
+        this->houseOwned->setAvailability(this, false);
     };
 
-    void viewOccupierInfo(){
+    void sendRequest(House *house)
+    {
+        if (std::find(availableHouses.begin(), availableHouses.end(), house) != availableHouses.end())
+        {
+            house->addOccupier(this);
+        }
+    };
 
+    bool viewRequest(){
+        vector<Member *> list = this->houseOwned->getRequestList(this);
+
+        if (list.size() == 0) {
+            cout << "No occupying requests for this house";
+            return false;
+        }
+
+        cout << "There are " << list.size() << " people request to rent this house: \n\n";
+        for (int i = 0; i < list.size(); i++) {
+            cout << i << ". " << list[i]->username << "\n";
+            cout << "- Full name: " << list[i]->fullName << "\n";
+            cout << "- Contact number: " << list[i]->phone << "\n";
+            cout << "- Rating: " << calculateScores(list[i]->ratingScores) << "\n";
+        }
+        return true;   
     };
 
     void manageRequest(){
-
-    };
-
-    void unlistHouse(){
-
-    };
-
-    void sendRequest(House *house){
 
     };
 
@@ -160,19 +207,17 @@ public:
 
     // ----------------------------------------NU------------------------------------- //
 
-    void rateOccupier(){
+    void rateOccupier(Member *member){
 
     };
 
-    void rateHouse(){
+    void rateHouse(House *house){
 
     };
 
-    void viewReviews(){
-
-    };
-
-    void viewAvailableHouses()
+    // Check the houses matched with date, city, rating and credit of user
+    // then add all of them to availableHouses attribute
+    void checkAvailableHouses(Member *member)
     {
         string start, end, city;
         cout << "Please provide the below information to search for available houses \n\n";
@@ -190,7 +235,22 @@ public:
         //     }
         // };
     };
+
+    // Display review of selected house in the availableHouses attribute
+    void viewReviews(House *house){
+
+    };
+
+    friend double calculateScores(vector<double> list);
 };
+
+double calculateScores(vector<double> list) {
+    double sum = 0;
+    for (int s : list) {
+        sum += s;
+    }
+    return sum/list.size();
+}
 
 //---------------------------------------------------SON---------------------------------------------//
 
@@ -217,14 +277,16 @@ int main()
 {
     User C1;
 
-    Member M1("trang", "trang", "minh trang", 123), M2("diu", "diu", "diu lam", 456);
+    Member M1("trang", "trang", "minh trang", 123), M2("diu", "diu", "diu lam", 456), M3("nu", "nu", "nule", 789);
 
     House H1(&M1, "Hanoi", "This is a house1"), H2(&M2, "HCM", "This is a house2");
 
     memberList.push_back(&M1);
     memberList.push_back(&M2);
+    memberList.push_back(&M3);
 
     M1.listHouse();
+
 
     return 0;
 }
