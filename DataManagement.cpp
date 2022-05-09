@@ -7,6 +7,7 @@ using std::cout;
 using std::string;
 using std::vector;
 
+// --------------------------------------TRANG----------------------------------------//
 class Member;
 
 class House
@@ -44,6 +45,8 @@ public:
 
 vector<Member *> memberList;
 
+// --------------------------------------SON---------------------------------------//
+
 class User
 {
 
@@ -58,6 +61,8 @@ public:
 
     User(){};
 };
+
+// --------------------------------------Trang & Diu---------------------------------------//
 
 class Member
 {
@@ -110,26 +115,6 @@ public:
         return false;
     };
 
-    void viewRequest(){
-
-    };
-
-    void viewOccupierInfo(){
-
-    };
-
-    void manageRequest(){
-
-    };
-
-    void rateOccupier(){
-
-    };
-
-    void rateHouse() {
-
-    };
-
     void listHouse()
     {
         string start, end;
@@ -149,7 +134,41 @@ public:
         this->houseOwned->setData(start, end, rating, credit);
     };
 
+    void viewRequest(){
+
+    };
+
+    void viewOccupierInfo(){
+
+    };
+
+    void manageRequest(){
+
+    };
+
     void unlistHouse(){
+
+    };
+
+    void sendRequest(House *house){
+
+    };
+
+    void cancelRequest(){
+
+    };
+
+    // ----------------------------------------NU------------------------------------- //
+
+    void rateOccupier(){
+
+    };
+
+    void rateHouse(){
+
+    };
+
+    void viewReviews(){
 
     };
 
@@ -171,19 +190,9 @@ public:
         //     }
         // };
     };
-
-    void viewReviews(){
-
-    };
-
-    void sendRequest(House *house){
-
-    };
-
-    void cancelRequest(){
-
-    };
 };
+
+//---------------------------------------------------SON---------------------------------------------//
 
 class Admin
 {
