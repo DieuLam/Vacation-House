@@ -49,6 +49,13 @@ public:
         }
     };
 
+    void addRequest(Member *member) {
+        if (member != this->owner)
+        {
+            this->requests.push_back(member);
+        }
+    }
+
     void setAvailability(Member *member, bool status)
     {
         if (checkIfOwner(member)) {
@@ -175,7 +182,7 @@ public:
     {
         if (std::find(availableHouses.begin(), availableHouses.end(), house) != availableHouses.end())
         {
-            house->addOccupier(this);
+            house->addRequest(this);
         }
     };
 
@@ -197,9 +204,14 @@ public:
         return true;   
     };
 
-    void manageRequest(){
+    void acceptRequest(Member *member) {
+        vector<Member *> list = this->houseOwned->getRequestList(this);
+        if (std::find(list.begin(), list.end(), member) != list.end()) {
+        this->houseOwned->addOccupier(member);
+        }
 
-    };
+        if ()
+    }
 
     void cancelRequest(){
 
