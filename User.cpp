@@ -6,7 +6,6 @@
 using std::string;
 using namespace std;
 
-#define max_fullName_length 100;
 class User{
     private:
     string username;
