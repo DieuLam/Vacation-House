@@ -29,21 +29,23 @@ void Admin::viewMember(){
     while(getline(registrationFile,temp)){//save line to string temp
         size_t pos = 0;
         string subString;
-        vector<string> printInfo; //save each element into a vector
-        while ((pos = temp.find (delimeter)) != std::string::npos){ //use find() here to get position of delimiters
-            subString = temp.substr(0,pos); //subString is equals to all string up to delimiter '|'
-            printInfo.push_back(subString); //put the subString into the vector
-            temp.erase(0,pos + delimeter.length()); //delete the subString from the line so the next subString won't be repeated
-        }
-        printInfo.push_back(temp);
+        if(!temp.empty()){
+            vector<string> printInfo; //save each element into a vector
+            while ((pos = temp.find (delimeter)) != std::string::npos){ //use find() here to get position of delimiters
+                subString = temp.substr(0,pos); //subString is equals to all string up to delimiter '|'
+                printInfo.push_back(subString); //put the subString into the vector
+                temp.erase(0,pos + delimeter.length()); //delete the subString from the line so the next subString won't be repeated
+            }
+            printInfo.push_back(temp);
 
-        //Print statement for each line in file
-        cout<<"Username: "<<printInfo[0]<<"\n";
-        cout<<"User's full name: "<<printInfo[1]<<"\n";
-        cout<<"User's password: "<<printInfo[2]<<"\n";
-        cout<<"User's phone number: "<<printInfo[3]<<"\n";
-        cout<<"User's credit points: "<<printInfo[4]<<"\n";
-        cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n";
+            //Print statement for each line in file
+            cout<<"Username: "<<printInfo[0]<<"\n";
+            cout<<"User's full name: "<<printInfo[1]<<"\n";
+            cout<<"User's password: "<<printInfo[2]<<"\n";
+            cout<<"User's phone number: "<<printInfo[3]<<"\n";
+            cout<<"User's credit points: "<<printInfo[4]<<"\n";
+            cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n";
+        }
     }
     registrationFile.close();
 };
