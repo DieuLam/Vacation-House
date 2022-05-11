@@ -1,5 +1,9 @@
-#include "Member.h"
+// #include "Member.h"
 #include "Rating.h"
+#include "House.h"
+#include "Request.h"
+
+Rating::Rating(){};
 
 Rating::Rating(Member *m, string comment, double score)
 {

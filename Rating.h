@@ -7,6 +7,9 @@ using std::cout;
 using std::string;
 using std::vector;
 
+class Member;
+class House;
+
 class Rating
 {
 private:
@@ -15,12 +18,13 @@ private:
     double score;
 
 public:
-    Rating(){};
+    Rating();
 
-    Rating(Member *m, string comment, double score){};
+    Rating(Member *m, string comment, double score);
 
     static  double calculateScores(vector<Rating *> ratings);
     friend class Member;
     friend class House;
+    friend class DataHandler;
 };
 

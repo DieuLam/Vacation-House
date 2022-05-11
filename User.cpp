@@ -33,19 +33,21 @@ void User::Register(){
         if(validInput == 0) //means validInput = false
             continue; //skip the current loop so dont have to waste time check with file
 
-        registrationFile.open("registrationInfo.txt",ios::in); //ios::in to open file performing read operations
-        string temp;
-        string delimeter = "|";
-        while(getline(registrationFile,temp)){//save line to string temp
-            size_t pos = 0; //pos = positions
-            string savedUsername;
-            pos = temp.find(delimeter); //find position of first delimeter
-            savedUsername = temp.substr(0,pos); //get the string from position 0 to position of first delimeter
-            if(username.compare(savedUsername)== 0){ //if username in the line equals input
-                cout<<"Your entered username has already been used \n";
-                countErrors = countErrors + 1;
-            }
-        }
+        // registrationFile.open("registrationInfo.txt",ios::in); //ios::in to open file performing read operations
+        // string temp;
+        // string delimeter = "|";
+        // while(getline(registrationFile,temp)){//save line to string temp
+        //     size_t pos = 0; //pos = positions
+        //     string savedUsername;
+        //     pos = temp.find(delimeter); //find position of first delimeter
+        //     savedUsername = temp.substr(0,pos); //get the string from position 0 to position of first delimeter
+        //     if(username.compare(savedUsername)== 0){ //if username in the line equals input
+        //         cout<<"Your entered username has already been used \n";
+        //         countErrors = countErrors + 1;
+        //     }
+        // }
+
+        
         if (countErrors != 0){
             validInput = false;
             cout<<"Your input is invalid\n";
