@@ -6,7 +6,7 @@ using namespace std;
 int main(){
     cout<<"EEET2482/COSC2082 ASSIGNMENT VACATION HOUSE EXCHANGE APPLICATION\n";
     cout<<"Instructor: Mr. Linh Tran\n"; 
-    cout<<"Group: Group 13\n"; 
+    cout<<"Group: Group 14\n"; 
     cout<<"s39116151, Cao Ngoc Son\n"; 
     cout<<"s3878058, Nguyen Hai Minh Trang\n";
     cout<<"s3877961, Le Ngoc Nguyen Thuan\n";
