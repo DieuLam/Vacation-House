@@ -10,17 +10,36 @@ using std::vector;
 
 // --------------------------------------TRANG----------------------------------------//
 class Member;
+class Request;
+
+class Rating
+{
+    private:
+    Member *rater;
+    string comment;
+    double score;
+
+    public:
+    Rating () {};
+
+    Rating(Member *m, string comment, double score) {
+        this->rater = m;
+        this->comment = comment;
+        this->score = score;
+    }
+
+    friend double calculateScores(vector<Rating *> ratings);
+};
 
 class House
 {
 private:
     string city, description, startDate, endDate;
     double consummingCredits, minOccRating;
-    Member *owner, *occupier;
-    bool availabity = false;
-    vector<Member *> requests, occupierList;
-    vector<double> scores;
-    vector<string> comments;
+    Member *owner;
+    vector<Member *> occupierList;
+    vector<Rating *> ratings;
+    vector<Request *> requestList;
 
 public:
     House(){};
@@ -38,68 +57,57 @@ public:
         this->endDate = endDate;
         this->minOccRating = minRating;
         this->consummingCredits = conCredits;
-        this->availabity = true;
+    };
+
+    void resetDate(string date)
+    {
+        this->startDate = date;
     };
 
     void addOccupier(Member *member)
     {
         if (member != this->owner)
         {
-            this->occupier = member;
+            this->occupierList.push_back(member);
         }
     };
 
-    void addRequest(Member *member) {
+    void addRequest(Member *member, string start, string end)
+    {
         if (member != this->owner)
         {
-            this->requests.push_back(member);
-        }
-    }
-
-    void setAvailability(Member *member, bool status)
-    {
-        if (checkIfOwner(member)) {
-        this->availabity = status;
-        }
-    };
-
-    vector<Member *> getRequestList(Member *member) {
-        if (checkIfOwner(member)) {
-            return this->requests;
-        }
-    };
-
-    bool checkIfOwner(Member *member) {
-        if (member == this->owner) {
-            return true;
-        } else {
-            return false;
+            this->requestList.push_back(new Request (member, this, start, end));
         }
     };
 
     friend double calculateScores();
+    friend class Member;
+};
 
-    // friend class Member;
+
+class Request {
+    private:
+    Member *sender;
+    House *house;
+    string startDate;
+    string endDate;
+
+    public:
+
+    Request() {};
+
+    Request(Member *sender, House *house, string start, string end) {
+        this->sender = sender;
+        this->house = house;
+        this->startDate = start;
+        this->endDate = end;
+    }
+
+    friend class Member;
+    friend class House;
 };
 
 vector<Member *> memberList;
-
-// --------------------------------------SON---------------------------------------//
-
-class User
-{
-
-public:
-    void viewHouse(){
-
-    };
-
-    void registerToBeMember(){
-
-    };
-
-    User(){};
-};
 
 // --------------------------------------Trang & Diu---------------------------------------//
 
@@ -108,10 +116,10 @@ class Member
 private:
     string username, password, fullName;
     int phone, credit = 500;
-    vector<double> ratingScores;
-    vector<string> comments;
+    vector<Rating *> ratings;
     House *houseOwned, *houseOccupied;
     vector<House *> availableHouses;
+    vector<Request *> requestSentList;
 
 public:
     Member(){};
@@ -157,8 +165,7 @@ public:
     void listHouse()
     {
         string start, end;
-        int rating;
-        double credit;
+        double rating, credit;
 
         cout << "Please set the availability of your house \n\n";
         cout << "Start date (dd/mm/yy): ";
@@ -175,43 +182,53 @@ public:
 
     void unlistHouse()
     {
-        this->houseOwned->setAvailability(this, false);
+        // this->houseOwned->setAvailability(this);
+        this->houseOwned->setData(NULL, NULL, 0.0, 0.0);
     };
 
-    void sendRequest(House *house)
+    void sendRequest(House *house, string start, string end)
     {
         if (std::find(availableHouses.begin(), availableHouses.end(), house) != availableHouses.end())
         {
-            house->addRequest(this);
+            house->addRequest(this, start, end);
+            this->requestSentList.push_back(new Request(this, house, start, end));
         }
     };
 
-    bool viewRequest(){
-        vector<Member *> list = this->houseOwned->getRequestList(this);
+    bool viewRequest()
+    {
+        vector<Request *> list = this->houseOwned->requestList;
 
-        if (list.size() == 0) {
+        if (list.size() == 0)
+        {
             cout << "No occupying requests for this house";
             return false;
         }
 
         cout << "There are " << list.size() << " people request to rent this house: \n\n";
-        for (int i = 0; i < list.size(); i++) {
-            cout << i << ". " << list[i]->username << "\n";
-            cout << "- Full name: " << list[i]->fullName << "\n";
-            cout << "- Contact number: " << list[i]->phone << "\n";
-            cout << "- Rating: " << calculateScores(list[i]->ratingScores) << "\n";
+        for (int i = 0; i < list.size(); i++)
+        {
+            cout << i << ". " << list[i]->sender->username << "\n";
+            cout << "- Full name: " << list[i]->sender->fullName << "\n";
+            cout << "- Contact number: " << list[i]->sender->phone << "\n";
+            cout << "- Rating: " << calculateScores(list[i]->sender->ratings) << "\n";
+            cout << "- Request to rent from " << list[i]->startDate << " to " << list[i]->endDate << "\n";
         }
-        return true;   
+        return true;
     };
 
-    void acceptRequest(Member *member) {
-        vector<Member *> list = this->houseOwned->getRequestList(this);
-        if (std::find(list.begin(), list.end(), member) != list.end()) {
-        this->houseOwned->addOccupier(member);
-        }
+    // void acceptRequest(Member *member)
+    // {
+    //     vector<Request *> list = this->houseOwned->requestList;
+    //     if (std::find(list.begin(), list.end(), member) != list.end())
+    //     {
+    //         this->houseOwned->addOccupier(member);
+    //         this->houseOwned->resetDate(member->startDate);
+    //         member->houseOccupied = this->houseOwned;
+    //     }
 
-        if ()
-    }
+    //     // if ()
+    // };
 
     void cancelRequest(){
 
@@ -219,13 +236,45 @@ public:
 
     // ----------------------------------------NU------------------------------------- //
 
-    void rateOccupier(Member *member){
+    void rate(Member *member)
+    {
+        double score;
+        string comment;
+        cout << "How many scores would you like to give? \n";
+        cin >> score;
+        cout << "Would you like to leave a comment? (Y/N) \n";
+        cin >> comment;
+        if (comment.compare("Y") == 0)
+        {
+            cout << "Please write your comment down here \n\n";
+            cin >> comment;
+        } else {
+            comment = "";
+        }
+        cout << "Thank you! \n\n";
+        member->ratings.push_back(new Rating(this, comment, score));
+    }; 
+    
+    void rate(House *house)
+    {
+        double score;
+        string comment;
+        cout << "How many scores would you like to give? \n";
+        cin >> score;
+        cout << "Would you like to leave a comment? (Y/N) \n";
+        cin >> comment;
+        if (comment.compare("Y") == 0)
+        {
+            cout << "Please write your comment down here \n\n";
+            cin >> comment;
+        } else {
+            comment = "";
+        }
+        cout << "Thank you! \n\n";
+        house->ratings.push_back(new Rating(this, comment, score));
+    }
 
-    };
-
-    void rateHouse(House *house){
-
-    };
+    
 
     // Check the houses matched with date, city, rating and credit of user
     // then add all of them to availableHouses attribute
@@ -253,41 +302,24 @@ public:
 
     };
 
-    friend double calculateScores(vector<double> list);
+    friend double calculateScores(vector<Rating *> ratings);
+
+    friend class Request;
+    friend class House;
 };
 
-double calculateScores(vector<double> list) {
-    double sum = 0;
-    for (int s : list) {
-        sum += s;
-    }
-    return sum/list.size();
-}
-
-//---------------------------------------------------SON---------------------------------------------//
-
-class Admin
+double calculateScores(vector<Rating *> ratings)
 {
-private:
-    string username, password;
-
-public:
-    void login()
+    double sum = 0;
+    for (Rating *r : ratings)
     {
+        sum += r->score;
     }
-
-    void viewMembers()
-    {
-    }
-
-    void viewHouse()
-    {
-    }
-};
+    return sum / ratings.size();
+}
 
 int main()
 {
-    User C1;
 
     Member M1("trang", "trang", "minh trang", 123), M2("diu", "diu", "diu lam", 456), M3("nu", "nu", "nule", 789);
 
@@ -298,7 +330,6 @@ int main()
     memberList.push_back(&M3);
 
     M1.listHouse();
-
 
     return 0;
 }

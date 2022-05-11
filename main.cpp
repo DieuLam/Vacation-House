@@ -1,6 +1,10 @@
 #include <iostream>
 #include "Admin.h"
 #include "User.h"
+#include "Member.h"
+#include "House.h"
+#include "Rating.h"
+#include "Request.h"
 using namespace std;
 
 int main(){
