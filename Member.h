@@ -9,6 +9,10 @@ using std::cout;
 using std::string;
 using std::vector;
 
+class Rating;
+class House;
+class Request;
+
 class Member
 {
 private:
@@ -19,50 +23,40 @@ private:
     vector<Request *> requestSentList;
     vector<Rating *> ratings;
 
-    Member(){};
+public:
+    Member();
 
-    Member(string username, string password, string fullName, int phone)
-    {
-    }
+    Member(string username, string password, string fullName, int phone);
 
-    static bool login(){};
+    static bool login();
 
-    void listHouse(){};
+    void listHouse();
 
-    void unlistHouse(){};
+    void unlistHouse();
 
-    void sendRequest(House *house, string start, string end){};
+    void sendRequest(House *house, string start, string end);
 
-    bool viewRequest(){};
+    bool viewRequest();
 
-    // void acceptRequest(Member *member)
+    bool acceptRequest(Request *request);
 
-    // };
-
-    void cancelRequest(){
-
-    };
+    void cancelRequest();
 
     // ----------------------------------------NU------------------------------------- //
 
-    void rate(Member *member){};
+    void rate(Member *member);
 
-    void rate(House *house)
-    {
-    }
+    void rate(House *house);
 
     // Check the houses matched with date, city, rating and credit of user
     // then add all of them to availableHouses attribute
-    void checkAvailableHouses(Member *member){};
+    void checkAvailableHouses(Member *member);
 
     // Display review of selected house in the availableHouses attribute
-    void viewReviews(House *house){
+    void viewReviews(House *house);
 
-    };
-    
     friend class House;
     friend class Rating;
     friend class Request;
+    friend class DataHandler;
 };
-
-vector<Member *> memberList;

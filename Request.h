@@ -7,6 +7,9 @@ using std::cout;
 using std::string;
 using std::vector;
 
+class Member;
+class House;
+
 class Request
 {
 private:
@@ -16,10 +19,11 @@ private:
     string endDate;
 
 public:
-    Request(){};
+    Request();
 
-    Request(Member *sender, House *house, string start, string end){};
+    Request(Member *sender, House *house, string start, string end);
 
     friend class Member;
     friend class House;
+    friend class DataHandler;
 };

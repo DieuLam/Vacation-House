@@ -1,4 +1,4 @@
-#include "Member.h"
+// #include "Member.h"
 #include "House.h"
 #include "Rating.h"
 #include "Request.h"

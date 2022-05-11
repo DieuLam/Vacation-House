@@ -1,9 +1,10 @@
 #include "Member.h"
-#include "Rating.h"
 #include "House.h"
+#include "Rating.h"
 #include "Request.h"
+#include "DataHandler.h"
 
-Member::Member(){};
+Member::Member() {};
 
 Member::Member(string username, string password, string fullName, int phone)
 {
@@ -22,7 +23,7 @@ bool Member::login()
     cout << "Please enter your password: ";
     cin >> tempPass;
 
-    for (Member *m : memberList)
+    for (Member *m : DataHandler::memberList)
     {
         if ((m->username).compare(tempUsername) == 0)
         {
@@ -98,18 +99,22 @@ bool Member::viewRequest()
     return true;
 };
 
-// void Member::acceptRequest(Member *member)
-// {
-//     vector<Request *> list = this->houseOwned->requestList;
-//     if (std::find(list.begin(), list.end(), member) != list.end())
-//     {
-//         this->houseOwned->addOccupier(member);
-//         this->houseOwned->resetDate(member->startDate);
-//         member->houseOccupied = this->houseOwned;
-//     }
+bool Member::acceptRequest(Request *request)
+{
+    vector<Request *> list = this->houseOwned->requestList;
+    if (std::find(list.begin(), list.end(), request) != list.end())
+    {
+        this->houseOwned->addOccupier(request->sender);
+        this->houseOwned->resetDate(request->startDate);
+        request->sender->houseOccupied = this->houseOwned;
+        request->sender->requestSentList.clear();
 
-//     // if ()
-// };
+        // Check requestList of house to delete overlapped time request
+        return true;
+    } 
+
+    return false;
+};
 
 void Member::cancelRequest(){
 
@@ -184,4 +189,10 @@ void Member::checkAvailableHouses(Member *member)
 void Member::viewReviews(House *house){
 
 };
+
+// int main() {
+//     Member M1("trang", "trang", "minhtrang", 123);
+
+//     return 0;
+// }
 
