@@ -12,6 +12,7 @@ class Rating;
 class Request;
 
 class DataHandler {
+    public:
     static vector<Member *> memberList;
 
     DataHandler();

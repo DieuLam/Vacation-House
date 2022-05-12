@@ -5,61 +5,71 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
+#include <math.h>
 
-void Member::checkAvailableHouses(Member *member)
+const int monthDays[12] = { 31, 59, 90, 120, 151, 181, 212, 243,
+273, 304, 334, 365 };
+int countLeapYearDays(int d[]){
+   int years = d[2];
+   if (d[1] <= 2)
+      years--;
+   return ( (years / 4) - (years / 100) + (years / 400) );
+}
+int countNoOfDays(int date1[], int date2[]){
+   long int dayCount1 = (date1[2] * 365);
+   dayCount1 += monthDays[date1[1]];
+   dayCount1 += date1[0];
+   dayCount1 += countLeapYearDays(date1);
+   long int dayCount2 = (date2[2] * 365);
+   dayCount2 += monthDays[date2[1]];
+   dayCount2 += date2[0];
+   dayCount2 += countLeapYearDays(date2);
+   return ( abs(dayCount1 - dayCount2) );
+}
+
+int main()
 {
-    //member date select
-        string startDate;
-        string endDate;
-        char fill = '/';
-        int m_sMonth, m_sYear, m_sDay;
-        int m_eMonth, m_eYear, m_eDay;
+    // member date select
+    string startDate;
+    string endDate;
+    char fill = '/';
+    int m_sMonth, m_sYear, m_sDay;
+    int m_eMonth, m_eYear, m_eDay;
+    string city;
+
+    cout << "Please provide the below information to search for available houses \n\n";
+    // user input city
+    cout << "City: ";
+    cin >> city;
+    // user input start day
+    cout << "Start date (yyyy/mm/dd): ";
+    cin >> startDate;
+    // user input end day
+    cout << "End date (yyyy/mm/dd): ";
+    cin >> endDate;
+
+    //get day, month, year
+    m_sYear = stoi(startDate.substr(0,4));
+    m_sMonth = stoi(startDate.substr(5,2));
+    m_sDay = stoi(startDate.substr(8,2));
+
+    m_eYear = stoi(endDate.substr(0,4));
+    m_eMonth = stoi(endDate.substr(5,2));
+    m_eDay = stoi(endDate.substr(8,2));
+
+    int date1[3] = {m_sDay, m_sMonth, m_sYear};
+    int date2[3] = {m_eDay, m_eMonth, m_eYear};
+
+    int date3[3] = {13, 5, 2022};
+    int date4[3] = {24, 5, 2022};
+
+    cout << m_sDay << "/" << m_sMonth << "/" << m_sYear << "\n";
+    cout << m_eDay << "/" << m_eMonth << "/" << m_eYear << "\n";
 
 
-        //user input start day
-        cout << "Please provide the below information to search for available houses \n\n";
-        cout << "Start date (yyyy/mm/dd): ";
-        cin >> startDate;
+    int days = countNoOfDays(date1, date2);
 
-        //user input end day
-        cout << "End date (yyyy/mm/dd): ";
-        cin >> endDate;
+    cout << days << "\n";
 
-
-        //get day, month, year
-        // m_sYear = stoi(startDate.substr(0,2));
-        // m_sMonth = stoi(startDate.substr(3,2));
-        // m_sDay = stoi(startDate.substr(6));
-
-        // m_eYear = stoi(endDate.substr(0,2));
-        // m_eMonth = stoi(endDate.substr(3,2));
-        // m_eDay = stoi(endDate.substr(6));
-
-    std::fstream houseInfoFile;
-    houseInfoFile.open("houseInfo.txt",std::ios::in); //ios::in to open file performing read operations
-    string temp;
-    string delimeter = "|";
-    while(getline(houseInfoFile,temp)){//save line to string temp
-        size_t pos = 0;
-        string subString;
-        vector<string> printInfo; //save each element into a vector
-        while ((pos = temp.find (delimeter)) != std::string::npos){ //use find() here to get position of delimiters
-            subString = temp.substr(0,pos); //subString is equals to all string up to delimiter '|'
-            printInfo.push_back(subString); //put the subString into the vector
-            temp.erase(0,pos + delimeter.length()); //delete the subString from the line so the next subString won't be repeated
-        }
-        printInfo.push_back(temp); //since temp should now only have the last element, push it 
-
-        for (int i = 0; i < printInfo.size(); i++) {
-            if(endDate < startDate) {
-                cout << "invalid date!!!";
-                return;
-            } else {
-                if ((printInfo[4] >= startDate && startDate <= printInfo[5]) && (printInfo[4] >= endDate && endDate <= printInfo[5])) {
-                    cout << printInfo[0];
-                }
-            }
-        }
-    }
-    houseInfoFile.close();
+    cout<<"The number of days between two dates is "<<countNoOfDays(date3, date4);
 };

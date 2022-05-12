@@ -1,4 +1,4 @@
-// #include "Member.h"
+//#include "Member.h"
 #include "House.h"
 #include "Rating.h"
 #include "Request.h"
@@ -12,7 +12,7 @@ House::House(Member *owner, string city, string description)
     this->description = description;
 };
 
-void House::setData(string startDate, string endDate, int minRating, double conCredits)
+void House::setData(string startDate, string endDate, double minRating, double conCredits)
 {
     this->startDate = startDate;
     this->endDate = endDate;

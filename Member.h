@@ -16,14 +16,13 @@ class Request;
 
 class Member
 {
-private:
+public:
     string username, password, fullName;
     int phone, credit = 500;
     House *houseOwned, *houseOccupied;
     vector<House *> availableHouses;
     vector<Request *> requestSentList;
     vector<Rating *> ratings;
-
 public:
     Member();
 

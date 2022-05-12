@@ -6,8 +6,9 @@
 #include <iostream>
 #include <string>
 #include "DataHandler.h"
+#include <math.h>
 
-Member::Member() {};
+Member::Member(){};
 
 Member::Member(string username, string password, string fullName, int phone)
 {
@@ -53,15 +54,14 @@ void Member::listHouse()
     double rating, credit;
 
     cout << "Please set the availability of your house \n\n";
-    cout << "Start date (dd/mm/yy): ";
+    cout << "Start date (yyyy/mm/dd): ";
     cin >> start;
-    cout << "End date (dd/mm/yy): ";
+    cout << "End date (yyyy/mm/dd): ";
     cin >> end;
     cout << "Consunming points per day: ";
     cin >> credit;
     cout << "Minimum required occupier rating (0 -> 10): ";
     cin >> rating;
-
     this->houseOwned->setData(start, end, rating, credit);
 };
 
@@ -114,7 +114,7 @@ bool Member::acceptRequest(Request *request)
 
         // Check requestList of house to delete overlapped time request
         return true;
-    } 
+    }
 
     return false;
 };
@@ -129,7 +129,7 @@ void Member::rate(Member *member)
 {
     double score;
     string comment;
-    cout << "How many scores would you like to give? \n";
+    cout << "How many scores would you like to give (0 -> 10)? \n";
     cin >> score;
     cout << "Would you like to leave a comment? (Y/N) \n";
     cin >> comment;
@@ -150,7 +150,7 @@ void Member::rate(House *house)
 {
     double score;
     string comment;
-    cout << "How many scores would you like to give? \n";
+    cout << "How many scores would you like to give (0 -> 10)? \n";
     cin >> score;
     cout << "Would you like to leave a comment? (Y/N) \n";
     cin >> comment;
@@ -167,74 +167,130 @@ void Member::rate(House *house)
     house->ratings.push_back(new Rating(this, comment, score));
 }
 
-//reverse input
-    // void reverseStr(string& str){
-    //     int n = str.length();
-    
-    //     // Swap character starting from two
-    //     // corners
-    //     for (int i = 0; i < n / 2; i++)
-    //         std::swap(str[i], str[n - i - 1]);
-    // }
+//--------------------------- calc day between ----------------------------------------//
+
+const int monthDays[12] = {31, 59, 90, 120, 151, 181, 212, 243,
+                           273, 304, 334, 365};
+int countLeapYearDays(int d[])
+{
+    int years = d[2];
+    if (d[1] <= 2)
+        years--;
+    return ((years / 4) - (years / 100) + (years / 400));
+}
+int countNoOfDays(int date1[], int date2[])
+{
+    long int dayCount1 = (date1[2] * 365);
+    dayCount1 += monthDays[date1[1]];
+    dayCount1 += date1[0];
+    dayCount1 += countLeapYearDays(date1);
+    long int dayCount2 = (date2[2] * 365);
+    dayCount2 += monthDays[date2[1]];
+    dayCount2 += date2[0];
+    dayCount2 += countLeapYearDays(date2);
+    return (abs(dayCount1 - dayCount2));
+}
+//-----------------------------------------------------------------------------------//
+// reverse input
+//  void reverseStr(string& str){
+//      int n = str.length();
+
+//     // Swap character starting from two
+//     // corners
+//     for (int i = 0; i < n / 2; i++)
+//         std::swap(str[i], str[n - i - 1]);
+// }
 
 // Check the houses matched with date, city, rating and credit of user
 // then add all of them to availableHouses attribute
 void Member::checkAvailableHouses(Member *member)
 {
-    //member date select
-        string startDate;
-        string endDate;
-        char fill = '/';
-        int m_sMonth, m_sYear, m_sDay;
-        int m_eMonth, m_eYear, m_eDay;
+    // member date select
+    string startDate;
+    string endDate;
+    char fill = '/';
+    int m_sMonth, m_sYear, m_sDay;
+    int m_eMonth, m_eYear, m_eDay;
+    string city;
 
+    cout << "Please provide the below information to search for available houses \n\n";
+    // user input city
+    cout << "City: ";
+    cin >> city;
+    // user input start day
+    cout << "Start date (yyyy/mm/dd): ";
+    cin >> startDate;
+    // user input end day
+    cout << "End date (yyyy/mm/dd): ";
+    cin >> endDate;
 
-        //user input start day
-        cout << "Please provide the below information to search for available houses \n\n";
-        cout << "Start date (yyyy/mm/dd): ";
-        cin >> startDate;
+    // get day, month, year
+    m_sYear = stoi(startDate.substr(0, 4));
+    m_sMonth = stoi(startDate.substr(5, 2));
+    m_sDay = stoi(startDate.substr(8, 2));
 
-        //user input end day
-        cout << "End date (yyyy/mm/dd): ";
-        cin >> endDate;
+    m_eYear = stoi(endDate.substr(0, 4));
+    m_eMonth = stoi(endDate.substr(5, 2));
+    m_eDay = stoi(endDate.substr(8, 2));
 
+    int date1[3] = {m_sDay, m_sMonth, m_sYear};
+    int date2[3] = {m_eDay, m_eMonth, m_eYear};
+    int days = countNoOfDays(date1, date2);
 
-        //get day, month, year
-        // m_sYear = stoi(startDate.substr(0,2));
-        // m_sMonth = stoi(startDate.substr(3,2));
-        // m_sDay = stoi(startDate.substr(6));
-
-        // m_eYear = stoi(endDate.substr(0,2));
-        // m_eMonth = stoi(endDate.substr(3,2));
-        // m_eDay = stoi(endDate.substr(6));
-
-    std::fstream houseInfoFile;
-    houseInfoFile.open("houseInfo.txt",std::ios::in); //ios::in to open file performing read operations
-    string temp;
-    string delimeter = "|";
-    while(getline(houseInfoFile,temp)){//save line to string temp
-        size_t pos = 0;
-        string subString;
-        vector<string> printInfo; //save each element into a vector
-        while ((pos = temp.find (delimeter)) != std::string::npos){ //use find() here to get position of delimiters
-            subString = temp.substr(0,pos); //subString is equals to all string up to delimiter '|'
-            printInfo.push_back(subString); //put the subString into the vector
-            temp.erase(0,pos + delimeter.length()); //delete the subString from the line so the next subString won't be repeated
+    double score = Rating::calculateScores(this->ratings);
+    for (Member *m : DataHandler::memberList)
+    {
+        if (m == member)
+        {
+            continue;
         }
-        printInfo.push_back(temp); //since temp should now only have the last element, push it 
+        string HouseStart = m->houseOwned->startDate;
+        string HouseEnd = m->houseOwned->endDate;
 
-        for (int i = 0; i < printInfo.size(); i++) {
-            if(endDate < startDate) {
-                cout << "invalid date!!!";
-                return;
-            } else {
-                if ((printInfo[4] >= startDate && startDate <= printInfo[5]) && (printInfo[4] >= endDate && endDate <= printInfo[5])) {
-                    cout << printInfo[0];
+        if (m->houseOwned != NULL)
+        {
+            if (endDate < startDate)
+            {
+                cout << "invalid";
+            }
+            else
+            {
+                if (city == m->houseOwned->city)
+                {
+                    if ((HouseStart <= startDate && startDate <= HouseEnd) && (HouseStart <= endDate && endDate <= HouseEnd))
+                    {
+                        if (m->houseOwned->consummingCredits * days <= m->credit)
+                        {
+                            if (score >= m->houseOwned->minOccRating)
+                            {
+                                this->availableHouses.push_back(m->houseOwned);
+                            }
+                            // else
+                            // {
+                            //     cout << "There are no house available!(rating)\n";
+                            // }
+                        } 
+                        // else {
+                        //     cout << "Not enough credit!\n";
+                        // }
+                    }
+                    // else
+                    // {
+                    //     cout << "There are no house available!(day)\n";
+                    // }
                 }
+                // else
+                // {
+                //     cout << "There are no house available!(city)\n";
+                // }
             }
         }
     }
-    houseInfoFile.close();
+
+    for (House *h : availableHouses)
+    {
+        cout << h->owner->username << "\n";
+    }
 };
 
 // Display review of selected house in the availableHouses attribute
@@ -242,9 +298,33 @@ void Member::viewReviews(House *house){
 
 };
 
-// int main() {
-//     Member M1("trang", "trang", "minhtrang", 123);
+int main()
+{
+    Member M1("trang", "111", "minhtrang", 123); //"2022/04/20", "2022/6/25"
+    DataHandler::memberList.push_back(&M1);
+    Member M2("Thuan", "123", "Viet", 111); //"2022/05/05", "2022/07/02"
+    DataHandler::memberList.push_back(&M2);
+    Member M3("Dieu", "Dieu", "Dieu", 222); //"2022/06/10, 2022/08/15"
+    DataHandler::memberList.push_back(&M3);
+    Member M4("Cus", "Cus", "Cus", 012);
+    DataHandler::memberList.push_back(&M4);
 
-//     return 0;
-// }
+    M1.rate(&M4); // 6
+    M2.rate(&M4); // 5
+    M3.rate(&M4); // 8
 
+    House H1(&M1, "SG", "bla");
+    M1.houseOwned = &H1;
+    M1.listHouse(); // cre: 2, score: 4
+
+    House H2(&M2, "Hue", "cmt");
+    M2.houseOwned = &H2;
+    M2.listHouse(); // cre: 2, score: 3
+
+    House H3(&M3, "SG", "cm12");
+    M3.houseOwned = &H3;
+    M3.listHouse(); // cre: 2, score: 7
+
+    M4.checkAvailableHouses(&M4);
+    return 0;
+}

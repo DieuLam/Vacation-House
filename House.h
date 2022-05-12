@@ -14,7 +14,7 @@ class Rating;
 
 class House
 {
-private:
+public:
     string city, description, startDate, endDate;
     double consummingCredits, minOccRating;
     Member *owner;
@@ -27,7 +27,7 @@ public:
 
     House(Member *owner, string city, string description);
 
-    void setData(string startDate, string endDate, int minRating, double conCredits);
+    void setData(string startDate, string endDate, double minRating, double conCredits);
 
     void resetDate(string date);
 
