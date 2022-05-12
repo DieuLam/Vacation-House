@@ -129,22 +129,24 @@ void User::viewHouse(){
     string temp;
     string delimeter = "|";
     while(getline(houseInfoFile,temp)){//save line to string temp
-        size_t pos = 0;
-        string subString;
-        vector<string> printInfo; //save each element into a vector
-        while ((pos = temp.find (delimeter)) != std::string::npos){ //use find() here to get position of delimiters
-            subString = temp.substr(0,pos); //subString is equals to all string up to delimiter '|'
-            printInfo.push_back(subString); //put the subString into the vector
-            temp.erase(0,pos + delimeter.length()); //delete the subString from the line so the next subString won't be repeated
-        }
-        printInfo.push_back(temp); //since temp should now only have the last element, push it 
+        if(!temp.empty()){ //check if its not a blank line
+            size_t pos = 0;
+            string subString;
+            vector<string> printInfo; //save each element into a vector
+            while ((pos = temp.find (delimeter)) != std::string::npos){ //use find() here to get position of delimiters
+                subString = temp.substr(0,pos); //subString is equals to all string up to delimiter '|'
+                printInfo.push_back(subString); //put the subString into the vector
+                temp.erase(0,pos + delimeter.length()); //delete the subString from the line so the next subString won't be repeated
+            }
+            printInfo.push_back(temp); //since temp should now only have the last element, push it 
 
-        //print information
-        cout<<"Owner Username: "<<printInfo[0]<<"\n";
-        cout<<"Owner phone number: "<<printInfo[1]<<"\n";
-        cout<<"Owner House location: "<<printInfo[2]<<"\n";
-        cout<<"Owner House descriptions: "<<printInfo[3]<<"\n";
-        cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n";
+            //print information
+            cout<<"Owner Username: "<<printInfo[0]<<"\n";
+            cout<<"Owner phone number: "<<printInfo[1]<<"\n";
+            cout<<"Owner House location: "<<printInfo[2]<<"\n";
+            cout<<"Owner House descriptions: "<<printInfo[3]<<"\n";
+            cout<<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n";
+        }
     }
     houseInfoFile.close();
 };
