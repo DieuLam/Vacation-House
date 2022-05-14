@@ -16,9 +16,6 @@ Member::Member(string username, string password, string fullName, string phone)
     this->password = password;
     this->fullName = fullName;
     this->phone = phone;
-    this->credit = 500;
-    this->houseOwned = NULL;
-    this->houseOccupied = NULL;
 }
 
 Member *Member::login()
@@ -58,7 +55,7 @@ void Member::addHouse()
         string location, description;
         cout << "Please provide the location of your house: ";
         getline(cin, location);
-        cout << "Please description for your house: ";
+        cout << "Please provide description for your house: ";
         getline(cin, description);
         this->houseOwned = new House(this, location, description);
 
@@ -72,44 +69,60 @@ void Member::addHouse()
 
 bool Member::listHouse()
 {
-    if (this->houseOwned->startDate == "")
+    if (this->houseOwned != NULL)
     {
-        string start, end;
-        double rating, credit;
+        if (this->houseOwned->startDate == "")
+        {
+            string start, end;
+            double rating, credit;
 
-        cout << "Please set the availability of your house \n\n";
-        cout << "Start date (yyyy/mm/dd): ";
-        cin >> start;
-        cout << "End date (yyyy/mm/dd): ";
-        cin >> end;
-        cout << "Consunming points per day: ";
-        cin >> credit;
-        cout << "Minimum required occupier rating (0 -> 10): ";
-        cin >> rating;
-        this->houseOwned->setData(start, end, rating, credit);
+            cout << "Please set the availability of your house \n\n";
+            cout << "Start date (yyyy/mm/dd): ";
+            cin >> start;
+            cout << "End date (yyyy/mm/dd): ";
+            cin >> end;
+            cout << "Consunming points per day: ";
+            cin >> credit;
+            cout << "Minimum required occupier rating (0 -> 10): ";
+            cin >> rating;
+            this->houseOwned->setData(start, end, rating, credit);
 
-        cout << "You have successfully listed your house.\n";
-        return true;
+            cout << "You have successfully listed your house.\n";
+            return true;
+        }
+        else
+        {
+            cerr << "You have already listed your house. You can only unlist it.\n";
+            return false;
+        }
     }
     else
     {
-        cerr << "You have already listed your house. You can only unlist it.\n";
+        cerr << "You need to add your house first\n";
         return false;
     }
 };
 
 bool Member::unlistHouse()
 {
-    if (this->houseOwned->startDate != "")
+    if (this->houseOwned != NULL)
     {
-        this->houseOwned->setData("", "", 0.0, 0.0);
+        if (this->houseOwned->startDate != "")
+        {
+            this->houseOwned->setData("", "", 0.0, 0.0);
 
-        cout << "You have successfully unlisted your house.\n";
-        return true;
+            cout << "You have successfully unlisted your house.\n";
+            return true;
+        }
+        else
+        {
+            cerr << "You have already unlisted your house. You can only list it.\n";
+            return false;
+        }
     }
     else
     {
-        cerr << "You have already unlisted your house. You can only list it.\n";
+        cerr << "You need to add your house first\n";
         return false;
     }
 };

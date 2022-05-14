@@ -18,8 +18,8 @@ class Member
 {
 public:
     string username, password, fullName, phone;
-    int credit;
-    House *houseOwned, *houseOccupied;
+    double credit = 0.0;
+    House *houseOwned = NULL, *houseOccupied = NULL;
     vector<House *> availableHouses;
     vector<Request *> requestSentList;
     vector<Rating *> ratings;

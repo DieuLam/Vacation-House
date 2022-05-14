@@ -91,11 +91,11 @@ int main()
                             getline(cin, option);
                             if (option.compare("1") == 0)
                             {
-                                exitListHouse = login->listHouse();
+                                login->listHouse();
                             }
                             else if (option.compare("2") == 0)
                             {
-                                exitListHouse = login->unlistHouse();
+                                login->unlistHouse();
                             }
                             else if (option.compare("3") == 0)
                             {
