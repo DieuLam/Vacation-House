@@ -36,13 +36,15 @@ public:
 
     bool unlistHouse();
 
-    void sendRequest(House *house, string start, string end);
+    void sendRequest(int num, string start, string end);
 
     bool viewRequest();
 
     bool acceptRequest(Request *request);
 
     void cancelRequest();
+
+    string Member::getDate(string start, string end);
 
     // ----------------------------------------NU------------------------------------- //
 
@@ -52,7 +54,7 @@ public:
 
     // Check the houses matched with date, city, rating and credit of user
     // then add all of them to availableHouses attribute
-    void checkAvailableHouses(Member *member);
+    bool checkAvailableHouses();
 
     // Display review of selected house in the availableHouses attribute
     void viewReviews(House *house);

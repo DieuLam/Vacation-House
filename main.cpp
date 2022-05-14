@@ -71,7 +71,8 @@ int main()
                     cout << "4. View available houses for rent\n";
                     cout << "5. View current profile\n";
                     cout << "6. Rate House/Occupiers\n";
-                    cout << "5. Exit\n";
+                    cout << "7. Exit\n";
+                    cout << "Enter your choice: ";
                     getline(cin, option);
 
                     if (option.compare("1") == 0)
@@ -82,12 +83,13 @@ int main()
                     if (option.compare("2") == 0)
                     {
                         bool exitListHouse = false;
-                        while (exitListHouse == false)
+                        while (!exitListHouse)
                         {
                             cout << "Please choose an option\n";
                             cout << "1. List House\n";
                             cout << "2. Unlist House\n";
                             cout << "3. Back to previous menu\n";
+                            cout << "Enter your choice: ";
                             getline(cin, option);
                             if (option.compare("1") == 0)
                             {
@@ -109,8 +111,49 @@ int main()
                     }
 
                     if (option.compare("3") == 0)
+                    {
+                    }
 
-                    if (option.compare("6") == 0) {
+                    if (option.compare("4") == 0)
+                    {
+                        bool exitAvailableHouse = false;
+                        if (login->checkAvailableHouses())
+                        {
+                            while (!exitAvailableHouse)
+                            {
+                                cout << "\nPlease choose an option: \n";
+                                cout << "\n1. View detailed reviews of a house \n";
+                                cout << "\n2. Request to rent a house \n";
+                                cout << "\n3. Back to previous menu \n";
+                                cout << "Enter your choice: ";
+                                getline(cin, option);
+
+                                if (option.compare("1") == 0)
+                                {
+                                    // Call viewReview()
+                                }
+
+                                if (option.compare("2") == 0)
+                                {
+                                    login->checkAvailableHouses();
+                                    cout << "\nPlease choose a house by entering a number: \n";
+                                    getline(cin, option);
+                                }
+
+                                if (option.compare("3") == 0)
+                                {
+                                    exitAvailableHouse = true;
+                                }
+                                else
+                                {
+                                    cerr << "Please enter a valid input\n";
+                                }
+                            }
+                        };
+                    }
+
+                    if (option.compare("7") == 0)
+                    {
                         exitMember = true;
                     }
                 }

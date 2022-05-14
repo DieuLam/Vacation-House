@@ -126,13 +126,14 @@ bool Member::unlistHouse()
         return false;
     }
 };
-
-void Member::sendRequest(House *house, string start, string end)
+void Member::sendRequest(int num, string start, string end)
 {
-    if (std::find(availableHouses.begin(), availableHouses.end(), house) != availableHouses.end())
+    if (this->houseOccupied == NULL)
     {
-        house->addRequest(this, start, end);
-        this->requestSentList.push_back(new Request(this, house, start, end));
+        this->availableHouses.at(num)->addRequest(this, start, end);
+        this->requestSentList.push_back(new Request(this, this->availableHouses.at(num), start, end));
+    } else {
+        cerr << "You cannot occupy more than 1 house\n";
     }
 };
 
@@ -259,7 +260,7 @@ int countNoOfDays(int date1[], int date2[])
 
 // Check the houses matched with date, city, rating and credit of user
 // then add all of them to availableHouses attribute
-void Member::checkAvailableHouses(Member *member)
+bool Member::checkAvailableHouses()
 {
     // member date select
     string startDate;
@@ -296,7 +297,7 @@ void Member::checkAvailableHouses(Member *member)
     double score = Rating::calculateScores(this->ratings);
     for (Member *m : DataHandler::memberList)
     {
-        if (m == member)
+        if (m == this)
         {
             continue;
         }
@@ -343,9 +344,22 @@ void Member::checkAvailableHouses(Member *member)
         }
     }
 
-    for (House *h : availableHouses)
+    cout << "There are " << this->availableHouses.size() << " houses avaible to rent: \n";
+    if (!this->availableHouses.empty())
     {
-        cout << h->owner->username << "\n";
+        for (House *h : this->availableHouses)
+        {
+            cout << "\nOwner: " << h->owner->username << "\n";
+            cout << "Rating: " << Rating::calculateScores(h->ratings) << "\n";
+            cout << "Credit required per day: " << h->consummingCredits << "\n";
+            cout << "Description: " << h->description << "\n";
+        }
+        return true;
+    }
+    else
+    {
+        cerr << "No available houses.";
+        return false;
     }
 };
 
