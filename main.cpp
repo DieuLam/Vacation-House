@@ -31,7 +31,7 @@ int main()
             int guestExit = 0;
             while (guestExit != 1)
             { // 3 stands for exit
-                cout << "Select guest actions:      1.Register       2.view Houses information     3.Exit to main menu\n";
+                cout << "Select guest actions:      1. Register       2. View Houses information     3. Exit to main menu\n";
                 string guestOptions;
                 cout << "Enter your choice: ";
                 getline(cin, guestOptions);
@@ -108,6 +108,8 @@ int main()
                         }
                     }
 
+                    if (option.compare("3") == 0)
+
                     if (option.compare("6") == 0) {
                         exitMember = true;
                     }
@@ -129,7 +131,7 @@ int main()
                 int adminExit = 0;
                 while (adminExit != 1)
                 { // 3 stands for exit
-                    cout << "Select admin actions:      1.view all member information       2.view all Houses information     3.Exit to main menu\n";
+                    cout << "Select admin actions:      1. View all member information       2. View all Houses information     3. Exit to main menu\n";
                     string adminOptions;
                     cout << "Enter your choice: ";
                     getline(cin, adminOptions);
