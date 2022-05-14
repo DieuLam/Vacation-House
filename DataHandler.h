@@ -17,11 +17,12 @@ class DataHandler {
 
     DataHandler();
 
-    void addMember(Member *member); 
+    static void addMember(Member *member); 
 
     friend class Member;
     friend class House;
     friend class Rating;
     friend class Request;
+    friend class User;
 };
 

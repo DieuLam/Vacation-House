@@ -57,12 +57,62 @@ int main()
         else if (appChoices.compare("2") == 0)
         { // if select member
             cout << "Please login to continue\n";
-            Member::login();
-            cout << "Select Member actions:\n";
-            cout << "1. Add/Edit/View House\n";
-            cout << "2. View available houses for rent\n";
-            cout << "2. View current profile\n";
-            cout << "2. Exit\n";
+            Member *login = Member::login();
+            bool exitMember = false;
+            if (login != NULL)
+            {
+                while (exitMember == false)
+                {
+                    string option;
+                    cout << "Select Member actions:\n";
+                    cout << "1. Add House\n";
+                    cout << "2. List/Unlist House\n";
+                    cout << "3. View House's information\n";
+                    cout << "4. View available houses for rent\n";
+                    cout << "5. View current profile\n";
+                    cout << "6. Rate House/Occupiers\n";
+                    cout << "5. Exit\n";
+                    getline(cin, option);
+
+                    if (option.compare("1") == 0)
+                    {
+                        login->addHouse();
+                    }
+
+                    if (option.compare("2") == 0)
+                    {
+                        bool exitListHouse = false;
+                        while (exitListHouse == false)
+                        {
+                            cout << "Please choose an option\n";
+                            cout << "1. List House\n";
+                            cout << "2. Unlist House\n";
+                            cout << "3. Back to previous menu\n";
+                            getline(cin, option);
+                            if (option.compare("1") == 0)
+                            {
+                                exitListHouse = login->listHouse();
+                            }
+                            else if (option.compare("2") == 0)
+                            {
+                                exitListHouse = login->unlistHouse();
+                            }
+                            else if (option.compare("3") == 0)
+                            {
+                                exitListHouse = true;
+                            }
+                            else
+                            {
+                                cout << "Please enter a valid input\n";
+                            }
+                        }
+                    }
+
+                    if (option.compare("6") == 0) {
+                        exitMember = true;
+                    }
+                }
+            }
         }
         else if (appChoices.compare("3") == 0)
         { // if select admin

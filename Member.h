@@ -17,22 +17,24 @@ class Request;
 class Member
 {
 public:
-    string username, password, fullName;
-    int phone, credit = 500;
+    string username, password, fullName, phone;
+    int credit;
     House *houseOwned, *houseOccupied;
     vector<House *> availableHouses;
     vector<Request *> requestSentList;
     vector<Rating *> ratings;
 public:
     Member();
+    
+    Member(string username, string password, string fullName, string phone);
 
-    Member(string username, string password, string fullName, int phone);
+    static Member* login();
 
-    static bool login();
+    void addHouse();
 
-    void listHouse();
+    bool listHouse();
 
-    void unlistHouse();
+    bool unlistHouse();
 
     void sendRequest(House *house, string start, string end);
 
@@ -59,4 +61,5 @@ public:
     friend class Rating;
     friend class Request;
     friend class DataHandler;
+    friend class User;
 };

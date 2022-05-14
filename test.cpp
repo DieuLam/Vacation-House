@@ -27,49 +27,49 @@ int countNoOfDays(int date1[], int date2[]){
    return ( abs(dayCount1 - dayCount2) );
 }
 
-int main()
-{
-    // member date select
-    string startDate;
-    string endDate;
-    char fill = '/';
-    int m_sMonth, m_sYear, m_sDay;
-    int m_eMonth, m_eYear, m_eDay;
-    string city;
+// int main()
+// {
+//     // member date select
+//     string startDate;
+//     string endDate;
+//     char fill = '/';
+//     int m_sMonth, m_sYear, m_sDay;
+//     int m_eMonth, m_eYear, m_eDay;
+//     string city;
 
-    cout << "Please provide the below information to search for available houses \n\n";
-    // user input city
-    cout << "City: ";
-    cin >> city;
-    // user input start day
-    cout << "Start date (yyyy/mm/dd): ";
-    cin >> startDate;
-    // user input end day
-    cout << "End date (yyyy/mm/dd): ";
-    cin >> endDate;
+//     cout << "Please provide the below information to search for available houses \n\n";
+//     // user input city
+//     cout << "City: ";
+//     cin >> city;
+//     // user input start day
+//     cout << "Start date (yyyy/mm/dd): ";
+//     cin >> startDate;
+//     // user input end day
+//     cout << "End date (yyyy/mm/dd): ";
+//     cin >> endDate;
 
-    //get day, month, year
-    m_sYear = stoi(startDate.substr(0,4));
-    m_sMonth = stoi(startDate.substr(5,2));
-    m_sDay = stoi(startDate.substr(8,2));
+//     //get day, month, year
+//     m_sYear = stoi(startDate.substr(0,4));
+//     m_sMonth = stoi(startDate.substr(5,2));
+//     m_sDay = stoi(startDate.substr(8,2));
 
-    m_eYear = stoi(endDate.substr(0,4));
-    m_eMonth = stoi(endDate.substr(5,2));
-    m_eDay = stoi(endDate.substr(8,2));
+//     m_eYear = stoi(endDate.substr(0,4));
+//     m_eMonth = stoi(endDate.substr(5,2));
+//     m_eDay = stoi(endDate.substr(8,2));
 
-    int date1[3] = {m_sDay, m_sMonth, m_sYear};
-    int date2[3] = {m_eDay, m_eMonth, m_eYear};
+//     int date1[3] = {m_sDay, m_sMonth, m_sYear};
+//     int date2[3] = {m_eDay, m_eMonth, m_eYear};
 
-    int date3[3] = {13, 5, 2022};
-    int date4[3] = {24, 5, 2022};
+//     int date3[3] = {13, 5, 2022};
+//     int date4[3] = {24, 5, 2022};
 
-    cout << m_sDay << "/" << m_sMonth << "/" << m_sYear << "\n";
-    cout << m_eDay << "/" << m_eMonth << "/" << m_eYear << "\n";
+//     cout << m_sDay << "/" << m_sMonth << "/" << m_sYear << "\n";
+//     cout << m_eDay << "/" << m_eMonth << "/" << m_eYear << "\n";
 
 
-    int days = countNoOfDays(date1, date2);
+//     int days = countNoOfDays(date1, date2);
 
-    cout << days << "\n";
+//     cout << days << "\n";
 
-    cout<<"The number of days between two dates is "<<countNoOfDays(date3, date4);
-};
+//     cout<<"The number of days between two dates is "<<countNoOfDays(date3, date4);
+// };

@@ -10,22 +10,25 @@
 
 Member::Member(){};
 
-Member::Member(string username, string password, string fullName, int phone)
+Member::Member(string username, string password, string fullName, string phone)
 {
     this->username = username;
     this->password = password;
     this->fullName = fullName;
     this->phone = phone;
+    this->credit = 500;
+    this->houseOwned = NULL;
+    this->houseOccupied = NULL;
 }
 
-bool Member::login()
+Member *Member::login()
 {
     string tempUsername;
     string tempPass;
     cout << "Please enter your username: ";
-    cin >> tempUsername;
+    getline(cin, tempUsername);
     cout << "Please enter your password: ";
-    cin >> tempPass;
+    getline(cin, tempPass);
 
     for (Member *m : DataHandler::memberList)
     {
@@ -33,42 +36,82 @@ bool Member::login()
         {
             if ((m->password).compare(tempPass) == 0)
             {
-                cout << "Login successfully!";
-                return true;
+                cout << "Login successfully!\n";
+                return m;
             }
             else
             {
-                cerr << "Incorrect password!";
-                return false;
+                cerr << "Incorrect password!\n";
+                return NULL;
             }
         }
     }
 
-    cerr << "Account does not exist";
-    return false;
+    cerr << "Account does not exist\n";
+    return NULL;
 };
 
-void Member::listHouse()
+void Member::addHouse()
 {
-    string start, end;
-    double rating, credit;
+    if (this->houseOwned == NULL)
+    {
+        string location, description;
+        cout << "Please provide the location of your house: ";
+        getline(cin, location);
+        cout << "Please description for your house: ";
+        getline(cin, description);
+        this->houseOwned = new House(this, location, description);
 
-    cout << "Please set the availability of your house \n\n";
-    cout << "Start date (yyyy/mm/dd): ";
-    cin >> start;
-    cout << "End date (yyyy/mm/dd): ";
-    cin >> end;
-    cout << "Consunming points per day: ";
-    cin >> credit;
-    cout << "Minimum required occupier rating (0 -> 10): ";
-    cin >> rating;
-    this->houseOwned->setData(start, end, rating, credit);
+        cout << "You have successfully added a house.\n";
+    }
+    else
+    {
+        cerr << "You cannot have more than 1 house\n";
+    }
 };
 
-void Member::unlistHouse()
+bool Member::listHouse()
 {
-    // this->houseOwned->setAvailability(this);
-    this->houseOwned->setData(NULL, NULL, 0.0, 0.0);
+    if (this->houseOwned->startDate == "")
+    {
+        string start, end;
+        double rating, credit;
+
+        cout << "Please set the availability of your house \n\n";
+        cout << "Start date (yyyy/mm/dd): ";
+        cin >> start;
+        cout << "End date (yyyy/mm/dd): ";
+        cin >> end;
+        cout << "Consunming points per day: ";
+        cin >> credit;
+        cout << "Minimum required occupier rating (0 -> 10): ";
+        cin >> rating;
+        this->houseOwned->setData(start, end, rating, credit);
+
+        cout << "You have successfully listed your house.\n";
+        return true;
+    }
+    else
+    {
+        cerr << "You have already listed your house. You can only unlist it.\n";
+        return false;
+    }
+};
+
+bool Member::unlistHouse()
+{
+    if (this->houseOwned->startDate != "")
+    {
+        this->houseOwned->setData("", "", 0.0, 0.0);
+
+        cout << "You have successfully unlisted your house.\n";
+        return true;
+    }
+    else
+    {
+        cerr << "You have already unlisted your house. You can only list it.\n";
+        return false;
+    }
 };
 
 void Member::sendRequest(House *house, string start, string end)
@@ -269,7 +312,7 @@ void Member::checkAvailableHouses(Member *member)
                             // {
                             //     cout << "There are no house available!(rating)\n";
                             // }
-                        } 
+                        }
                         // else {
                         //     cout << "Not enough credit!\n";
                         // }
@@ -298,33 +341,33 @@ void Member::viewReviews(House *house){
 
 };
 
-int main()
-{
-    Member M1("trang", "111", "minhtrang", 123); //"2022/04/20", "2022/6/25"
-    DataHandler::memberList.push_back(&M1);
-    Member M2("Thuan", "123", "Viet", 111); //"2022/05/05", "2022/07/02"
-    DataHandler::memberList.push_back(&M2);
-    Member M3("Dieu", "Dieu", "Dieu", 222); //"2022/06/10, 2022/08/15"
-    DataHandler::memberList.push_back(&M3);
-    Member M4("Cus", "Cus", "Cus", 012);
-    DataHandler::memberList.push_back(&M4);
+// int main()
+// {
+//     Member M1("trang", "111", "minhtrang", "123"); //"2022/04/20", "2022/6/25"
+//     DataHandler::memberList.push_back(&M1);
+//     Member M2("Thuan", "123", "Viet", "111"); //"2022/05/05", "2022/07/02"
+//     DataHandler::memberList.push_back(&M2);
+//     Member M3("Dieu", "Dieu", "Dieu", "222"); //"2022/06/10, 2022/08/15"
+//     DataHandler::memberList.push_back(&M3);
+//     Member M4("Cus", "Cus", "Cus", "012");
+//     DataHandler::memberList.push_back(&M4);
 
-    M1.rate(&M4); // 6
-    M2.rate(&M4); // 5
-    M3.rate(&M4); // 8
+//     M1.rate(&M4); // 6
+//     M2.rate(&M4); // 5
+//     M3.rate(&M4); // 8
 
-    House H1(&M1, "SG", "bla");
-    M1.houseOwned = &H1;
-    M1.listHouse(); // cre: 2, score: 4
+//     House H1(&M1, "SG", "bla");
+//     M1.houseOwned = &H1;
+//     M1.listHouse(); // cre: 2, score: 4
 
-    House H2(&M2, "Hue", "cmt");
-    M2.houseOwned = &H2;
-    M2.listHouse(); // cre: 2, score: 3
+//     House H2(&M2, "Hue", "cmt");
+//     M2.houseOwned = &H2;
+//     M2.listHouse(); // cre: 2, score: 3
 
-    House H3(&M3, "SG", "cm12");
-    M3.houseOwned = &H3;
-    M3.listHouse(); // cre: 2, score: 7
+//     House H3(&M3, "SG", "cm12");
+//     M3.houseOwned = &H3;
+//     M3.listHouse(); // cre: 2, score: 7
 
-    M4.checkAvailableHouses(&M4);
-    return 0;
-}
+//     M4.checkAvailableHouses(&M4);
+//     return 0;
+// }
