@@ -202,7 +202,7 @@ void Member::rate(T *object)
 
         double score;
         string comment;
-        cout << "How many scores would you like to give (0 -> 10)? \n";
+        cout << "How many scores would you like to give (-10 -> 10)? \n";
         cin >> score;
         cout << "Would you like to leave a comment? (Y/N) \n";
         getline(cin, comment);
