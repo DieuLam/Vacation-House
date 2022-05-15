@@ -216,6 +216,15 @@ int main()
                             {
                                 login->showHouseInfo();
                             }
+                            else if (option.compare("3") == 0)
+                            {
+                                
+                            }
+                            else if (option.compare("4") == 0)
+                            {
+                                cout << "\nBack to previous menu\n";
+                                exitViewProfile = true;
+                            }
                         }
                     }
 

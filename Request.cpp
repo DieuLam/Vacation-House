@@ -11,4 +11,5 @@ Request::Request(Member *sender, House *house, string start, string end)
     this->house = house;
     this->startDate = start;
     this->endDate = end;
+    // this->numDay = numDay;
 }

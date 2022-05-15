@@ -29,6 +29,8 @@ public:
 
     void showOccupierList();
 
+    void showInfo();
+
     void setData(string startDate, string endDate, double minRating, double conCredits);
 
     void resetDate(string date);

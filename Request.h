@@ -18,6 +18,7 @@ private:
     House *house;
     string startDate;
     string endDate;
+    int numDay;
 
 public:
     Request();
