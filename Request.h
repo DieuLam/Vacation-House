@@ -23,7 +23,7 @@ private:
 public:
     Request();
 
-    Request(Member *sender, House *house, string start, string end, int numDay);
+    Request(Member *sender, House *house, string start, string end);
 
     friend class Member;
     friend class House;
