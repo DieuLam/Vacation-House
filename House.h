@@ -14,7 +14,7 @@ class Rating;
 
 class House
 {
-public:
+private:
     string city, description, startDate = "", endDate = "";
     double consummingCredits = 0.0, minOccRating = 0.0;
     Member *owner ;

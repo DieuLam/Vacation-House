@@ -17,12 +17,13 @@ int main()
     cout << "s3877961, Le Ngoc Nguyen Thuan\n";
     cout << "s3877664, Lam Tin Dieu\n";
 
+
     int exitStatus = 0; // if exitStatus = 1, means exit
     while (exitStatus == 0)
     {
         cout << "\nUse the app as: 1.Guest      2.Member        3.Admin         4.EXIT\n";
         string appChoices;
-        cout << "Enter your choice(1-4): ";
+        cout << "Enter your choice (1-4): ";
         getline(cin, appChoices);
 
         if (appChoices.compare("1") == 0)
@@ -33,7 +34,7 @@ int main()
             { // 3 stands for exit
                 cout << "\nSelect guest actions:      1. Register       2. View Houses information     3. Exit to main menu\n";
                 string guestOptions;
-                cout << "Enter your choice: ";
+                cout << "Enter your choice (1-3): ";
                 getline(cin, guestOptions);
                 if (guestOptions.compare("1") == 0)
                 { // view member list
@@ -71,8 +72,8 @@ int main()
                     cout << "4. View available houses for rent\n";
                     cout << "5. View current profile\n";
                     cout << "6. Rate House/Occupiers\n";
-                    cout << "7. Exit\n";
-                    cout << "Enter your choice: ";
+                    cout << "7. Exit to main menu\n";
+                    cout << "Enter your choice (1-7): ";
                     getline(cin, option);
 
                     if (option.compare("1") == 0)
@@ -89,7 +90,7 @@ int main()
                             cout << "1. List House\n";
                             cout << "2. Unlist House\n";
                             cout << "3. Back to previous menu\n";
-                            cout << "Enter your choice: ";
+                            cout << "Enter your choice (1-3): ";
                             getline(cin, option);
                             if (option.compare("1") == 0)
                             {
@@ -120,7 +121,7 @@ int main()
                                 cout << "\nPlease select an option: \n";
                                 cout << "1. Accept a request\n";
                                 cout << "2. View detailed reviews of a sender\n";
-                                cout << "3. View detailed reviews of a sender\n";
+                                cout << "3. Back to previous menu\n";
                                 cout << "Enter your choice: ";
                                 getline(cin, option);
 
@@ -140,6 +141,7 @@ int main()
 
                                 else if (option.compare("3") == 0)
                                 {
+                                    cout << "\nBack to previous menu\n";
                                     exitHouseRequest = true;
                                 }
 
@@ -182,11 +184,12 @@ int main()
 
                                 else if (option.compare("3") == 0)
                                 {
+                                    cout << "\nBack to previous menu\n\n";
                                     exitAvailableHouse = true;
                                 }
                                 else
                                 {
-                                    cerr << "\nPlease enter a valid input\n";
+                                    cerr << "\nPlease enter a valid input (1->3)\n";
                                 }
                             }
                         };
@@ -200,6 +203,7 @@ int main()
                             cout << "\nPlease select an option: \n";
                             cout << "1. Rate house\n";
                             cout << "2. Rate occupiers\n";
+                            cout << "3. Back to previous menu\n\n";
                             cout << "Enter your choice: ";
                             getline(cin, option);
 
@@ -210,23 +214,21 @@ int main()
 
                             else if (option.compare("2") == 0)
                             {
-                                if (!login->houseOwned->occupierList.empty())
-                                {
-
-                                    cout << "\nPlease choose a occupier by entering a number: \n";
-                                    getline(cin, option);
-                                    login->rate<Member>(login->rateMember(stoi(option) - 1));
-                                }
+                                // Check if occupier list is not empty
+                                cout << "\nPlease choose a occupier by entering a number: \n";
+                                getline(cin, option);
+                                login->rate<Member>(login->rateMember(stoi(option) - 1));
                             }
 
                             else if (option.compare("3") == 0)
                             {
+                                cout << "\nBack to previous menu\n\n";
                                 exitRate = true;
                             }
 
                             else
                             {
-                                cerr << "\nPlease enter a valid input\n";
+                                cerr << "\nPlease enter a valid input (1/2/3)\n";
                             }
                         }
                     }
@@ -253,7 +255,7 @@ int main()
                 int adminExit = 0;
                 while (adminExit != 1)
                 { // 3 stands for exit
-                    cout << "Select admin actions:      1. View all member information       2. View all Houses information     3. Exit to main menu\n";
+                    cout << "\nSelect admin actions:      1. View all member information       2. View all Houses information     3. Exit to main menu\n";
                     string adminOptions;
                     cout << "Enter your choice: ";
                     getline(cin, adminOptions);
@@ -267,24 +269,24 @@ int main()
                     }
                     else if (adminOptions.compare("3") == 0)
                     {
-                        cout << "Exit to main menu\n";
+                        cout << "\nExit to main menu\n";
                         adminExit = 1;
                     }
                     else
                     {
-                        cout << "Please enter a valid input\n";
+                        cout << "\nPlease enter a valid input\n";
                     }
                 }
             }
         }
         else if (appChoices.compare("4") == 0)
         { // if exit
-            cout << "Thank you for using the app \n";
+            cout << "\nThank you for using the app \n";
             exitStatus = 1;
         }
         else
         { // invalid input
-            cout << "Please enter a valid input(1,2,3 or 4)\n";
+            cout << "\nPlease enter a valid input(1,2,3 or 4)\n";
         }
     }
 

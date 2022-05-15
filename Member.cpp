@@ -63,7 +63,7 @@ void Member::addHouse()
     }
     else
     {
-        cerr << "You cannot have more than 1 house\n";
+        cerr << "\nYou cannot have more than 1 house\n";
     }
 };
 
@@ -142,15 +142,20 @@ void Member::sendRequest(int num)
 
 bool Member::viewRequest()
 {
+    if (this->houseOwned == NULL) {
+        cerr << "\nYou have to add your house first\n";
+        return false;
+    }
+
     vector<Request *> list = this->houseOwned->requestList;
 
     if (list.size() == 0)
     {
-        cout << "No occupying requests for this house\n";
+        cout << "\nNo occupying requests for this house\n";
         return false;
     }
 
-    cout << "There are " << list.size() << " people request to rent this house: \n\n";
+    cout << "\nThere are " << list.size() << " people request to rent this house: \n\n";
     for (int i = 0; i < list.size(); i++)
     {
         cout << i << ". " << list[i]->sender->username << "\n";
@@ -164,6 +169,9 @@ bool Member::viewRequest()
 
 bool Member::acceptRequest(int num)
 {
+    if (this->houseOwned == NULL) {
+        return false;
+    }
     vector<Request *> list = this->houseOwned->requestList;
     if (!list.empty())
     {
@@ -225,7 +233,11 @@ template void Member::rate(House*);
 
 Member *Member::rateMember(int num)
 {
-    if (!this->houseOwned->occupierList.empty())
+    if (this->houseOwned == NULL) {
+        cerr << "/nYou need to add your house first/n";
+        return NULL;
+    }
+    else if (!this->houseOwned->occupierList.empty())
     {
         return this->houseOwned->occupierList.at(num);
     }
@@ -295,7 +307,7 @@ bool Member::checkAvailableHouses()
     int m_eMonth, m_eYear, m_eDay;
     string city;
 
-    cout << "Please provide the below information to search for available houses \n";
+    cout << "\nPlease provide the below information to search for available houses \n";
     // user input city
     cout << "City: ";
     getline(cin, city);
@@ -333,7 +345,7 @@ bool Member::checkAvailableHouses()
         {
             if (endDate < startDate)
             {
-                cout << "invalid";
+                cout << "\ninvalid\n";
             }
             else
             {
@@ -371,7 +383,7 @@ bool Member::checkAvailableHouses()
 
     if (!this->availableHouses.empty())
     {
-        cout << "There are " << this->availableHouses.size() << " houses avaible to rent: \n";
+        cout << "\nThere are " << this->availableHouses.size() << " houses avaible to rent: \n";
         this->startDate = startDate;
         this->endDate = endDate;
         for (House *h : this->availableHouses)
@@ -385,7 +397,7 @@ bool Member::checkAvailableHouses()
     }
     else
     {
-        cerr << "No available houses.\n";
+        cerr << "\nNo available houses.\n";
         return false;
     }
 };
@@ -396,7 +408,7 @@ void Member::viewReviews(int num)
     vector<Rating *> list = this->availableHouses.at(num)->ratings;
     if (list.size() > 0)
     {
-        cout << "There are " << list.size() << " reviews about this house\n";
+        cout << "\nThere are " << list.size() << " reviews about this house\n";
         for (int i = 0; i < this->availableHouses.at(num)->ratings.size(); i++)
         {
             cout << "\n" << i << ". " << list.at(i)->rater << "\n";
@@ -406,7 +418,7 @@ void Member::viewReviews(int num)
     }
     else
     {
-        cerr << "There are no reviews\n";
+        cerr << "\nThere are no reviews\n";
     }
 };
 
@@ -415,7 +427,7 @@ void Member::viewMemberReviews(int num)
     vector<Rating *> list = this->houseOwned->requestList.at(num)->sender->ratings;
     if (list.size() > 0)
     {
-        cout << "There are " << list.size() << " reviews about this Member\n";
+        cout << "\nThere are " << list.size() << " reviews about this Member\n";
         for (int i = 0; i < list.size(); i++)
         {
             cout << "\n" << i << ". " << list.at(i)->rater << "\n";

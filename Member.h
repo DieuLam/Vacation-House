@@ -15,7 +15,7 @@ class Request;
 
 class Member
 {
-public:
+private:
     string username, password, fullName, phone, startDate, endDate;
     double credit = 0.0;
     House *houseOwned = NULL, *houseOccupied = NULL;
