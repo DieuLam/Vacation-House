@@ -5,10 +5,11 @@
 
 Request::Request(){};
 
-Request::Request(Member *sender, House *house, string start, string end)
+Request::Request(Member *sender, House *house, string start, string end, int numDay)
 {
     this->sender = sender;
     this->house = house;
     this->startDate = start;
     this->endDate = end;
+    this->numDay = numDay;
 }

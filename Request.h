@@ -18,11 +18,12 @@ private:
     House *house;
     string startDate;
     string endDate;
+    int numDay;
 
 public:
     Request();
 
-    Request(Member *sender, House *house, string start, string end);
+    Request(Member *sender, House *house, string start, string end, int numDay);
 
     friend class Member;
     friend class House;
