@@ -7,6 +7,7 @@
 #include <string>
 #include "DataHandler.h"
 #include <math.h>
+#include "checkInput.cpp";
 
 Member::Member(){};
 
@@ -106,18 +107,97 @@ bool Member::listHouse()
     {
         if (this->houseOwned->startDate == "")
         {
-            string start, end;
+            string start, end, h_sDay, h_sMonth, h_sYear, h_eDay, h_eMonth, h_eYear;
             string rating, credit;
 
-            cout << "\nPlease set the availability of your house \n";
-            cout << "Start date (yyyy/mm/dd): ";
-            getline(cin, start);
-            cout << "End date (yyyy/mm/dd): ";
-            getline(cin, end);
-            cout << "Consunming points per day: ";
-            getline(cin, credit);
-            cout << "Minimum required occupier rating (0 -> 10): ";
-            getline(cin, rating);
+            bool validInput = false;
+            while (validInput != true)
+            {
+                // user input start day
+                cout << "Enter your house start date\n";
+                cout << "Day: ";
+                getline(cin, h_sDay);
+                validInput = checknum(h_sDay);
+                ;
+                if (validInput == 0) // means validInput = false
+                    continue;
+            }
+
+            validInput = false; // set validInput back to false for next while loop
+            while (validInput != true)
+            {
+                // user input start day
+                cout << "Month: ";
+                getline(cin, h_sMonth);
+                validInput = checknum(h_sMonth);
+                if (validInput == 0) // means validInput = false
+                    continue;
+            }
+
+            validInput = false; // set validInput back to false for next while loop
+            while (validInput != true)
+            {
+                // user input start day
+                cout << "Enter your house end date\n";
+                cout << "Year: ";
+                getline(cin, h_sYear);
+                validInput = checknum(h_sYear);
+                if (validInput == 0) // means validInput = false
+                    continue;
+            }
+            string start = h_sYear + "/" + h_sMonth + "/" + h_sDay;
+
+            validInput = false; // set validInput back to false for next while loop
+            while (validInput != true)
+            {
+                // user input end day
+                cout << "day: ";
+                getline(cin, h_eDay);
+                validInput = checknum(h_eDay);
+                if (validInput == 0) // means validInput = false
+                    continue;
+            }
+
+            validInput = false; // set validInput back to false for next while loop
+            while (validInput != true)
+            {
+                cout << "month: ";
+                getline(cin, h_eMonth);
+                validInput = checknum(h_eMonth);
+                if (validInput == 0) // means validInput = false
+                    continue;
+            }
+
+            validInput = false; // set validInput back to false for next while loop
+            while (validInput != true)
+            {
+                cout << "Year: ";
+                getline(cin, h_eYear);
+                validInput = checknum(h_eYear);
+                if (validInput == 0) // means validInput = false
+                    continue;
+            }
+            string end = h_eYear + "/" + h_eMonth + "/" + h_eDay;
+
+            validInput = false; // set validInput back to false for next while loop
+            while (validInput != true)
+            {
+                cout << "Consunming points per day: ";
+                getline(cin, credit);
+                validInput = checknum(credit);
+                if (validInput == 0) // means validInput = false
+                    continue;
+            }
+
+            validInput = false; // set validInput back to false for next while loop
+            while (validInput != true)
+            {
+                cout << "Minimum required occupier rating (-10 -> 10): ";
+                getline(cin, rating);
+                validInput = checkRating(rating);
+                if (validInput == 0) // means validInput = false
+                    continue;
+            }
             this->houseOwned->setData(start, end, stod(rating), stod(credit));
 
             cout << "You have successfully listed your house.\n";
@@ -249,8 +329,16 @@ void Member::rate(T *object)
 
         double score;
         string comment;
-        cout << "How many scores would you like to give (-10 -> 10)? \n";
-        cin >> score;
+        bool validInput = false; // set validInput back to false for next while loop
+        while (validInput != true)
+        {
+            cout << "How many scores would you like to give (-10 -> 10)? \n";
+            cin >> score;
+            validInput = checkRating(score);
+            if (validInput == 0) // means validInput = false
+                continue;
+        }
+
         cout << "Would you like to leave a comment? (Y/N) \n";
         getline(cin, comment);
         if (comment.compare("Y") == 0)
@@ -339,35 +427,98 @@ int countNoOfDays(int date1[], int date2[])
 bool Member::checkAvailableHouses()
 {
     // member date select
-    string startDate;
-    string endDate;
-    char fill = '/';
-    int m_sMonth, m_sYear, m_sDay;
-    int m_eMonth, m_eYear, m_eDay;
+    string m_sMonth, m_sYear, m_sDay;
+    string m_eMonth, m_eYear, m_eDay;
     string city;
-
+    bool validInput = false;
     cout << "\nPlease provide the below information to search for available houses \n";
-    // user input city
-    cout << "City: ";
-    getline(cin, city);
-    // user input start day
-    cout << "Start date (yyyy/mm/dd): ";
-    getline(cin, startDate);
-    // user input end day
-    cout << "End date (yyyy/mm/dd): ";
-    getline(cin, endDate);
+
+    // while (validInput != true) {
+    //     // user input city
+    //     cout << "City: ";
+    //     getline(cin, city);
+    //     validInput = checkCity(city, )
+    // }
+
+    validInput = false;
+    while (validInput != true)
+    {
+        // user input start day
+        cout << "Enter your start date\n";
+        cout << "Day: ";
+        getline(cin, m_sDay);
+        validInput = checknum(m_sDay);
+        ;
+        if (validInput == 0) // means validInput = false
+            continue;
+    }
+
+    validInput = false; // set validInput back to false for next while loop
+    while (validInput != true)
+    {
+        // user input start day
+        cout << "Month: ";
+        getline(cin, m_sMonth);
+        validInput = checknum(m_sMonth);
+        if (validInput == 0) // means validInput = false
+            continue;
+    }
+
+    validInput = false; // set validInput back to false for next while loop
+    while (validInput != true)
+    {
+        // user input start day
+        cout << "Year: ";
+        getline(cin, m_sYear);
+        validInput = checknum(m_sYear);
+        if (validInput == 0) // means validInput = false
+            continue;
+    }
+    string startDate = m_sYear + "/" + m_sMonth + "/" + m_sDay;
+
+    validInput = false; // set validInput back to false for next while loop
+    while (validInput != true)
+    {
+        // user input end day
+        cout << "day: ";
+        getline(cin, m_eDay);
+        validInput = checknum(m_eDay);
+        if (validInput == 0) // means validInput = false
+            continue;
+    }
+
+    validInput = false; // set validInput back to false for next while loop
+    while (validInput != true)
+    {
+        cout << "month: ";
+        getline(cin, m_eMonth);
+        validInput = checknum(m_eMonth);
+        if (validInput == 0) // means validInput = false
+            continue;
+    }
+
+    validInput = false; // set validInput back to false for next while loop
+    while (validInput != true)
+    {
+        cout << "Year: ";
+        getline(cin, m_eYear);
+        validInput = checknum(m_eYear);
+        if (validInput == 0) // means validInput = false
+            continue;
+    }
+    string endDate = m_eYear + "/" + m_eMonth + "/" + m_eDay;
 
     // get day, month, year
-    m_sYear = stoi(startDate.substr(0, 4));
-    m_sMonth = stoi(startDate.substr(5, 2));
-    m_sDay = stoi(startDate.substr(8, 2));
+    int sYear = stoi(m_sYear);
+    int sMonth = stoi(m_sMonth);
+    int sDay = stoi(m_sDay);
 
-    m_eYear = stoi(endDate.substr(0, 4));
-    m_eMonth = stoi(endDate.substr(5, 2));
-    m_eDay = stoi(endDate.substr(8, 2));
+    int eYear = stoi(m_eYear);
+    int eMonth = stoi(m_eMonth);
+    int eDay = stoi(m_eDay);
 
-    int date1[3] = {m_sDay, m_sMonth, m_sYear};
-    int date2[3] = {m_eDay, m_eMonth, m_eYear};
+    int date1[3] = {sDay, sMonth, sYear};
+    int date2[3] = {eDay, eMonth, eYear};
     int days = countNoOfDays(date1, date2);
 
     double score = Rating::calculateScores(this->ratings);

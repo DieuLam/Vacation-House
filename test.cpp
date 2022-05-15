@@ -1,12 +1,13 @@
 #include "Member.h"
-#include "Rating.h"
 #include "House.h"
+#include "Rating.h"
 #include "Request.h"
 #include <algorithm>
 #include <iostream>
 #include <string>
+#include "DataHandler.h"
 #include <math.h>
-
+#include "checkInput.cpp"
 // const int monthDays[12] = { 31, 59, 90, 120, 151, 181, 212, 243,
 // 273, 304, 334, 365 };
 // int countLeapYearDays(int d[]){
@@ -29,19 +30,58 @@
 
 int main()
 {
-    // member date select
-    string startDate;
+  // member date select
+
     string endDate;
     char fill = '/';
-    int m_sMonth, m_sYear, m_sDay;
-    int m_eMonth, m_eYear, m_eDay;
+    string m_sMonth, m_sYear, m_sDay;
+    string m_eMonth, m_eYear, m_eDay;
     string city;
-    string d = "20";
-    string m = "12";
-    string y = "2022";
-    string sd = d + "/" + m + "/" + y;
-    cout << sd;
 
+   // cout << "Enter your start date (d m y, ex: 1 1 2022): ";
+   //  getline(cin, m_sDay);
+   //  getline(cin, m_sMonth);
+   //  getline(cin, m_sYear);
+   // string startDate = m_sYear + "/" + m_sMonth + "/" + m_sDay;
+   //  //cout << sd;
+
+   // //cout << startDate;
+
+   bool validInput = false; 
+    while (validInput != true)
+    {
+       //user input start day
+        cout << "Enter your start date\n";
+        cout << "Day: ";
+        getline(cin, m_sDay);
+        validInput = checknum(m_sDay);;
+        if (validInput == 0) // means validInput = false
+            continue;
+    }
+
+    validInput = false; // set validInput back to false for next while loop
+    while (validInput != true)
+    {
+       //user input start day
+        cout << "Month: ";
+        getline(cin, m_sMonth);
+        validInput = checknum(m_sMonth);
+        if (validInput == 0) // means validInput = false
+            continue;
+    }
+    
+    validInput = false; // set validInput back to false for next while loop
+    while (validInput != true)
+    {
+       //user input start day
+        cout << "Year: ";
+        getline(cin, m_sYear);
+        validInput = checknum(m_sYear);
+        if (validInput == 0) // means validInput = false
+            continue;
+    }
+    string startDate = m_sYear + "/" + m_sMonth + "/" + m_sDay;
+   cout << startDate;
    //  cout << "Please provide the below information to search for available houses \n\n";
    //  // user input city
    //  cout << "City: ";
@@ -70,7 +110,6 @@ int main()
 
    //  cout << m_sDay << "/" << m_sMonth << "/" << m_sYear << "\n";
    //  cout << m_eDay << "/" << m_eMonth << "/" << m_eYear << "\n";
-
 
    //  int days = countNoOfDays(date1, date2);
 

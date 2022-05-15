@@ -17,4 +17,5 @@ public:
 
     friend class Member;
     friend class DataHandler;
+    
 };

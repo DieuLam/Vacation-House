@@ -2,55 +2,81 @@
 #include <algorithm>
 #include <sstream>
 #include <string>
-using std::string;
-using std::cout;
 using std::cin;
+using std::cout;
+using std::string;
 
-
-
-//check credit only number
-bool checkCredit(string input) {
-   for (int i = 0; i < input.length(); i++)
-   if (isdigit(input[i]) == false)
-      return false;
-      return true;
-};
-
-//check rating -10 to 10
-bool checkRating(string input) {
+// check credit only number
+bool checknum(string input)
+{
+    if (input.compare("") == 0)
+    {
+        cout << "Cannot be blanked\n";
+        return false;
+    }
+    int errorsCount = 0;
     for (int i = 0; i < input.length(); i++)
-   if (isdigit(input[i]) == false) {
-       return false;
-   }else {
-       int s = std::stoi(input);
-       if (-10 > s || s > 10) {
-           return false;
-       } else {
-           return true;
-       }
-   }
+    {
+        if (isdigit(input[i]) == false)
+        {
+            errorsCount = errorsCount + 1;
+        }
+    }
+    if (errorsCount != 0)
+    {
+        cout << "Invalid input\n";
+        return false;
+    }
     return true;
 };
 
-//check city 
-bool checkCity(string input, string Arr[3]) {
-    for (int i  = 0; i < 3; i++) {
-        if (input.compare(Arr[i]) != 0) {
+// check rating -10 to 10
+bool checkRating(string input)
+{
+    if (input.compare("") == 0)
+    {
+        cout << "Cannot be blanked\n";
+        return false;
+    }
+    bool r = checknum(input);
+    if (r != true)
+    {
+        return false;
+    }
+    else
+    {
+        int s = std::stoi(input);
+        if (-10 > s || s > 10)
+        {
             return false;
-        } else {
-            return true;
+        }
+    }
+    return true;
+};
+
+// check city
+bool checkCity(string input, string Arr[3])
+{
+    if (input.compare("") == 0)
+    {
+        cout << "Cannot be blanked\n";
+        return false;
+    }
+    for (int i = 0; i < 3; i++)
+    {
+        if (input.compare(Arr[i]) != 0)
+        {
+            return false;
         }
     }
     return true;
 }
 
-int main() {
-   string str = "f";
-    string CityArr[3] = {"Hanoi", "Saigon", "Da Nang"};
-   if (checkCity(str, CityArr))
-      cout<<str<< " valid";
-   else
-      cout<<str<< " invalid";
+// int main() {
+//    string str = "sunidhi";
 
+//       string str1 = "1234";
 
-}
+//    checknum(str);
+//    checknum(str1);
+// }
