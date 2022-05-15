@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include <algorithm>
-#include <fstream>
 
 using std::cerr;
 using std::cin;
@@ -17,47 +16,55 @@ class Request;
 class Member
 {
 public:
-    string username, password, fullName, phone;
+    string username, password, fullName, phone, startDate, endDate;
     double credit = 0.0;
     House *houseOwned = NULL, *houseOccupied = NULL;
     vector<House *> availableHouses;
     vector<Request *> requestSentList;
     vector<Rating *> ratings;
+
 public:
     Member();
-    
+
     Member(string username, string password, string fullName, string phone);
 
-    static Member* login();
+    static Member *login(); // done
 
-    void addHouse();
+    void addHouse(); // done
 
-    bool listHouse();
+    bool listHouse(); // done
 
-    bool unlistHouse();
+    bool unlistHouse(); // done
 
-    void sendRequest(int num, string start, string end);
+    void sendRequest(int num); // done
 
     bool viewRequest();
 
-    bool acceptRequest(Request *request);
+    bool acceptRequest(int num);
 
     void cancelRequest();
 
-    string Member::getDate(string start, string end);
+    void viewMemberReviews(int num);
+
+    Member *rateMember(int num);
+
+    House *rateHouse();
 
     // ----------------------------------------NU------------------------------------- //
 
-    void rate(Member *member);
+    template <class T>
+    void rate(T *object);
 
-    void rate(House *house);
+    // void rate(Member *member);
+
+    // void rate(House *house);
 
     // Check the houses matched with date, city, rating and credit of user
     // then add all of them to availableHouses attribute
-    bool checkAvailableHouses();
+    bool checkAvailableHouses(); // done
 
     // Display review of selected house in the availableHouses attribute
-    void viewReviews(House *house);
+    void viewReviews(int num); // done
 
     friend class House;
     friend class Rating;

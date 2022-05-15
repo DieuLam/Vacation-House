@@ -30,7 +30,7 @@ void User::Register()
     string phoneNumber;
     string password;
 
-    cout << "Welcome, you can now register your account\n";
+    cout << "\nWelcome, you can now register your account\n";
     cout << "Initial entry fee will be $500\n";
     cout << "You will earn 500 credit points after you have successfully create your account\n";
 
@@ -38,7 +38,7 @@ void User::Register()
     while (validInput != true)
     {
         int countErrors = 0;
-        cout << "Please enter your username(with no whitespaces): ";
+        cout << "\nPlease enter your username(with no whitespaces): ";
         getline(cin, username);
         validInput = checkBlankAndSpaces(username); // if false, it means there are white spaces or blanked input
         if (validInput == 0)                        // means validInput = false
@@ -95,7 +95,7 @@ void User::Register()
 
     string decision;
     validInput = false; // set back to false for next while loop
-    cout << "Do you want to enter information about your house(optional) if available?\n";
+    cout << "\nDo you want to enter information about your house(optional) if available?\n";
     while (validInput != true)
     {
         cout << "Type 'y' if you want to enter and 'n' if you don't want to: ";
@@ -117,12 +117,12 @@ void User::Register()
         }
     }
 
-    cout << "Your registration has been completed. You can now login as a Member\n";
+    cout << "\nYour registration has been completed. You can now login as a Member\n";
 };
 void User::viewHouse()
 {
     fstream houseInfoFile;
-    cout << "Since you have't logged in, you can only view house details: \n";
+    cout << "\nSince you have't logged in, you can only view house details: \n";
     cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n";
 };
 // int main(){ //main method is for testing, remove this once program complete

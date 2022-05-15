@@ -25,6 +25,6 @@ public:
     static  double calculateScores(vector<Rating *> ratings);
     friend class Member;
     friend class House;
-    friend class DataHandler;
+    // friend class DataHandler;
 };
 
