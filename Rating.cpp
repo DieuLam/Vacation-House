@@ -15,9 +15,13 @@ Rating::Rating(Member *m, string comment, double score)
 double Rating::calculateScores(vector<Rating *> ratings)
 {
     double sum = 0;
-    for (Rating *r : ratings)
+    if (!ratings.empty())
     {
-        sum += r->score;
+        for (Rating *r : ratings)
+        {
+            sum += r->score;
+        }
+        return sum / ratings.size();
     }
-    return sum / ratings.size();
+    return sum;
 }

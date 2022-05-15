@@ -17,13 +17,14 @@ class Member
 {
 private:
     string username, password, fullName, phone, startDate, endDate;
-    double credit = 0.0;
+    double credit = 500.0;
     House *houseOwned = NULL, *houseOccupied = NULL;
     vector<House *> availableHouses;
     vector<Request *> requestSentList;
     vector<Rating *> ratings;
 
 public:
+
     Member();
 
     Member(string username, string password, string fullName, string phone);
@@ -38,33 +39,28 @@ public:
 
     void sendRequest(int num); // done
 
-    bool viewRequest();
+    bool viewRequest(); // done
 
-    bool acceptRequest(int num);
+    bool acceptRequest(int num); // done
 
-    void cancelRequest();
+    void cancelRequest(); // done
 
-    void viewMemberReviews(int num);
+    void viewMemberReviews(int num); // done
 
-    Member *rateMember(int num);
+    void rateMember(); // done
 
-    House *rateHouse();
+    void rateHouse(); // done
+
+    void showMemberInfo(); //done
+
+    void showHouseInfo(); //done
 
     // ----------------------------------------NU------------------------------------- //
 
     template <class T>
     void rate(T *object);
-
-    // void rate(Member *member);
-
-    // void rate(House *house);
-
-    // Check the houses matched with date, city, rating and credit of user
-    // then add all of them to availableHouses attribute
     bool checkAvailableHouses(); // done
-
-    // Display review of selected house in the availableHouses attribute
-    void viewReviews(int num); // done
+    void viewReviews(int num);   // done
 
     friend class House;
     friend class Rating;

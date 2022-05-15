@@ -27,6 +27,8 @@ public:
 
     House(Member *owner, string city, string description);
 
+    void showOccupierList();
+
     void setData(string startDate, string endDate, double minRating, double conCredits);
 
     void resetDate(string date);
