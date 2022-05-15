@@ -1,5 +1,6 @@
 #include "User.h"
 #include "Member.h"
+#include "House.h"
 #include "DataHandler.h"
 
 bool checkBlankAndSpaces(string input)
@@ -121,9 +122,13 @@ void User::Register()
 };
 void User::viewHouse()
 {
-    fstream houseInfoFile;
     cout << "\nSince you have't logged in, you can only view house details: \n";
-    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n";
+    for (int i = 0; i < DataHandler::memberList.size(); i++)
+    {
+        cout << "\n"
+             << i << ". Username: " << DataHandler::memberList.at(i)->username << "\n";
+        DataHandler::memberList.at(i)->houseOwned->showInfo();
+    }
 };
 // int main(){ //main method is for testing, remove this once program complete
 //     User user;

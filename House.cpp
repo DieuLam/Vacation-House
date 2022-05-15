@@ -36,6 +36,12 @@ void House::showOccupierList()
     }
 };
 
+void House::showInfo()
+{
+    cout << "Location: " << this->city << "\n";
+    cout << "Description: " << this->description << "\n";
+};
+
 void House::setData(string startDate, string endDate, double minRating, double conCredits)
 {
     this->startDate = startDate;
