@@ -216,13 +216,13 @@ bool Member::listHouse()
         }
         else
         {
-            cerr << "You have already listed your house. You can only unlist it.\n";
+            cerr << "\nYou have already listed your house. You can only unlist it.\n";
             return false;
         }
     }
     else
     {
-        cerr << "You need to add your house first\n";
+        cerr << "\nYou need to add your house first\n";
         return false;
     }
 };
@@ -240,13 +240,13 @@ bool Member::unlistHouse()
         }
         else
         {
-            cerr << "You have already unlisted your house. You can only list it.\n";
+            cerr << "\nYou have already unlisted your house. You can only list it.\n";
             return false;
         }
     }
     else
     {
-        cerr << "You need to add your house first\n";
+        cerr << "\nYou need to add your house first\n";
         return false;
     }
 };
@@ -329,6 +329,23 @@ void Member::cancelRequest(){
 
 };
 
+void Member::showRequestList() {
+    vector<Request*> list = this->requestSentList;
+    cout << "\nYou have sent " << list.size() << " requests\n";
+
+    if (list.size() > 0) {
+        for (int i = 0; i < list.size(); i++) {
+            cout << "\n" << i << ". Owner: " << list.at(i)->house->owner->username << "\n";
+            cout << "House's details: \n";
+            cout << "Location: " << list.at(i)->house->city << "\n";
+            cout << "Description: " << list.at(i)->house->description << "\n";
+            cout << "Rating: " << Rating::calculateScores(list.at(i)->house->ratings) << "\n";
+            cout << "Consuming credits: " << list.at(i)->house->consummingCredits << "\n";
+            cout << "Request to rent for " << list.at(i)->numDay << " days, from " << list.at(i)->startDate << " to " << list.at(i)->endDate << "\n";
+        }
+    }
+}
+
 // ----------------------------------------NU------------------------------------- //
 
 template <class T>
@@ -370,7 +387,7 @@ void Member::rateMember()
 {
     if (this->houseOwned == NULL)
     {
-        cerr << "/nYou need to add your house first/n";
+        cerr << "\nYou need to add your house first\n";
     }
     else if (!this->houseOwned->occupierList.empty())
     {

@@ -218,6 +218,7 @@ int main()
                             }
                             else if (option.compare("3") == 0)
                             {
+                                login->showRequestList();
                             }
                             else if (option.compare("4") == 0)
                             {
@@ -270,6 +271,11 @@ int main()
                     else if (option.compare("7") == 0)
                     {
                         exitMember = true;
+                    }
+
+                    else
+                    {
+                        cerr << "\nPlease enter a valid input\n";
                     }
                 }
             }

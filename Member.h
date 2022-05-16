@@ -56,6 +56,8 @@ public:
 
     void showHouseInfo(); //done
 
+    void showRequestList();
+
     // ----------------------------------------NU------------------------------------- //
 
     template <class T>
