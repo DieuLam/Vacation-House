@@ -8,7 +8,7 @@ bool checkBlankAndSpaces(string input)
     int errorsCount = 0;
     if (input.compare("") == 0)
     {
-        cout << "Cannot be blanked\n";
+        cout << "\nCannot be blanked\n";
         return false;
     }
     for (int i = 0; i < input.length(); i++)
@@ -18,7 +18,7 @@ bool checkBlankAndSpaces(string input)
     }
     if (errorsCount != 0)
     {
-        cout << "There cannot be white spaces in your input\n";
+        cout << "\nThere cannot be white spaces in your input\n";
         return false;
     }
     return true;
@@ -44,17 +44,8 @@ void User::Register()
         validInput = checkBlankAndSpaces(username); // if false, it means there are white spaces or blanked input
         if (validInput == 0)                        // means validInput = false
             continue;                               // skip the current loop so dont have to waste time check with file
-
-        if (countErrors != 0)
-        {
-            validInput = false;
-            cout << "Your input is invalid\n";
-        }
-        else
-        {
-            validInput = true;
-        }
     }
+    
     cout << "Please enter your full name: ";
     getline(cin, fullName);
 
@@ -83,7 +74,7 @@ void User::Register()
         }
         if (nonIntegerCount != 0)
         {
-            cout << "Invalid input, try again\n";
+            cout << "\nInvalid input, try again\n";
             validInput = false;
         }
         else

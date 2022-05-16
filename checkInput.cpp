@@ -55,21 +55,25 @@ bool checkRating(string input)
 };
 
 // check city
-bool checkCity(string input, string Arr[3])
+bool checkCity(string input)
 {
+    string Arr[3] = {"Saigon", "Hanoi", "Danang"};
     if (input.compare("") == 0)
     {
-        cout << "Cannot be blanked\n";
+        cout << "\nCannot be blanked\n";
         return false;
     }
+
     for (int i = 0; i < 3; i++)
     {
-        if (input.compare(Arr[i]) != 0)
+        if (input.compare(Arr[i]) == 0)
         {
-            return false;
+            return true;
         }
     }
-    return true;
+
+    cout << "\nThe city must be in the list\n";
+    return false;
 }
 
 // int main() {

@@ -7,7 +7,7 @@
 #include <string>
 #include "DataHandler.h"
 #include <math.h>
-#include "checkInput.cpp";
+#include "checkInput.cpp"
 
 Member::Member(){};
 
@@ -86,10 +86,19 @@ void Member::addHouse()
 {
     if (this->houseOwned == NULL)
     {
+        bool validInput = false;
         string location, description;
-        cout << "\nPlease provide the location of your house: ";
-        getline(cin, location);
-        cout << "Please provide description for your house: ";
+        cout << "\nPlease provide information of your house: \n";
+
+        while (validInput != true)
+        {
+            // user input city
+            cout << "Location (Saigon/Hanoi/Danang): ";
+            getline(cin, location);
+            validInput = checkCity(location);
+        }
+
+        cout << "Description: ";
         getline(cin, description);
         this->houseOwned = new House(this, location, description);
 
@@ -137,21 +146,21 @@ bool Member::listHouse()
             validInput = false; // set validInput back to false for next while loop
             while (validInput != true)
             {
-                // user input start day
-                cout << "Enter your house end date\n";
                 cout << "Year: ";
-                getline(cin, h_sYear);
-                validInput = checknum(h_sYear);
+                getline(cin, h_eYear);
+                validInput = checknum(h_eYear);
                 if (validInput == 0) // means validInput = false
                     continue;
             }
-            string start = h_sYear + "/" + h_sMonth + "/" + h_sDay;
+
+            start = h_sYear + "/" + h_sMonth + "/" + h_sDay;
 
             validInput = false; // set validInput back to false for next while loop
             while (validInput != true)
             {
                 // user input end day
-                cout << "day: ";
+                cout << "Enter your house end date\n";
+                cout << "Day: ";
                 getline(cin, h_eDay);
                 validInput = checknum(h_eDay);
                 if (validInput == 0) // means validInput = false
@@ -161,7 +170,7 @@ bool Member::listHouse()
             validInput = false; // set validInput back to false for next while loop
             while (validInput != true)
             {
-                cout << "month: ";
+                cout << "Month: ";
                 getline(cin, h_eMonth);
                 validInput = checknum(h_eMonth);
                 if (validInput == 0) // means validInput = false
@@ -171,13 +180,15 @@ bool Member::listHouse()
             validInput = false; // set validInput back to false for next while loop
             while (validInput != true)
             {
+                // user input start day
                 cout << "Year: ";
-                getline(cin, h_eYear);
-                validInput = checknum(h_eYear);
+                getline(cin, h_sYear);
+                validInput = checknum(h_sYear);
                 if (validInput == 0) // means validInput = false
                     continue;
             }
-            string end = h_eYear + "/" + h_eMonth + "/" + h_eDay;
+
+            end = h_eYear + "/" + h_eMonth + "/" + h_eDay;
 
             validInput = false; // set validInput back to false for next while loop
             while (validInput != true)
@@ -326,9 +337,7 @@ void Member::rate(T *object)
 {
     if (object != NULL)
     {
-
-        double score;
-        string comment;
+        string comment, score;
         bool validInput = false; // set validInput back to false for next while loop
         while (validInput != true)
         {
@@ -351,7 +360,7 @@ void Member::rate(T *object)
             comment = "";
         }
         cout << "Thank you! \n";
-        object->ratings.push_back(new Rating(this, comment, score));
+        object->ratings.push_back(new Rating(this, comment, stod(score)));
     }
 };
 
@@ -433,12 +442,15 @@ bool Member::checkAvailableHouses()
     bool validInput = false;
     cout << "\nPlease provide the below information to search for available houses \n";
 
-    // while (validInput != true) {
-    //     // user input city
-    //     cout << "City: ";
-    //     getline(cin, city);
-    //     validInput = checkCity(city, )
-    // }
+    while (validInput != true)
+    {
+        // user input city
+        cout << "City: ";
+        getline(cin, city);
+        validInput = checkCity(city);
+        if (validInput == 0) // means validInput = false
+            continue;
+    }
 
     validInput = false;
     while (validInput != true)
@@ -448,7 +460,6 @@ bool Member::checkAvailableHouses()
         cout << "Day: ";
         getline(cin, m_sDay);
         validInput = checknum(m_sDay);
-        ;
         if (validInput == 0) // means validInput = false
             continue;
     }
@@ -480,7 +491,8 @@ bool Member::checkAvailableHouses()
     while (validInput != true)
     {
         // user input end day
-        cout << "day: ";
+        cout << "Enter your end date\n";
+        cout << "Day: ";
         getline(cin, m_eDay);
         validInput = checknum(m_eDay);
         if (validInput == 0) // means validInput = false
