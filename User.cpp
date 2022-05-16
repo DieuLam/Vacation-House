@@ -45,7 +45,7 @@ void User::Register()
         if (validInput == 0)                        // means validInput = false
             continue;                               // skip the current loop so dont have to waste time check with file
     }
-    
+
     cout << "Please enter your full name: ";
     getline(cin, fullName);
 
@@ -113,17 +113,16 @@ void User::Register()
 };
 void User::viewHouse()
 {
-    cout << "\nSince you have't logged in, you can only view house details: \n";
-    for (int i = 0; i < DataHandler::memberList.size(); i++)
+    if (DataHandler::memberList.size() > 0)
     {
-        cout << "\n"
-             << i << ". Username: " << DataHandler::memberList.at(i)->username << "\n";
-        DataHandler::memberList.at(i)->houseOwned->showInfo();
+        cout << "\nSince you have't logged in, you can only view house details: \n";
+        for (int i = 0; i < DataHandler::memberList.size(); i++)
+        {
+            cout << "\n"
+                 << i << ". Owner: " << DataHandler::memberList.at(i)->username << "\n";
+            DataHandler::memberList.at(i)->houseOwned->showInfo();
+        }
     }
+
+    cerr << "\nNo houses to view\n";
 };
-// int main(){ //main method is for testing, remove this once program complete
-//     User user;
-//     user.Register();
-//     //user.viewHouse();
-//     return 0;
-// }
