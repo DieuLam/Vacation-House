@@ -283,7 +283,7 @@ int main()
         else if (appChoices.compare("3") == 0)
         { // if select admin
             string inputUsername;
-            cout << "Enter admin username: ";
+            cout << "\nEnter admin username: ";
             getline(cin, inputUsername);
             string inputPass;
             cout << "Enter admin password: ";
@@ -295,7 +295,7 @@ int main()
                 int adminExit = 0;
                 while (adminExit != 1)
                 { // 3 stands for exit
-                    cout << "\nSelect admin actions:      1. View all member information       2. View all Houses information     3. Exit to main menu\n";
+                    cout << "\nSelect admin actions:      1. View all Member information       2. View all Houses information     3. Exit to main menu\n";
                     string adminOptions;
                     cout << "Enter your choice: ";
                     getline(cin, adminOptions);

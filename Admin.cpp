@@ -10,12 +10,12 @@ bool Admin::login(string inputUsername, string inputPass)
     { // if same username
         if (inputPass.compare(password) == 0)
         { // if same password
-            cout << "Admin account has been succesfully logged in \n";
+            cout << "\nAdmin account has been succesfully logged in \n";
             // return true;
         }
         else
         {
-            cout << "Incorrect password or password\n";
+            cout << "\nIncorrect password or password\n";
             errors = errors + 1;
         }
     }
@@ -48,7 +48,7 @@ void Admin::viewMember()
         cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n";
     }
 
-    cerr << "\nNo house to display\n";
+    cerr << "\nNo member to display\n";
 };
 
 void Admin::viewHouse()
