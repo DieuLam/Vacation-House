@@ -23,11 +23,11 @@ void House::showOccupierList()
         for (int i = 0; i < list.size(); i++)
         {
             cout << "\n"
-                 << i << ". " << list.at(i)->username << "\n";
+                 << i+1 << ". " << list.at(i)->username << "\n";
             cout << "- Full name: " << list.at(i)->fullName << "\n";
             cout << "- Contact number: " << list.at(i)->phone << "\n";
             cout << "- Rating: " << Rating::calculateScores(list.at(i)->ratings) << "\n";
-            cout << "- Rent from " << list.at(i)->requestSentList.at(0)->startDate << " to " << list.at(i)->requestSentList.at(0)->endDate << "\n";
+            cout << "- Rent from " << list.at(i)->startDate << " to " << list.at(i)->endDate << "\n";
         }
     }
     else

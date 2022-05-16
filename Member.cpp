@@ -283,7 +283,7 @@ bool Member::viewRequest()
     cout << "\nThere are " << list.size() << " people request to rent this house: \n\n";
     for (int i = 0; i < list.size(); i++)
     {
-        cout << i+1 << ". " << list.at(i)->sender->username << "\n";
+        cout << i + 1 << ". " << list.at(i)->sender->username << "\n";
         cout << "- Full name: " << list.at(i)->sender->fullName << "\n";
         cout << "- Contact number: " << list.at(i)->sender->phone << "\n";
         cout << "- Rating: " << Rating::calculateScores(list.at(i)->sender->ratings) << "\n";
@@ -314,7 +314,7 @@ bool Member::acceptRequest(int num)
         list.at(num)->sender->startDate = list.at(num)->startDate;
         list.at(num)->sender->endDate = list.at(num)->endDate;
 
-        list.at(num)->sender->credit -=  list.at(num)->sender->numDays * this->houseOwned->consummingCredits;
+        list.at(num)->sender->credit -= list.at(num)->sender->numDays * this->houseOwned->consummingCredits;
         this->credit += list.at(num)->sender->numDays * this->houseOwned->consummingCredits;
 
         cout << "You have accepted this request\n";
@@ -324,13 +324,17 @@ bool Member::acceptRequest(int num)
     return false;
 };
 
-void Member::showRequestList() {
-    vector<Request*> list = this->requestSentList;
+void Member::showRequestList()
+{
+    vector<Request *> list = this->requestSentList;
     cout << "\nYou have sent " << list.size() << " requests\n";
 
-    if (list.size() > 0) {
-        for (int i = 0; i < list.size(); i++) {
-            cout << "\n" << i+1 << ". Owner: " << list.at(i)->house->owner->username << "\n";
+    if (list.size() > 0)
+    {
+        for (int i = 0; i < list.size(); i++)
+        {
+            cout << "\n"
+                 << i + 1 << ". Owner: " << list.at(i)->house->owner->username << "\n";
             cout << "House's details: \n";
             cout << "Location: " << list.at(i)->house->city << "\n";
             cout << "Description: " << list.at(i)->house->description << "\n";
@@ -346,9 +350,18 @@ void Member::showRequestList() {
 template <class T>
 void Member::rate(T *object)
 {
+    for (Rating *r : object->ratings)
+    {
+        if (r->rater == this)
+        {
+            cerr << "\nYou can only rate once\n";
+            return;
+        }
+    }
+
     if (object != NULL)
     {
-        string comment, score;
+        string comment, score, option;
         bool validInput = false; // set validInput back to false for next while loop
         while (validInput != true)
         {
@@ -360,8 +373,8 @@ void Member::rate(T *object)
         }
 
         cout << "Would you like to leave a comment? (Y/N) \n";
-        getline(cin, comment);
-        if (comment.compare("Y") == 0)
+        getline(cin, option);
+        if (option.compare("Y") == 0)
         {
             cout << "Please write your comment down here: \n\n";
             getline(cin, comment);
@@ -605,9 +618,10 @@ bool Member::checkAvailableHouses()
         this->endDate = endDate;
         this->numDays = days;
 
-        for (int i = 0; i< availableHouses.size(); i++)
+        for (int i = 0; i < availableHouses.size(); i++)
         {
-            cout << "\n" << i+1 << ". Owner: " << availableHouses.at(i)->owner->username << "\n";
+            cout << "\n"
+                 << i + 1 << ". Owner: " << availableHouses.at(i)->owner->username << "\n";
             cout << "Rating: " << Rating::calculateScores(availableHouses.at(i)->ratings) << "\n";
             cout << "Credit required per day: " << availableHouses.at(i)->consummingCredits << "\n";
             cout << "Description: " << availableHouses.at(i)->description << "\n";
@@ -631,7 +645,7 @@ void Member::viewReviews(int num)
         for (int i = 0; i < this->availableHouses.at(num)->ratings.size(); i++)
         {
             cout << "\n"
-                 << i+1 << ". " << list.at(i)->rater << "\n";
+                 << i + 1 << ". " << list.at(i)->rater << "\n";
             cout << "Score: " << list.at(i)->score << "\n";
             cout << "Comment: " << list.at(i)->comment << "\n";
         }
@@ -651,7 +665,7 @@ void Member::viewMemberReviews(int num)
         for (int i = 0; i < list.size(); i++)
         {
             cout << "\n"
-                 << i+1 << ". " << list.at(i)->rater << "\n";
+                 << i + 1 << ". " << list.at(i)->rater << "\n";
             cout << "Score: " << list.at(i)->score << "\n";
             cout << "Comment: " << list.at(i)->comment << "\n";
         }
