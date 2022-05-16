@@ -21,9 +21,8 @@ Member::Member(string username, string password, string fullName, string phone)
 
 void Member::showMemberInfo()
 {
-    cout << "\nYour Profile:\n";
+    cout << "\nProfile:\n";
     cout << "- Username: " << this->username << "\n";
-    cout << "- Password: " << this->username << "\n";
     cout << "- Fullname: " << this->fullName << "\n";
     cout << "- Phone number: " << this->phone << "\n";
     cout << "- Rating: " << Rating::calculateScores(this->ratings) << "\n";

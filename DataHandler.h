@@ -24,5 +24,6 @@ class DataHandler {
     friend class Rating;
     friend class Request;
     friend class User;
+    friend class Admin;
 };
 
