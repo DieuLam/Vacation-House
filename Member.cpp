@@ -27,7 +27,7 @@ void Member::showMemberInfo()
     cout << "- Phone number: " << this->phone << "\n";
     cout << "- Rating: " << Rating::calculateScores(this->ratings) << "\n";
     cout << "- Credits: " << this->credit << "\n";
-    cout << "- House occupied: " << this->houseOccupied << "\n";
+    cout << "- Owner of House occupied: " << this->houseOccupied->owner << "\n";
 }
 
 void Member::showHouseInfo()
@@ -300,7 +300,6 @@ bool Member::acceptRequest(int num)
         this->houseOwned->addOccupier(list.at(num)->sender);
         this->houseOwned->resetDate(list.at(num)->startDate);
         list.at(num)->sender->houseOccupied = this->houseOwned;
-        list.at(num)->sender->requestSentList.clear();
 
         // Check requestList of house to delete overlapped time request
         for (Request *r : list)
@@ -316,6 +315,20 @@ bool Member::acceptRequest(int num)
 
         list.at(num)->sender->credit -= list.at(num)->sender->numDays * this->houseOwned->consummingCredits;
         this->credit += list.at(num)->sender->numDays * this->houseOwned->consummingCredits;
+
+        for (int i = 0; i < list.at(num)->sender->requestSentList.size(); i++)
+        {
+            for (int j = 0; j < list.at(num)->sender->requestSentList.at(i)->house->requestList.size(); j++)
+            {
+
+                if (list.at(num)->sender == list.at(num)->sender->requestSentList.at(i)->house->requestList.at(j)->sender)
+                {
+                    remove(list.at(num)->sender->requestSentList.at(i)->house->requestList.begin(), list.at(num)->sender->requestSentList.at(i)->house->requestList.end(), list.at(num)->sender);
+                }
+            }
+        }
+
+        list.at(num)->sender->requestSentList.clear();
 
         cout << "You have accepted this request\n";
         return true;
