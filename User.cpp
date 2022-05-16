@@ -119,10 +119,12 @@ void User::viewHouse()
         for (int i = 0; i < DataHandler::memberList.size(); i++)
         {
             cout << "\n"
-                 << i << ". Owner: " << DataHandler::memberList.at(i)->username << "\n";
+                 << i+1 << ". Owner: " << DataHandler::memberList.at(i)->username << "\n";
             DataHandler::memberList.at(i)->houseOwned->showInfo();
         }
     }
-
-    cerr << "\nNo houses to view\n";
+    else
+    {
+        cerr << "\nNo houses to view\n";
+    }
 };

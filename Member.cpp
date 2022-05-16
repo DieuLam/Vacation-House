@@ -34,7 +34,7 @@ void Member::showHouseInfo()
 {
     if (this->houseOwned != NULL)
     {
-        cout << "\nYour House Profile:\n";
+        cout << "\nHouse Profile:\n";
         cout << "- Location: " << this->houseOwned->city << "\n";
         cout << "- Description: " << this->houseOwned->description << "\n";
         cout << "- Rating: " << Rating::calculateScores(this->houseOwned->ratings) << "\n";
@@ -234,7 +234,7 @@ bool Member::unlistHouse()
         {
             this->houseOwned->setData("", "", 0.0, 0.0);
 
-            cout << "You have successfully unlisted your house.\n";
+            cout << "\nYou have successfully unlisted your house.\n";
             return true;
         }
         else
@@ -283,7 +283,7 @@ bool Member::viewRequest()
     cout << "\nThere are " << list.size() << " people request to rent this house: \n\n";
     for (int i = 0; i < list.size(); i++)
     {
-        cout << i << ". " << list.at(i)->sender->username << "\n";
+        cout << i+1 << ". " << list.at(i)->sender->username << "\n";
         cout << "- Full name: " << list.at(i)->sender->fullName << "\n";
         cout << "- Contact number: " << list.at(i)->sender->phone << "\n";
         cout << "- Rating: " << Rating::calculateScores(list.at(i)->sender->ratings) << "\n";
@@ -324,17 +324,13 @@ bool Member::acceptRequest(int num)
     return false;
 };
 
-void Member::cancelRequest(){
-
-};
-
 void Member::showRequestList() {
     vector<Request*> list = this->requestSentList;
     cout << "\nYou have sent " << list.size() << " requests\n";
 
     if (list.size() > 0) {
         for (int i = 0; i < list.size(); i++) {
-            cout << "\n" << i << ". Owner: " << list.at(i)->house->owner->username << "\n";
+            cout << "\n" << i+1 << ". Owner: " << list.at(i)->house->owner->username << "\n";
             cout << "House's details: \n";
             cout << "Location: " << list.at(i)->house->city << "\n";
             cout << "Description: " << list.at(i)->house->description << "\n";
@@ -450,6 +446,7 @@ int countNoOfDays(int date1[], int date2[])
 
 bool Member::checkAvailableHouses()
 {
+    this->availableHouses.clear();
     // member date select
     string m_sMonth, m_sYear, m_sDay;
     string m_eMonth, m_eYear, m_eDay;
@@ -472,7 +469,7 @@ bool Member::checkAvailableHouses()
     {
         // user input start day
         cout << "Enter your start date\n";
-        cout << "Day: ";
+        cout << "Day (dd): ";
         getline(cin, m_sDay);
         validInput = checknum(m_sDay);
         if (validInput == 0) // means validInput = false
@@ -483,7 +480,7 @@ bool Member::checkAvailableHouses()
     while (validInput != true)
     {
         // user input start day
-        cout << "Month: ";
+        cout << "Month (mm): ";
         getline(cin, m_sMonth);
         validInput = checknum(m_sMonth);
         if (validInput == 0) // means validInput = false
@@ -494,7 +491,7 @@ bool Member::checkAvailableHouses()
     while (validInput != true)
     {
         // user input start day
-        cout << "Year: ";
+        cout << "Year (yyyy): ";
         getline(cin, m_sYear);
         validInput = checknum(m_sYear);
         if (validInput == 0) // means validInput = false
@@ -507,7 +504,7 @@ bool Member::checkAvailableHouses()
     {
         // user input end day
         cout << "Enter your end date\n";
-        cout << "Day: ";
+        cout << "Day (dd): ";
         getline(cin, m_eDay);
         validInput = checknum(m_eDay);
         if (validInput == 0) // means validInput = false
@@ -517,7 +514,7 @@ bool Member::checkAvailableHouses()
     validInput = false; // set validInput back to false for next while loop
     while (validInput != true)
     {
-        cout << "month: ";
+        cout << "month (mm): ";
         getline(cin, m_eMonth);
         validInput = checknum(m_eMonth);
         if (validInput == 0) // means validInput = false
@@ -527,12 +524,13 @@ bool Member::checkAvailableHouses()
     validInput = false; // set validInput back to false for next while loop
     while (validInput != true)
     {
-        cout << "Year: ";
+        cout << "Year (yyyy): ";
         getline(cin, m_eYear);
         validInput = checknum(m_eYear);
         if (validInput == 0) // means validInput = false
             continue;
     }
+
     string endDate = m_eYear + "/" + m_eMonth + "/" + m_eDay;
 
     // get day, month, year
@@ -550,6 +548,7 @@ bool Member::checkAvailableHouses()
     int days = countNoOfDays(date1, date2);
 
     double score = Rating::calculateScores(this->ratings);
+
     for (Member *m : DataHandler::memberList)
     {
         if (m == this)
@@ -569,7 +568,7 @@ bool Member::checkAvailableHouses()
             {
                 if (city == m->houseOwned->city)
                 {
-                    if ((HouseStart <= startDate && startDate <= HouseEnd) && (HouseStart <= endDate && endDate <= HouseEnd))
+                    if ((HouseStart < startDate && startDate < HouseEnd) && (HouseStart < endDate && endDate < HouseEnd))
                     {
                         if (m->houseOwned->consummingCredits * days <= m->credit)
                         {
@@ -601,17 +600,17 @@ bool Member::checkAvailableHouses()
 
     if (!this->availableHouses.empty())
     {
-        cout << "\nThere are " << this->availableHouses.size() << " houses avaible to rent: \n";
+        cout << "\nThere are " << this->availableHouses.size() << " houses available to rent: \n";
         this->startDate = startDate;
         this->endDate = endDate;
         this->numDays = days;
 
-        for (House *h : this->availableHouses)
+        for (int i = 0; i< availableHouses.size(); i++)
         {
-            cout << "\nOwner: " << h->owner->username << "\n";
-            cout << "Rating: " << Rating::calculateScores(h->ratings) << "\n";
-            cout << "Credit required per day: " << h->consummingCredits << "\n";
-            cout << "Description: " << h->description << "\n";
+            cout << "\n" << i+1 << ". Owner: " << availableHouses.at(i)->owner->username << "\n";
+            cout << "Rating: " << Rating::calculateScores(availableHouses.at(i)->ratings) << "\n";
+            cout << "Credit required per day: " << availableHouses.at(i)->consummingCredits << "\n";
+            cout << "Description: " << availableHouses.at(i)->description << "\n";
         }
         return true;
     }
@@ -632,7 +631,7 @@ void Member::viewReviews(int num)
         for (int i = 0; i < this->availableHouses.at(num)->ratings.size(); i++)
         {
             cout << "\n"
-                 << i << ". " << list.at(i)->rater << "\n";
+                 << i+1 << ". " << list.at(i)->rater << "\n";
             cout << "Score: " << list.at(i)->score << "\n";
             cout << "Comment: " << list.at(i)->comment << "\n";
         }
@@ -652,7 +651,7 @@ void Member::viewMemberReviews(int num)
         for (int i = 0; i < list.size(); i++)
         {
             cout << "\n"
-                 << i << ". " << list.at(i)->rater << "\n";
+                 << i+1 << ". " << list.at(i)->rater << "\n";
             cout << "Score: " << list.at(i)->score << "\n";
             cout << "Comment: " << list.at(i)->comment << "\n";
         }

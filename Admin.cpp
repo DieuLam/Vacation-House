@@ -41,14 +41,18 @@ void Admin::viewMember()
 
         for (int i = 0; i < DataHandler::memberList.size(); i++)
         {
-            cout << i << ") ";
+            cout << "\n"
+                 << i + 1 << ") ";
             DataHandler::memberList.at(i)->showMemberInfo();
         }
 
         cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n";
     }
+    else
+    {
 
-    cerr << "\nNo member to display\n";
+        cerr << "\nNo member to display\n";
+    }
 };
 
 void Admin::viewHouse()
@@ -59,11 +63,13 @@ void Admin::viewHouse()
         cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n";
         for (int i = 0; i < DataHandler::memberList.size(); i++)
         {
-            cout << i << ") ";
+            cout << "\n" << i+1 << ") ";
             DataHandler::memberList.at(i)->showHouseInfo();
         }
         cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n";
     }
-
-    cerr << "\nNo house to display\n";
+    else
+    {
+        cerr << "\nNo house to display\n";
+    }
 };

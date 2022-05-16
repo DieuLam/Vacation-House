@@ -175,7 +175,6 @@ int main()
 
                                 else if (option.compare("2") == 0)
                                 {
-                                    login->checkAvailableHouses();
                                     cout << "\nPlease choose a house by entering a number: \n";
                                     getline(cin, option);
                                     login->sendRequest(stoi(option) - 1);
