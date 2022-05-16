@@ -18,6 +18,7 @@ class Member
 private:
     string username, password, fullName, phone, startDate, endDate;
     double credit = 500.0;
+    int numDays;
     House *houseOwned = NULL, *houseOccupied = NULL;
     vector<House *> availableHouses;
     vector<Request *> requestSentList;

@@ -63,10 +63,10 @@ void House::addOccupier(Member *member)
     }
 };
 
-void House::addRequest(Member *member, string start, string end)
+void House::addRequest(Member *member, string start, string end, int numDay)
 {
     if (member != this->owner)
     {
-        this->requestList.push_back(new Request(member, this, start, end));
+        this->requestList.push_back(new Request(member, this, start, end, numDay));
     }
 };

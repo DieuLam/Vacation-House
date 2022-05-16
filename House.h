@@ -37,7 +37,7 @@ public:
 
     void addOccupier(Member *member);
 
-    void addRequest(Member *member, string start, string end);
+    void addRequest(Member *member, string start, string end, int numDay);
     friend class Member;
     friend class Rating;
     friend class Request;

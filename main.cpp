@@ -188,7 +188,7 @@ int main()
                                 }
                                 else
                                 {
-                                    cerr << "\nPlease enter a valid input (1->3)\n";
+                                    cerr << "\nPlease enter a valid input\n";
                                 }
                             }
                         };
@@ -218,12 +218,15 @@ int main()
                             }
                             else if (option.compare("3") == 0)
                             {
-                                
                             }
                             else if (option.compare("4") == 0)
                             {
                                 cout << "\nBack to previous menu\n";
                                 exitViewProfile = true;
+                            }
+                            else
+                            {
+                                cerr << "\nPlease enter a valid input\n";
                             }
                         }
                     }
@@ -259,7 +262,7 @@ int main()
 
                             else
                             {
-                                cerr << "\nPlease enter a valid input (1/2/3)\n";
+                                cerr << "\nPlease enter a valid input\n";
                             }
                         }
                     }

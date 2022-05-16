@@ -255,13 +255,13 @@ void Member::sendRequest(int num)
 {
     if (this->houseOccupied == NULL)
     {
-        this->availableHouses.at(num)->addRequest(this, this->startDate, this->endDate);
-        this->requestSentList.push_back(new Request(this, this->availableHouses.at(num), this->startDate, this->endDate));
+        this->availableHouses.at(num)->addRequest(this, this->startDate, this->endDate, this->numDays);
+        this->requestSentList.push_back(new Request(this, this->availableHouses.at(num), this->startDate, this->endDate, this->numDays));
         cout << "Your request has successlly sent\n";
     }
     else
     {
-        cerr << "You cannot occupy more than 1 house\n";
+        cerr << "\nYou cannot occupy more than 1 house\n";
     }
 };
 
@@ -295,10 +295,6 @@ bool Member::viewRequest()
 
 bool Member::acceptRequest(int num)
 {
-    if (this->houseOwned == NULL)
-    {
-        return false;
-    }
     vector<Request *> list = this->houseOwned->requestList;
     if (!list.empty())
     {
@@ -318,6 +314,9 @@ bool Member::acceptRequest(int num)
 
         list.at(num)->sender->startDate = list.at(num)->startDate;
         list.at(num)->sender->endDate = list.at(num)->endDate;
+
+        list.at(num)->sender->credit -=  list.at(num)->sender->numDays * this->houseOwned->consummingCredits;
+        this->credit += list.at(num)->sender->numDays * this->houseOwned->consummingCredits;
 
         cout << "You have accepted this request\n";
         return true;
@@ -531,6 +530,7 @@ bool Member::checkAvailableHouses()
 
     int date1[3] = {sDay, sMonth, sYear};
     int date2[3] = {eDay, eMonth, eYear};
+
     int days = countNoOfDays(date1, date2);
 
     double score = Rating::calculateScores(this->ratings);
@@ -588,6 +588,8 @@ bool Member::checkAvailableHouses()
         cout << "\nThere are " << this->availableHouses.size() << " houses avaible to rent: \n";
         this->startDate = startDate;
         this->endDate = endDate;
+        this->numDays = days;
+
         for (House *h : this->availableHouses)
         {
             cout << "\nOwner: " << h->owner->username << "\n";
