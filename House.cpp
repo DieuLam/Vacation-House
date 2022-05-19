@@ -1,4 +1,3 @@
-//#include "Member.h"
 #include "House.h"
 #include "Rating.h"
 #include "Request.h"
@@ -6,11 +5,15 @@
 
 House::House(){};
 
-House::House(Member *owner, string city, string description)
+House::House(Member *owner, string city, string description,string startDate, string endDate, double minRating, double conCredits)
 {
     this->owner = owner;
     this->city = city;
     this->description = description;
+    this->startDate = startDate;
+    this->endDate = endDate;
+    this->consummingCredits = conCredits;
+    this->minOccRating = minRating;
 };
 
 void House::showOccupierList()
