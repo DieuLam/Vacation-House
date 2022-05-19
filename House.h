@@ -16,7 +16,7 @@ class House
 {
 private:
     string city, description, startDate = "", endDate = "";
-    double consummingCredits = 0.0, minOccRating = 0.0;
+    double consummingCredits, minOccRating;
     Member *owner ;
     vector<Member *> occupierList;
     vector<Rating *> ratings;
