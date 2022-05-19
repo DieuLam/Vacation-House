@@ -592,24 +592,9 @@ bool Member::checkAvailableHouses()
                             {
                                 this->availableHouses.push_back(m->houseOwned);
                             }
-                            // else
-                            // {
-                            //     cout << "There are no house available!(rating)\n";
-                            // }
                         }
-                        // else {
-                        //     cout << "Not enough credit!\n";
-                        // }
                     }
-                    // else
-                    // {
-                    //     cout << "There are no house available!(day)\n";
-                    // }
                 }
-                // else
-                // {
-                //     cout << "There are no house available!(city)\n";
-                // }
             }
         }
     }
