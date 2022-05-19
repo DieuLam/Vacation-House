@@ -5,6 +5,7 @@
 #include "House.h"
 #include "Rating.h"
 #include "Request.h"
+#include "DataHandler.h"
 using namespace std;
 
 int main()
@@ -17,7 +18,15 @@ int main()
     cout << "s3877961, Le Ngoc Nguyen Thuan\n";
     cout << "s3877664, Lam Tin Dieu\n";
 
+    DataHandler data;
+    
+    data.loadFilesToVector("files_database/registrationInfo.txt",1); //load all files to corrospond vector
+    data.loadFilesToVector("files_database/houseInfo.txt",2); //the second parameter decides which file to load into
+
+
+
     int exitStatus = 0; // if exitStatus = 1, means exit
+
     while (exitStatus == 0)
     {
         cout << "\nUse the app as: 1.Guest      2.Member        3.Admin         4.EXIT\n";
@@ -321,13 +330,15 @@ int main()
         else if (appChoices.compare("4") == 0)
         { // if exit
             cout << "\nThank you for using the app \n";
+
+           data.saveVectorsToFile(); //from class datahandler
+            
             exitStatus = 1;
         }
         else
-        { // invalid input
+        { // invalid app choice input
             cout << "\nPlease enter a valid input(1,2,3 or 4)\n";
         }
     }
-
     return 0;
 }
