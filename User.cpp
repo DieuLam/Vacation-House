@@ -83,7 +83,7 @@ void User::Register()
         }
     }
 
-    DataHandler::addMember(new Member(username, password, fullName, phoneNumber));
+    DataHandler::addMember(new Member(username, password, fullName, phoneNumber, 500));
 
     string decision;
     validInput = false; // set back to false for next while loop

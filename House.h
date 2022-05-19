@@ -25,7 +25,7 @@ private:
 public:
     House();
 
-    House(Member *owner, string city, string description);
+    House(Member *owner, string city, string description, string start, string end, double min, double credit);
 
     void showOccupierList();
 

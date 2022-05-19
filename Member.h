@@ -17,7 +17,7 @@ class Member
 {
 private:
     string username, password, fullName, phone, startDate, endDate;
-    double credit = 500.0;
+    int credit = 500;
     int numDays;
     House *houseOwned = NULL, *houseOccupied = NULL;
     vector<House *> availableHouses;
@@ -28,7 +28,7 @@ public:
 
     Member();
 
-    Member(string username, string password, string fullName, string phone);
+    Member(string username, string password, string fullName, string phone, int credit);
 
     static Member *login(); // done
 

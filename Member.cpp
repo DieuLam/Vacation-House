@@ -100,7 +100,7 @@ void Member::addHouse()
 
         cout << "Description: ";
         getline(cin, description);
-        this->houseOwned = new House(this, location, description,"","",0,0);
+        this->houseOwned = new House(this, location, description, "", "", 0, 0);
 
         DataHandler::addHouse(houseOwned);
 
