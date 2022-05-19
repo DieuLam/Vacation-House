@@ -5,7 +5,7 @@
 
 House::House(){};
 
-House::House(Member *owner, string city, string description,string startDate, string endDate, double minRating, double conCredits)
+House::House(Member *owner, string city, string description,string startDate, string endDate, double minRating, int conCredits)
 {
     this->owner = owner;
     this->city = city;
