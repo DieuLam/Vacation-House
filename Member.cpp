@@ -28,7 +28,15 @@ void Member::showMemberInfo()
     cout << "- Phone number: " << this->phone << "\n";
     cout << "- Rating: " << Rating::calculateScores(this->ratings) << "\n";
     cout << "- Credits: " << this->credit << "\n";
-    cout << "- House occupied: " << this->houseOccupied << "\n";
+    if (houseOccupied != NULL)
+    {
+
+        cout << "- House occupied: " << this->houseOccupied->owner->username << "\n";
+    }
+    else
+    {
+        cout << "- House occupied: None \n";
+    }
 }
 
 void Member::showHouseInfo()
@@ -45,11 +53,11 @@ void Member::showHouseInfo()
         cout << "- Occupied by " << this->houseOwned->occupierList.size() << " people\n";
         for (int i = 0; i < this->houseOwned->occupierList.size(); i++)
         {
-            cout << i << ". " << this->houseOwned->occupierList.at(i) << "\n";
+            cout << "\n"
+                 << i + 1 << ". " << this->houseOwned->occupierList.at(i)->username << "\n";
             cout << "Time: " << this->houseOwned->occupierList.at(i)->startDate << " to " << this->houseOwned->occupierList.at(i)->endDate << "\n";
         }
     }
-    cerr << "\nYou have to add your house first\n";
 };
 
 Member *Member::login()
@@ -125,8 +133,8 @@ bool Member::listHouse()
             while (validInput != true)
             {
                 // user input start day
-                cout << "Enter your house start date\n";
-                cout << "Day: ";
+                cout << "\nEnter your house start date\n";
+                cout << "Day (dd): ";
                 getline(cin, h_sDay);
                 validInput = checknum(h_sDay);
                 ;
@@ -138,7 +146,7 @@ bool Member::listHouse()
             while (validInput != true)
             {
                 // user input start day
-                cout << "Month: ";
+                cout << "Month (mm): ";
                 getline(cin, h_sMonth);
                 validInput = checknum(h_sMonth);
                 if (validInput == 0) // means validInput = false
@@ -148,7 +156,7 @@ bool Member::listHouse()
             validInput = false; // set validInput back to false for next while loop
             while (validInput != true)
             {
-                cout << "Year: ";
+                cout << "Year (yyyy): ";
                 getline(cin, h_eYear);
                 validInput = checknum(h_eYear);
                 if (validInput == 0) // means validInput = false
@@ -162,7 +170,7 @@ bool Member::listHouse()
             {
                 // user input end day
                 cout << "Enter your house end date\n";
-                cout << "Day: ";
+                cout << "Day (dd): ";
                 getline(cin, h_eDay);
                 validInput = checknum(h_eDay);
                 if (validInput == 0) // means validInput = false
@@ -172,7 +180,7 @@ bool Member::listHouse()
             validInput = false; // set validInput back to false for next while loop
             while (validInput != true)
             {
-                cout << "Month: ";
+                cout << "Month (mm): ";
                 getline(cin, h_eMonth);
                 validInput = checknum(h_eMonth);
                 if (validInput == 0) // means validInput = false
@@ -183,7 +191,7 @@ bool Member::listHouse()
             while (validInput != true)
             {
                 // user input start day
-                cout << "Year: ";
+                cout << "Year (yyyy): ";
                 getline(cin, h_sYear);
                 validInput = checknum(h_sYear);
                 if (validInput == 0) // means validInput = false
@@ -369,7 +377,7 @@ void Member::rate(T *object)
         while (validInput != true)
         {
             cout << "How many scores would you like to give (-10 -> 10)? \n";
-            cin >> score;
+            getline(cin, score);
             validInput = checkRating(score);
             if (validInput == 0) // means validInput = false
                 continue;
@@ -379,7 +387,7 @@ void Member::rate(T *object)
         getline(cin, option);
         if (option.compare("Y") == 0)
         {
-            cout << "Please write your comment down here: \n\n";
+            cout << "Please write your comment down here: \n";
             getline(cin, comment);
         }
         else
