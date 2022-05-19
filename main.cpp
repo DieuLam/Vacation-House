@@ -179,7 +179,7 @@ int main()
                                 {
                                     cout << "\nPlease choose a house by entering a number: \n";
                                     getline(cin, option);
-                                    login->viewReviews(stoi(option) - 1);
+                                    login->viewHouseReviews(stoi(option) - 1);
                                 }
 
                                 else if (option.compare("2") == 0)

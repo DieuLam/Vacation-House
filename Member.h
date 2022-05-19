@@ -44,8 +44,6 @@ public:
 
     bool acceptRequest(int num); // done
 
-    void cancelRequest(); // done
-
     void viewMemberReviews(int num); // done
 
     void rateMember(); // done
@@ -56,14 +54,12 @@ public:
 
     void showHouseInfo(); //done
 
-    void showRequestList();
-
-    // ----------------------------------------NU------------------------------------- //
+    void showRequestList(); // done
 
     template <class T>
     void rate(T *object);
     bool checkAvailableHouses(); // done
-    void viewReviews(int num);   // done
+    void viewHouseReviews(int num);   // done
 
     friend class House;
     friend class Rating;

@@ -639,7 +639,7 @@ bool Member::checkAvailableHouses()
 };
 
 // Display review of selected house in the availableHouses attribute
-void Member::viewReviews(int num)
+void Member::viewHouseReviews(int num)
 {
     vector<Rating *> list = this->availableHouses.at(num)->ratings;
     if (list.size() > 0)
