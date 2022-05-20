@@ -194,3 +194,10 @@ void DataHandler::loadFilesToVector(string path, int whichFiles){ //load files t
     }
     loadToVector.close();
 };
+bool DataHandler::checkMember(string new_username){
+    for (Member *m : memberList) {
+        if(m->username.compare(new_username) == 0)
+            return false;
+    }
+    return true;
+}
