@@ -40,6 +40,7 @@ class DataHandler {
     static void saveVectorsToFile();
     static void loadFilesToVector(string path, int whichFiles);
     friend class main;
+    bool checkMember(string username);
 
 
 };
