@@ -309,7 +309,7 @@ bool Member::acceptRequest(int num)
     if (!list.empty())
     {
         this->houseOwned->addOccupier(list.at(num)->sender);
-        this->houseOwned->resetDate(list.at(num)->startDate);
+        // this->houseOwned->resetDate(list.at(num)->startDate);
         list.at(num)->sender->houseOccupied = this->houseOwned;
         list.at(num)->sender->requestSentList.clear();
 

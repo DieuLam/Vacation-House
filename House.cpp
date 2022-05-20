@@ -53,10 +53,10 @@ void House::setData(string startDate, string endDate, double minRating, double c
     this->consummingCredits = conCredits;
 };
 
-void House::resetDate(string date)
-{
-    this->startDate = date;
-};
+// void House::resetDate(string date)
+// {
+//     this->startDate = date;
+// };
 
 void House::addOccupier(Member *member)
 {
