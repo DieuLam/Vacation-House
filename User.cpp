@@ -8,7 +8,7 @@ bool checkBlankAndSpaces(string input)
     int errorsCount = 0;
     if (input.compare("") == 0)
     {
-        cout << "\nCannot be blanked\n";
+        cout << "\nCannot be blanked\n\n";
         return false;
     }
     for (int i = 0; i < input.length(); i++)
@@ -18,7 +18,7 @@ bool checkBlankAndSpaces(string input)
     }
     if (errorsCount != 0)
     {
-        cout << "\nThere cannot be white spaces in your input\n";
+        cout << "\nThere cannot be white spaces in your input\n\n";
         return false;
     }
     return true;
@@ -33,17 +33,20 @@ void User::Register()
 
     cout << "\nWelcome, you can now register your account\n";
     cout << "Initial entry fee will be $500\n";
-    cout << "You will earn 500 credit points after you have successfully create your account\n";
+    cout << "You will earn 500 credit points after you have successfully create your account\n\n";
 
     bool validInput = false;
     while (validInput != true)
     {
         int countErrors = 0;
-        cout << "\nPlease enter your username(with no whitespaces): ";
+        cout << "Please enter your username(with no whitespaces): ";
         getline(cin, username);
         validInput = checkBlankAndSpaces(username); // if false, it means there are white spaces or blanked input
-        if (validInput == 0)                        // means validInput = false
-            continue;                               // skip the current loop so dont have to waste time check with file
+        if(data.checkMember(username) == 0){
+            cout<<"\nUsername already exists, please choose a different one\n";
+            validInput = false;
+            continue;
+        }
     }
 
     cout << "Please enter your full name: ";
@@ -55,8 +58,7 @@ void User::Register()
         cout << "Please enter your password: ";
         getline(cin, password);
         validInput = checkBlankAndSpaces(password);
-        if (validInput == 0) // means validInput = false
-            continue;
+        
     }
 
     validInput = false; // set it back to false for the next while loop
