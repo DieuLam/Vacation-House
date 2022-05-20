@@ -15,13 +15,29 @@ bool checknum(string input)
         return false;
     }
     int errorsCount = 0;
-    for (int i = 0; i < input.length(); i++)
+    if (input[0] == '-')
     {
-        if (isdigit(input[i]) == false)
+        for (int i = 1; i < input.length(); i++)
         {
-            errorsCount = errorsCount + 1;
+            if (isdigit(input[i]) == false)
+            {
+                errorsCount = errorsCount + 1;
+            }
         }
     }
+    else
+    {
+        for (int i = 1; i < input.length(); i++)
+        {
+            {
+                if (isdigit(input[i]) == false)
+                {
+                    errorsCount = errorsCount + 1;
+                }
+            }
+        }
+    }
+
     if (errorsCount != 0)
     {
         cout << "Invalid input\n";
@@ -76,11 +92,16 @@ bool checkCity(string input)
     return false;
 }
 
+
+int changeToInt(string input) {
+    int x = stod(input);
+
+    cout << x;
+    return x;
+}
+
 // int main() {
-//    string str = "sunidhi";
+//    string str = "-10";
 
-//       string str1 = "1234";
-
-//    checknum(str);
-//    checknum(str1);
+//    changeToInt(str);
 // }
