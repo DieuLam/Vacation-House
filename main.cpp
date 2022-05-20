@@ -22,7 +22,10 @@ int main()
     
     data.loadFilesToVector("files_database/registrationInfo.txt",1); //load all files to corrospond vector
     data.loadFilesToVector("files_database/houseInfo.txt",2); //the second parameter decides which file to load into
-
+    data.loadFilesToVector("files_database/houseRating.txt",3); 
+    data.loadFilesToVector("files_database/memberRating.txt",4);
+    //data.loadFilesToVector("files_database/occupiers.txt",5);  
+    data.loadFilesToVector("files_database/requests.txt",6); 
 
 
     int exitStatus = 0; // if exitStatus = 1, means exit
