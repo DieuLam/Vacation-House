@@ -27,5 +27,5 @@ public:
 
     friend class Member;
     friend class House;
-    // friend class DataHandler;
+    friend class DataHandler;
 };
