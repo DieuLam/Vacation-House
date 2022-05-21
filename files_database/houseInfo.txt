@@ -1,5 +1,0 @@
-
-trang|trang|trang|123|500|Saigon|Trang's house|2022/01/01|2022/06/01|10|0.000000
-nu|nu|nu|123|500|Hanoi|Nu's house|||0|0.000000
-Diu|Diu|Diu|123|500|Danang|Diu's house|||0|0.000000
-son|son|son|123|500|Saigon|Son's house|2022/01/01|2022/01/31|10|-5.000000

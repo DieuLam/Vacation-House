@@ -1,7 +1,7 @@
-#include "Admin.h"
-#include "Member.h"
-#include "House.h"
-#include "DataHandler.h"
+#include "header_files/Admin.h"
+#include "header_files/Member.h"
+#include "header_files/House.h"
+#include "header_files/DataHandler.h"
 
 bool Admin::login(string inputUsername, string inputPass)
 {

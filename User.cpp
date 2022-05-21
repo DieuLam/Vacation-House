@@ -1,7 +1,7 @@
-#include "User.h"
-#include "Member.h"
-#include "House.h"
-#include "DataHandler.h"
+#include "header_files/User.h"
+#include "header_files/Member.h"
+#include "header_files/House.h"
+#include "header_files/DataHandler.h"
 
 bool checkBlankAndSpaces(string input)
 { // check if input contains white spaces or its blank

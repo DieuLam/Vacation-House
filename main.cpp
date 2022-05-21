@@ -1,11 +1,11 @@
 #include <iostream>
-#include "Admin.h"
-#include "User.h"
-#include "Member.h"
-#include "House.h"
-#include "Rating.h"
-#include "Request.h"
-#include "DataHandler.h"
+#include "header_files/Admin.h"
+#include "header_files/User.h"
+#include "header_files/Member.h"
+#include "header_files/House.h"
+#include "header_files/Rating.h"
+#include "header_files/Request.h"
+#include "header_files/DataHandler.h"
 using namespace std;
 
 int main()
@@ -24,8 +24,8 @@ int main()
     data.loadFilesToVector("files_database/houseInfo.txt",2); //the second parameter decides which file to load into
     data.loadFilesToVector("files_database/houseRating.txt",3); 
     data.loadFilesToVector("files_database/memberRating.txt",4);
-    //data.loadFilesToVector("files_database/occupiers.txt",5);  
-    data.loadFilesToVector("files_database/requests.txt",6); 
+    data.loadFilesToVector("files_database/registrationInfo",5);  
+    data.loadFilesToVector("files_database/request.txt",6); 
 
 
     int exitStatus = 0; // if exitStatus = 1, means exit

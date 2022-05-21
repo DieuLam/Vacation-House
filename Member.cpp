@@ -1,13 +1,13 @@
-#include "Member.h"
-#include "House.h"
-#include "Rating.h"
-#include "Request.h"
+#include "header_files/Member.h"
+#include "header_files/House.h"
+#include "header_files/Rating.h"
+#include "header_files/Request.h"
+#include "header_files/DataHandler.h"
+#include "checkInput.cpp"
 #include <algorithm>
 #include <iostream>
 #include <string>
-#include "DataHandler.h"
 #include <math.h>
-#include "checkInput.cpp"
 
 Member::Member(){};
 
@@ -222,7 +222,7 @@ bool Member::listHouse()
             }
             this->houseOwned->setData(start, end, stod(rating), stod(credit));
 
-            cout << "You have successfully listed your house.\n";
+            cout << "\nYou have successfully listed your house.\n";
             return true;
         }
         else
@@ -307,6 +307,13 @@ bool Member::viewRequest()
 bool Member::acceptRequest(int num)
 {
     vector<Request *> list = this->houseOwned->requestList;
+    for (Member *occupier : this->houseOwned->occupierList) {
+        if (list.at(num)->sender == occupier) {
+            cout << "\nThis request has been accepted before\n";
+            return false;
+        }
+    }
+
     if (!list.empty())
     {
         this->houseOwned->addOccupier(list.at(num)->sender);
@@ -588,18 +595,22 @@ bool Member::checkAvailableHouses()
         {
             if (endDate < startDate)
             {
-                cout << "\ninvalid\n";
+                cout << "\nInvalid date\n";
             }
             else
             {
                 if (city == m->houseOwned->city)
                 {
+                    cout << "1";
                     if ((HouseStart <= startDate && startDate < HouseEnd) && (HouseStart < endDate && endDate <= HouseEnd))
                     {
+                        cout << "2";
                         if (m->houseOwned->consummingCredits * days <= this->credit)
                         {
+                            cout << "3";
                             if (score >= m->houseOwned->minOccRating)
                             {
+                                cout << "4";
                                 this->availableHouses.push_back(m->houseOwned);
                             }
                         }

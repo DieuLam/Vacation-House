@@ -1,7 +1,7 @@
 // #include "Member.h"
-#include "Request.h"
-#include "House.h"
-#include "Rating.h"
+#include "header_files/Request.h"
+#include "header_files/House.h"
+#include "header_files/Rating.h"
 
 Request::Request(){};
 
