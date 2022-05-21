@@ -50,6 +50,7 @@ void Member::showHouseInfo()
         cout << "- Number of requests: " << this->houseOwned->requestList.size() << "\n";
         cout << "- Consuming credits: " << this->houseOwned->consummingCredits << "\n";
         cout << "- Minimum Occupier Rating: " << this->houseOwned->minOccRating << "\n";
+        cout << "- Available to rent from " << this->houseOwned->startDate << " to " << this->houseOwned->endDate << "\n";
         cout << "- Occupied by " << this->houseOwned->occupierList.size() << " people\n";
         for (int i = 0; i < this->houseOwned->occupierList.size(); i++)
         {
@@ -470,7 +471,6 @@ int countNoOfDays(int date1[], int date2[])
 
 bool Member::checkAvailableHouses()
 {
-    this->availableHouses.clear();
     // member date select
     string m_sMonth, m_sYear, m_sDay;
     string m_eMonth, m_eYear, m_eDay;
@@ -629,6 +629,8 @@ bool Member::checkAvailableHouses()
         cerr << "\nNo available houses.\n";
         return false;
     }
+
+    this->availableHouses.clear();
 };
 
 // Display review of selected house in the availableHouses attribute
