@@ -42,7 +42,7 @@ void User::Register()
         cout << "Please enter your username(with no whitespaces): ";
         getline(cin, username);
         validInput = checkBlankAndSpaces(username); // if false, it means there are white spaces or blanked input
-        if(data.checkMember(username) == 0){
+        if(DataHandler::checkMember(username) == 0){
             cout<<"\nUsername already exists, please choose a different one\n";
             validInput = false;
             continue;
