@@ -457,26 +457,66 @@ void Member::rateHouse()
 
 //--------------------------- calc day between ----------------------------------------//
 
-const int monthDays[12] = {31, 59, 90, 120, 151, 181, 212, 243,
-                           273, 304, 334, 365};
-int countLeapYearDays(int d[])
+// A date has day 'd', month 'm' and year 'y'
+struct Date {
+    int d, m, y;
+};
+ 
+// To store number of days in
+// all months from January to Dec.
+const int monthDays[12]
+    = { 31, 28, 31, 30, 31, 30,
+       31, 31, 30, 31, 30, 31 };
+ 
+// This function counts number of
+// leap years before the given date
+int countLeapYears(Date d)
 {
-    int years = d[2];
-    if (d[1] <= 2)
+    int years = d.y;
+ 
+    // Check if the current year needs to be
+    //  considered for the count of leap years
+    // or not
+    if (d.m <= 2)
         years--;
-    return ((years / 4) - (years / 100) + (years / 400));
+ 
+    // An year is a leap year if it
+    // is a multiple of 4,
+    // multiple of 400 and not a
+     // multiple of 100.
+    return years / 4
+           - years / 100
+           + years / 400;
 }
-int countNoOfDays(int date1[], int date2[])
+ 
+// This function returns number of
+// days between two given dates
+int getDifference(Date dt1, Date dt2)
 {
-    long int dayCount1 = (date1[2] * 365);
-    dayCount1 += monthDays[date1[1]];
-    dayCount1 += date1[0];
-    dayCount1 += countLeapYearDays(date1);
-    long int dayCount2 = (date2[2] * 365);
-    dayCount2 += monthDays[date2[1]];
-    dayCount2 += date2[0];
-    dayCount2 += countLeapYearDays(date2);
-    return (abs(dayCount1 - dayCount2));
+    // COUNT TOTAL NUMBER OF DAYS
+    // BEFORE FIRST DATE 'dt1'
+ 
+    // initialize count using years and day
+    long int n1 = dt1.y * 365 + dt1.d;
+ 
+    // Add days for months in given date
+    for (int i = 0; i < dt1.m - 1; i++)
+        n1 += monthDays[i];
+ 
+    // Since every leap year is of 366 days,
+    // Add a day for every leap year
+    n1 += countLeapYears(dt1);
+ 
+    // SIMILARLY, COUNT TOTAL NUMBER OF
+    // DAYS BEFORE 'dt2'
+ 
+    long int n2 = dt2.y * 365 + dt2.d;
+    for (int i = 0; i < dt2.m - 1; i++)
+        n2 += monthDays[i];
+    n2 += countLeapYears(dt2);
+ 
+    // return difference between two counts
+    return (n2 - n1);
 }
 //-----------------------------------------------------------------------------------//
 
@@ -588,10 +628,12 @@ bool Member::checkAvailableHouses()
     int eMonth = stoi(m_eMonth);
     int eDay = stoi(m_eDay);
 
-    int date1[3] = {sDay, sMonth, sYear};
-    int date2[3] = {eDay, eMonth, eYear};
+    Date date1 = {sDay, sMonth, sYear};
+    Date date2 = {eDay, eMonth, eYear};
 
-    int days = countNoOfDays(date1, date2);
+    int days = getDifference(date1, date2);
+
+    //cout << days << "\n";
 
     double score = Rating::calculateScores(this->ratings);
 
@@ -601,11 +643,10 @@ bool Member::checkAvailableHouses()
         {
             continue;
         }
-        string HouseStart = m->houseOwned->startDate;
-        string HouseEnd = m->houseOwned->endDate;
-
         if (m->houseOwned != NULL)
         {
+            string HouseStart = m->houseOwned->startDate;
+            string HouseEnd = m->houseOwned->endDate;
             if (endDate < startDate)
             {
                 cout << "\nInvalid date\n";
@@ -614,22 +655,19 @@ bool Member::checkAvailableHouses()
             {
                 if (city == m->houseOwned->city)
                 {
-                    cout << "1";
                     if ((HouseStart <= startDate && startDate < HouseEnd) && (HouseStart < endDate && endDate <= HouseEnd))
                     {
-                        cout << "2";
-                        if (m->houseOwned->consummingCredits * days <= this->credit)
+                        if (this->credit >= m->houseOwned->consummingCredits * days)
                         {
-                            cout << "3";
+                            cout << m->houseOwned->consummingCredits * days;
                             if (score >= m->houseOwned->minOccRating)
                             {
-                                cout << "4";
                                 this->availableHouses.push_back(m->houseOwned);
-                                cout << "5";
+                                //continue;
                             }
-                        }
-                    }
-                }
+                        } 
+                    } 
+                } 
             }
         }
     }
