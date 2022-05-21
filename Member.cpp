@@ -157,8 +157,8 @@ bool Member::listHouse()
             while (validInput != true)
             {
                 cout << "Year (yyyy): ";
-                getline(cin, h_eYear);
-                validInput = checknum(h_eYear);
+                getline(cin, h_sYear);
+                validInput = checknum(h_sYear);
                 if (validInput == 0) // means validInput = false
                     continue;
             }
@@ -192,8 +192,8 @@ bool Member::listHouse()
             {
                 // user input start day
                 cout << "Year (yyyy): ";
-                getline(cin, h_sYear);
-                validInput = checknum(h_sYear);
+                getline(cin, h_eYear);
+                validInput = checknum(h_eYear);
                 if (validInput == 0) // means validInput = false
                     continue;
             }
