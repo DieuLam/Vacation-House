@@ -1,2 +1,0 @@
-
-abc|xyz|hello|123|500|Saigon|helllo|||0|0.000000
