@@ -1,0 +1,3 @@
+Sender|Owner|Start|End|NumberOfDays
+b|a|2022/01/01|2022/01/05|4
+c|a|2022/01/01|2022/01/10|9

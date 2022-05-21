@@ -27,7 +27,7 @@ void DataHandler::saveVectorsToFile()
 
     // This is for saving Member into registrationInfo.txt
     saveToFile.open("files_database/registrationInfo.txt");
-    saveToFile << "Username|Fullname|Password|Phone|Credits|HouseOccupied\n";
+    saveToFile << "Username|Fullname|Password|Phone|Credits|HouseOccupied|RentStartDate|RentEndDate\n";
 
     for (Member *member : memberList)
     {
@@ -35,6 +35,8 @@ void DataHandler::saveVectorsToFile()
         fullName = member->fullName;
         password = member->password;
         phoneNumber = member->phone;
+        startDate = member->startDate;
+        endDate = member->endDate;
         creditPoints = to_string(member->credit);
 
         if (member->houseOccupied != NULL)
@@ -46,7 +48,7 @@ void DataHandler::saveVectorsToFile()
             occupiedHouse = "none";
         }
 
-        lineToSave = username + "|" + fullName + "|" + password + "|" + phoneNumber + "|" + creditPoints + "|" + occupiedHouse;
+        lineToSave = username + "|" + fullName + "|" + password + "|" + phoneNumber + "|" + creditPoints + "|" + occupiedHouse + "|" + startDate + "|" + endDate;
         saveToFile << lineToSave << "\n";
     }
     saveToFile.close();
@@ -162,6 +164,9 @@ void DataHandler::loadFilesToVector(string path, int whichFiles)
                 {
                     memberList.back()->houseOccupied = new House(new Member(dataPerLine[5], "", "", "", 0), "", "", "", "", 0, 0);
                 }
+                
+                memberList.back()->startDate = dataPerLine[6];
+                memberList.back()->endDate = dataPerLine[7];
             }
 
             else if (whichFiles == 2)
@@ -241,8 +246,8 @@ void DataHandler::loadFilesToVector(string path, int whichFiles)
                         {
                             if (dataPerLine[1].compare(house->owner->username) == 0)
                             {
-                                member->requestSentList.push_back(new Request(member, house, dataPerLine[2], dataPerLine[3], stoi(dataPerLine[2]))); // turn string to int
-                                house->requestList.push_back(new Request(member, house, dataPerLine[2], dataPerLine[3], stoi(dataPerLine[2])));      // turn string to int
+                                member->requestSentList.push_back(new Request(member, house, dataPerLine[2], dataPerLine[3], stoi(dataPerLine[4]))); // turn string to int
+                                house->requestList.push_back(new Request(member, house, dataPerLine[2], dataPerLine[3], stoi(dataPerLine[4])));      // turn string to int
                                 break;
                             }
                         }

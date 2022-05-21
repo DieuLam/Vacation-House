@@ -76,7 +76,7 @@ Member *Member::login()
         {
             if ((m->password).compare(tempPass) == 0)
             {
-                cout << "Login successfully!\n";
+                cout << "\nLogin successfully!\n";
                 return m;
             }
             else
@@ -292,14 +292,15 @@ bool Member::viewRequest()
         return false;
     }
 
-    cout << "\nThere are " << list.size() << " people request to rent this house: \n\n";
+    cout << "\nThere are " << list.size() << " people request to rent this house: \n";
     for (int i = 0; i < list.size(); i++)
     {
-        cout << i + 1 << ". " << list.at(i)->sender->username << "\n";
+        cout << "\n"
+             << i + 1 << ". " << list.at(i)->sender->username << "\n";
         cout << "- Full name: " << list.at(i)->sender->fullName << "\n";
         cout << "- Contact number: " << list.at(i)->sender->phone << "\n";
         cout << "- Rating: " << Rating::calculateScores(list.at(i)->sender->ratings) << "\n";
-        cout << "- Request to rent from " << list.at(i)->startDate << " to " << list.at(i)->endDate << "\n";
+        cout << "- Request to rent for " << list.at(i)->numDay << " days, from " << list.at(i)->startDate << " to " << list.at(i)->endDate << "\n";
     }
     return true;
 };
@@ -307,34 +308,46 @@ bool Member::viewRequest()
 bool Member::acceptRequest(int num)
 {
     vector<Request *> list = this->houseOwned->requestList;
-    for (Member *occupier : this->houseOwned->occupierList) {
-        if (list.at(num)->sender == occupier) {
+    Request *temp = this->houseOwned->requestList.at(num);
+    for (Member *occupier : this->houseOwned->occupierList)
+    {
+        if (this->houseOwned->requestList.at(num)->sender == occupier)
+        {
             cout << "\nThis request has been accepted before\n";
             return false;
         }
     }
 
-    if (!list.empty())
+    if (!this->houseOwned->requestList.empty())
     {
-        this->houseOwned->addOccupier(list.at(num)->sender);
-        // this->houseOwned->resetDate(list.at(num)->startDate);
-        list.at(num)->sender->houseOccupied = this->houseOwned;
-        list.at(num)->sender->requestSentList.clear();
+        this->houseOwned->addOccupier(this->houseOwned->requestList.at(num)->sender);
+        this->houseOwned->requestList.at(num)->sender->houseOccupied = this->houseOwned;
+        this->houseOwned->requestList.at(num)->sender->requestSentList.clear();
+
+        this->houseOwned->requestList.at(num)->sender->startDate = this->houseOwned->requestList.at(num)->startDate;
+        this->houseOwned->requestList.at(num)->sender->endDate = this->houseOwned->requestList.at(num)->endDate;
+
+        this->houseOwned->requestList.at(num)->sender->credit -= this->houseOwned->requestList.at(num)->sender->numDays * this->houseOwned->consummingCredits;
+        this->credit += this->houseOwned->requestList.at(num)->sender->numDays * this->houseOwned->consummingCredits;
 
         // Check requestList of house to delete overlapped time request
-        for (Request *r : list)
+        int size = 0;
+        for (int i = size; i < this->houseOwned->requestList.size(); i = size)
         {
-            if ((r->startDate >= list.at(num)->startDate) && (r->startDate <= list.at(num)->endDate) || (r->endDate >= list.at(num)->startDate) && (r->endDate <= list.at(num)->endDate))
+            if ((this->houseOwned->requestList.at(i)->startDate >= temp->startDate) && (this->houseOwned->requestList.at(i)->startDate < temp->endDate) || (this->houseOwned->requestList.at(i)->endDate > temp->startDate) && (this->houseOwned->requestList.at(i)->endDate <= temp->endDate))
+            { 
+                cout << "1\n";
+                this->houseOwned->requestList.erase(this->houseOwned->requestList.begin() + i);
+            }
+            else if ((this->houseOwned->requestList.at(i)->startDate <= temp->startDate) && (this->houseOwned->requestList.at(i)->endDate >= temp->endDate))
             {
-                remove(list.begin(), list.end(), r);
+                cout << "2\n";
+                this->houseOwned->requestList.erase(this->houseOwned->requestList.begin() + i);
+            }
+            else {
+                size++;
             }
         }
-
-        list.at(num)->sender->startDate = list.at(num)->startDate;
-        list.at(num)->sender->endDate = list.at(num)->endDate;
-
-        list.at(num)->sender->credit -= list.at(num)->sender->numDays * this->houseOwned->consummingCredits;
-        this->credit += list.at(num)->sender->numDays * this->houseOwned->consummingCredits;
 
         cout << "You have accepted this request\n";
         return true;
@@ -478,7 +491,7 @@ int countNoOfDays(int date1[], int date2[])
 
 bool Member::checkAvailableHouses()
 {
-    
+
     this->availableHouses.clear();
     // member date select
     string m_sMonth, m_sYear, m_sDay;
@@ -612,6 +625,7 @@ bool Member::checkAvailableHouses()
                             {
                                 cout << "4";
                                 this->availableHouses.push_back(m->houseOwned);
+                                cout << "5";
                             }
                         }
                     }
