@@ -268,7 +268,7 @@ void Member::sendRequest(int num)
     {
         this->availableHouses.at(num)->addRequest(this, this->startDate, this->endDate, this->numDays);
         this->requestSentList.push_back(new Request(this, this->availableHouses.at(num), this->startDate, this->endDate, this->numDays));
-        cout << "Your request has successlly sent\n";
+        cout << "Your request has successlly sent to " << this->availableHouses.at(num)->owner->username << "\n";
     }
     else
     {
@@ -471,6 +471,8 @@ int countNoOfDays(int date1[], int date2[])
 
 bool Member::checkAvailableHouses()
 {
+    
+    this->availableHouses.clear();
     // member date select
     string m_sMonth, m_sYear, m_sDay;
     string m_eMonth, m_eYear, m_eDay;
@@ -592,9 +594,9 @@ bool Member::checkAvailableHouses()
             {
                 if (city == m->houseOwned->city)
                 {
-                    if ((HouseStart < startDate && startDate < HouseEnd) && (HouseStart < endDate && endDate < HouseEnd))
+                    if ((HouseStart <= startDate && startDate < HouseEnd) && (HouseStart < endDate && endDate <= HouseEnd))
                     {
-                        if (m->houseOwned->consummingCredits * days <= m->credit)
+                        if (m->houseOwned->consummingCredits * days <= this->credit)
                         {
                             if (score >= m->houseOwned->minOccRating)
                             {
@@ -629,8 +631,6 @@ bool Member::checkAvailableHouses()
         cerr << "\nNo available houses.\n";
         return false;
     }
-
-    this->availableHouses.clear();
 };
 
 // Display review of selected house in the availableHouses attribute
