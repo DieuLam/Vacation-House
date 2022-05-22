@@ -14,15 +14,18 @@ void DataHandler::addHouse(House *house)
 {
     houseInfoList.push_back(house);
 };
-vector<House *> DataHandler::houseInfoList;
-vector<Member *> DataHandler::memberList;
 
+vector<House *> DataHandler::houseInfoList; // vector of all houses
+vector<Member *> DataHandler::memberList;   // vector of all members
+
+// save all data to files
 void DataHandler::saveVectorsToFile()
-{ // load vectors to its corrospond files
+{
+    // load vectors to its corrospond files
     string username, fullName, password, phoneNumber, lineToSave, creditPoints, occupiedHouse, rater;
     string city, description, startDate, endDate, consummingCredits, minOccRating;
     string comment, score;
-    string owner, numDay; // for requests.txt
+    string owner, numDay; // for request.txt
     fstream saveToFile;
 
     // This is for saving Member into registrationInfo.txt
@@ -55,22 +58,23 @@ void DataHandler::saveVectorsToFile()
     for (House *house : houseInfoList)
     {
         username = house->owner->username;
-
         city = house->city;
         description = house->description;
         startDate = house->startDate;
         endDate = house->endDate;
-
         consummingCredits = to_string(house->consummingCredits);
         minOccRating = to_string(house->minOccRating);
 
         lineToSave = username + "|" + city + "|" + description + "|" + startDate + "|" + endDate + "|" + consummingCredits + "|" + minOccRating;
-
         saveToFile << lineToSave << "\n";
     }
     saveToFile.close();
 
     // this is for saving requests to request.txt
+    std::ofstream ofs;
+    ofs.open("files_database/request.txt", std::ofstream::out | std::ofstream::trunc);
+    ofs.close();
+
     saveToFile.open("files_database/request.txt");
     saveToFile << "Sender|Owner|Start|End|NumberOfDays\n";
     for (House *house : houseInfoList)
@@ -131,18 +135,23 @@ void DataHandler::saveVectorsToFile()
     saveToFile.close();
 };
 
+// load all data when run program
 void DataHandler::loadFilesToVector(string path, int whichFiles)
-{ // load files to its corrospond vectors
+{
+    // load files to its corrospond vectors
     fstream loadToVector;
     string temp;
     string delimeter = "|";
 
     loadToVector.open(path, ios::in);
     getline(loadToVector, temp);
+
     while (getline(loadToVector, temp))
-    { // save line to string temp
+    {
+        // save line to string temp
         size_t pos = 0;
         string subString;
+
         if (!temp.empty())
         {
             vector<string> dataPerLine; // save each element into a vector
@@ -154,9 +163,11 @@ void DataHandler::loadFilesToVector(string path, int whichFiles)
             }
             dataPerLine.push_back(temp);
 
-            if (whichFiles == 1)
+            if (whichFiles == 1) // registrationInfo.txt
             {
+                // load all members data
                 addMember(new Member(dataPerLine[0], dataPerLine[2], dataPerLine[1], dataPerLine[3], stod(dataPerLine[4]))); // stod turn string to double
+
                 if (dataPerLine[5] != "")
                 {
                     memberList.back()->houseOccupied = new House(new Member(dataPerLine[5], "", "", "", 0), "", "", "", "", 0, 0);
@@ -166,8 +177,9 @@ void DataHandler::loadFilesToVector(string path, int whichFiles)
                 memberList.back()->endDate = dataPerLine[7];
             }
 
-            else if (whichFiles == 2)
-            { // houseInfo.txt
+            else if (whichFiles == 2) // houseInfo.txt
+            {
+                // load all houses data
                 for (Member *member : memberList)
                 {
                     if (member->username.compare(dataPerLine[0]) == 0)
@@ -178,8 +190,9 @@ void DataHandler::loadFilesToVector(string path, int whichFiles)
                 }
             }
 
-            else if (whichFiles == 3)
-            { // houseRating.txt
+            else if (whichFiles == 3) // houseRating.txt
+            {
+                // load ratings of all houses
                 for (House *house : houseInfoList)
                 {
                     if (dataPerLine[3].compare(house->owner->username) == 0)
@@ -197,8 +210,9 @@ void DataHandler::loadFilesToVector(string path, int whichFiles)
                 }
             }
 
-            else if (whichFiles == 4)
-            { // memberRating.txt
+            else if (whichFiles == 4) // memberRating.txt
+            { 
+                // load ratings of all members
                 for (Member *member : memberList)
                 {
                     if (member->username.compare(dataPerLine[3]) == 0)
@@ -215,8 +229,9 @@ void DataHandler::loadFilesToVector(string path, int whichFiles)
                 }
             }
 
-            else if (whichFiles == 5)
-            { // occupiers.txt
+            else if (whichFiles == 5) // occupiers
+            { 
+                // load all occupiers to the houses
                 for (Member *m : memberList)
                 {
                     if (m->houseOccupied != NULL)
@@ -234,8 +249,9 @@ void DataHandler::loadFilesToVector(string path, int whichFiles)
                 }
             }
 
-            else
-            { // request.txt
+            else // request.txt
+            { 
+                // load all requests
                 for (Member *member : memberList)
                 {
                     if (dataPerLine[0].compare(member->username) == 0)
@@ -256,6 +272,8 @@ void DataHandler::loadFilesToVector(string path, int whichFiles)
     }
     loadToVector.close();
 };
+
+// check if member already exists
 bool DataHandler::checkMember(string new_username)
 {
     for (Member *m : memberList)

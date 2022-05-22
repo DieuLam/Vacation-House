@@ -1,2 +1,0 @@
-Owner|City|Description|Start|End|Credits|RequiredRating
-a|Hanoi|a's house|2022/01/01|2022/12/31|5|0.000000

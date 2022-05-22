@@ -61,7 +61,7 @@ bool checkRating(string input)
     }
     else
     {
-        int s = std::stoi(input);
+        int s = std::stod(input);
         if (-10 > s || s > 10)
         {
             return false;
@@ -91,17 +91,3 @@ bool checkCity(string input)
     cout << "\nThe city must be in the list\n";
     return false;
 }
-
-
-int changeToInt(string input) {
-    int x = stod(input);
-
-    cout << x;
-    return x;
-}
-
-// int main() {
-//    string str = "-10";
-
-//    changeToInt(str);
-// }

@@ -16,6 +16,7 @@ House::House(Member *owner, string city, string description,string startDate, st
     this->minOccRating = minRating;
 };
 
+// display all occupiers of the house
 void House::showOccupierList()
 {
     vector<Member *> list = this->occupierList;
@@ -39,12 +40,14 @@ void House::showOccupierList()
     }
 };
 
+// display basic house info for non-member
 void House::showInfo()
 {
     cout << "Location: " << this->city << "\n";
     cout << "Description: " << this->description << "\n";
 };
 
+// set data of the house when member list the house
 void House::setData(string startDate, string endDate, double minRating, double conCredits)
 {
     this->startDate = startDate;
@@ -53,11 +56,7 @@ void House::setData(string startDate, string endDate, double minRating, double c
     this->consummingCredits = conCredits;
 };
 
-// void House::resetDate(string date)
-// {
-//     this->startDate = date;
-// };
-
+// add a member to the occupier list of the house
 void House::addOccupier(Member *member)
 {
     if (member != this->owner)
@@ -71,6 +70,7 @@ void House::addOccupier(Member *member)
     }
 };
 
+// add a request to the request list
 void House::addRequest(Member *member, string start, string end, int numDay)
 {
     if (member != this->owner)

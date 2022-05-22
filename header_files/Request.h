@@ -9,7 +9,6 @@ using std::vector;
 
 class Member;
 class House;
-// class DataHandler;
 
 class Request
 {

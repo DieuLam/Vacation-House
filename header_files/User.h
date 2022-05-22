@@ -9,6 +9,7 @@ class Member;
 class DataHandler;
 
 bool checkBlankAndSpaces(string input);
+
 class User
 {
 public:
@@ -17,5 +18,4 @@ public:
 
     friend class Member;
     friend class DataHandler;
-    
 };

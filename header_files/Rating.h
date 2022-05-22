@@ -22,9 +22,8 @@ public:
 
     Rating(Member *m, string comment, double score);
 
-    static  double calculateScores(vector<Rating *> ratings);
+    static double calculateScores(vector<Rating *> ratings);
     friend class Member;
     friend class House;
     friend class DataHandler;
 };
-

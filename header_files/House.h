@@ -18,7 +18,7 @@ private:
     string city, description, startDate, endDate;
     double minOccRating;
     int consummingCredits;
-    Member *owner ;
+    Member *owner;
     vector<Member *> occupierList;
     vector<Rating *> ratings;
     vector<Request *> requestList;
@@ -39,7 +39,7 @@ public:
     void addOccupier(Member *member);
 
     void addRequest(Member *member, string start, string end, int numDay);
-    
+
     friend class Member;
     friend class Rating;
     friend class Request;

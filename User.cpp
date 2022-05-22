@@ -42,8 +42,9 @@ void User::Register()
         cout << "Please enter your username(with no whitespaces): ";
         getline(cin, username);
         validInput = checkBlankAndSpaces(username); // if false, it means there are white spaces or blanked input
-        if(DataHandler::checkMember(username) == 0){
-            cout<<"\nUsername already exists, please choose a different one\n";
+        if (DataHandler::checkMember(username) == 0)
+        {
+            cout << "\nUsername already exists, please choose a different one\n";
             validInput = false;
             continue;
         }
@@ -58,7 +59,6 @@ void User::Register()
         cout << "Please enter your password: ";
         getline(cin, password);
         validInput = checkBlankAndSpaces(password);
-        
     }
 
     validInput = false; // set it back to false for the next while loop
@@ -118,10 +118,10 @@ void User::viewHouse()
     if (DataHandler::memberList.size() > 0)
     {
         cout << "\nSince you have't logged in, you can only view house details: \n";
-        for (int i = 0; i < DataHandler::memberList.size(); i++)
+        for (int i = 0; i < DataHandler::memberList.size(); i++) // print out info of all houses in the system
         {
             cout << "\n"
-                 << i+1 << ". Owner: " << DataHandler::memberList.at(i)->username << "\n";
+                 << i + 1 << ". Owner: " << DataHandler::memberList.at(i)->username << "\n";
             DataHandler::memberList.at(i)->houseOwned->showInfo();
         }
     }

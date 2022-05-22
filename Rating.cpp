@@ -12,6 +12,7 @@ Rating::Rating(Member *m, string comment, double score)
     this->score = score;
 }
 
+// calculate average scores of all ratings
 double Rating::calculateScores(vector<Rating *> ratings)
 {
     double sum = 0;

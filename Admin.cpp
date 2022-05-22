@@ -31,6 +31,7 @@ bool Admin::login(string inputUsername, string inputPass)
     return true;
 };
 
+// display all members in the system
 void Admin::viewMember()
 {
     if (DataHandler::memberList.size() > 0)
@@ -55,6 +56,7 @@ void Admin::viewMember()
     }
 };
 
+// display all houses in the system
 void Admin::viewHouse()
 {
     if (DataHandler::memberList.size() > 0)

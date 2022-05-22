@@ -20,6 +20,7 @@ Member::Member(string username, string password, string fullName, string phone, 
     this->credit = credit;
 }
 
+// display info of a member
 void Member::showMemberInfo()
 {
     cout << "\nProfile:\n";
@@ -30,8 +31,7 @@ void Member::showMemberInfo()
     cout << "- Credits: " << this->credit << "\n";
     if (houseOccupied != NULL)
     {
-
-        cout << "- House occupied: " << this->houseOccupied->owner->username << "\n";
+        cout << "- House occupied: " << this->houseOccupied->owner->username << "\n"; // username of the owner of the house that this member occupies
     }
     else
     {
@@ -39,6 +39,7 @@ void Member::showMemberInfo()
     }
 }
 
+// display info of a house
 void Member::showHouseInfo()
 {
     if (this->houseOwned != NULL)
@@ -52,6 +53,8 @@ void Member::showHouseInfo()
         cout << "- Minimum Occupier Rating: " << this->houseOwned->minOccRating << "\n";
         cout << "- Available to rent from " << this->houseOwned->startDate << " to " << this->houseOwned->endDate << "\n";
         cout << "- Occupied by " << this->houseOwned->occupierList.size() << " people\n";
+
+        // display all occupiers of the house
         for (int i = 0; i < this->houseOwned->occupierList.size(); i++)
         {
             cout << "\n"
@@ -61,10 +64,11 @@ void Member::showHouseInfo()
     }
     else
     {
-        cerr << "\nYou need to add your house first\n";
+        cerr << "\nYou need to add your house first\n"; // if member have no house to display
     }
 };
 
+// member login
 Member *Member::login()
 {
     string tempUsername;
@@ -76,31 +80,33 @@ Member *Member::login()
 
     for (Member *m : DataHandler::memberList)
     {
-        if ((m->username).compare(tempUsername) == 0)
+        if ((m->username).compare(tempUsername) == 0) // check if member exists
         {
-            if ((m->password).compare(tempPass) == 0)
+            if ((m->password).compare(tempPass) == 0) // check if password correct
             {
                 cout << "\nLogin successfully!\n";
                 return m;
             }
             else
             {
-                cerr << "Incorrect password!\n";
+                cerr << "\nIncorrect password!\n";
                 return NULL;
             }
         }
     }
 
-    cerr << "Account does not exist\n";
+    cerr << "\nAccount does not exist\n";
     return NULL;
 };
 
+// add a house to member
 void Member::addHouse()
 {
-    if (this->houseOwned == NULL)
+    if (this->houseOwned == NULL) // check if member already had a house
     {
         bool validInput = false;
         string location, description;
+
         cout << "\nPlease provide information of your house: \n";
 
         while (validInput != true)
@@ -108,16 +114,15 @@ void Member::addHouse()
             // user input city
             cout << "Location (Saigon/Hanoi/Da Nang): ";
             getline(cin, location);
-            validInput = checkCity(location);
+            validInput = checkCity(location); // check if the city valid
         }
 
         cout << "Description: ";
         getline(cin, description);
-        this->houseOwned = new House(this, location, description, "", "", 0, 0);
-
-        DataHandler::addHouse(houseOwned);
-
+        this->houseOwned = new House(this, location, description, "", "", 0, 0); // create a house and assign to the member
         cout << "\nYou have successfully added a house.\n";
+
+        DataHandler::addHouse(houseOwned); // add house to the system list
     }
     else
     {
@@ -125,9 +130,10 @@ void Member::addHouse()
     }
 };
 
+// member can list house for rent
 bool Member::listHouse()
 {
-    if (this->houseOwned != NULL)
+    if (this->houseOwned != NULL) // check if member have a house to list
     {
         if (this->houseOwned->startDate == "")
         {
@@ -168,7 +174,7 @@ bool Member::listHouse()
                     continue;
             }
 
-            start = h_sYear + "/" + h_sMonth + "/" + h_sDay;
+            start = h_sYear + "/" + h_sMonth + "/" + h_sDay; // combine to get start date as format yyyy/mm/dd
 
             validInput = false; // set validInput back to false for next while loop
             while (validInput != true)
@@ -203,7 +209,7 @@ bool Member::listHouse()
                     continue;
             }
 
-            end = h_eYear + "/" + h_eMonth + "/" + h_eDay;
+            end = h_eYear + "/" + h_eMonth + "/" + h_eDay; // combine to get end date as format yyyy/mm/dd
 
             validInput = false; // set validInput back to false for next while loop
             while (validInput != true)
@@ -224,8 +230,8 @@ bool Member::listHouse()
                 if (validInput == 0) // means validInput = false
                     continue;
             }
-            this->houseOwned->setData(start, end, stod(rating), stod(credit));
 
+            this->houseOwned->setData(start, end, stod(rating), stod(credit)); // set data to the member's house
             cout << "\nYou have successfully listed your house.\n";
             return true;
         }
@@ -242,13 +248,14 @@ bool Member::listHouse()
     }
 };
 
+// member can unlist the house
 bool Member::unlistHouse()
 {
-    if (this->houseOwned != NULL)
+    if (this->houseOwned != NULL) // check if member has a house to unlist
     {
-        if (this->houseOwned->startDate != "")
+        if (this->houseOwned->startDate != "") // check if house is already listed
         {
-            this->houseOwned->setData("", "", 0.0, 0.0);
+            this->houseOwned->setData("", "", 0.0, 0.0); // delete all listed data
 
             cout << "\nYou have successfully unlisted your house.\n";
             return true;
@@ -266,18 +273,19 @@ bool Member::unlistHouse()
     }
 };
 
+// send request to the available houses
 void Member::sendRequest(int num)
 {
-    if (num < 0 || num > this->availableHouses.size())
+    if (num < 0 || num > this->availableHouses.size()) // check if the user input in the range
     {
         cout << "\nInvalid input\n";
         return;
     }
 
-    if (this->houseOccupied == NULL)
+    if (this->houseOccupied == NULL) // check if member hasn't occupied a house
     {
-        this->availableHouses.at(num)->addRequest(this, this->startDate, this->endDate, this->numDays);
-        this->requestSentList.push_back(new Request(this, this->availableHouses.at(num), this->startDate, this->endDate, this->numDays));
+        this->availableHouses.at(num)->addRequest(this, this->startDate, this->endDate, this->numDays);                                   // add request to the house's request list
+        this->requestSentList.push_back(new Request(this, this->availableHouses.at(num), this->startDate, this->endDate, this->numDays)); // add request to the sender's request list
         cout << "\nYour request has successlly sent to " << this->availableHouses.at(num)->owner->username << "\n";
     }
     else
@@ -286,22 +294,24 @@ void Member::sendRequest(int num)
     }
 };
 
+// view all requests that have been sent to member's house
 bool Member::viewRequest()
 {
-    if (this->houseOwned == NULL)
+    if (this->houseOwned == NULL) // check if member has a house
     {
         cerr << "\nYou have to add your house first\n";
         return false;
     }
 
-    vector<Request *> list = this->houseOwned->requestList;
+    vector<Request *> list = this->houseOwned->requestList; // copy request list of the house
 
-    if (list.size() == 0)
+    if (list.size() == 0) // check if there's any request for this house
     {
         cout << "\nNo occupying requests for this house\n";
         return false;
     }
 
+    // display all request
     cout << "\nThere are " << list.size() << " people request to rent this house: \n";
     for (int i = 0; i < list.size(); i++)
     {
@@ -315,10 +325,10 @@ bool Member::viewRequest()
     return true;
 };
 
+// accept a request
 bool Member::acceptRequest(int num)
 {
-
-    if (num < 0 || num > this->houseOwned->requestList.size())
+    if (num < 0 || num > this->houseOwned->requestList.size()) // check if user input in the range
     {
         cout << "\nInvalid input\n";
         return false;
@@ -327,31 +337,17 @@ bool Member::acceptRequest(int num)
     vector<Request *> list = this->houseOwned->requestList; // requests sent to this house
     Request *temp = this->houseOwned->requestList.at(num);  // request selected by owner
 
-    for (Member *occupier : this->houseOwned->occupierList)
-    {
-        if (this->houseOwned->requestList.at(num)->sender == occupier)
-        {
-            cout << "\nThis request has been accepted before\n";
-            return false;
-        }
-    }
+    this->houseOwned->addOccupier(this->houseOwned->requestList.at(num)->sender);    // set occupier of the house as the requester
+    this->houseOwned->requestList.at(num)->sender->houseOccupied = this->houseOwned; // set the requester's occupied house as this house
 
-    this->houseOwned->addOccupier(this->houseOwned->requestList.at(num)->sender);
-    this->houseOwned->requestList.at(num)->sender->houseOccupied = this->houseOwned;
+    this->houseOwned->requestList.at(num)->sender->startDate = this->houseOwned->requestList.at(num)->startDate; // set start date of requester to the request's start date
+    this->houseOwned->requestList.at(num)->sender->endDate = this->houseOwned->requestList.at(num)->endDate;     // set end date of requester to the request's start date
 
-    // for (int i = 0; i < this->houseOwned->requestList.at(num)->sender->requestSentList.size(); i++)
-    // {
-    //     this->houseOwned->requestList.at(num)->sender->requestSentList.pop_back();
-    // }
+    this->houseOwned->requestList.at(num)->sender->credit -= this->houseOwned->requestList.at(num)->numDay * this->houseOwned->consummingCredits; // subtract credits from the occupier's credit
+    this->credit += this->houseOwned->requestList.at(num)->numDay * this->houseOwned->consummingCredits;                                          // add credits from the house owner's credit
 
-    this->houseOwned->requestList.at(num)->sender->startDate = this->houseOwned->requestList.at(num)->startDate;
-    this->houseOwned->requestList.at(num)->sender->endDate = this->houseOwned->requestList.at(num)->endDate;
+    this->houseOwned->requestList.at(num)->sender->requestSentList.clear(); // delete all requests that have been sent by this occupier
 
-    this->houseOwned->requestList.at(num)->sender->credit -= this->houseOwned->requestList.at(num)->numDay * this->houseOwned->consummingCredits;
-    this->credit += this->houseOwned->requestList.at(num)->numDay * this->houseOwned->consummingCredits;
-
-    this->houseOwned->requestList.at(num)->sender->requestSentList.clear();
-    
     // Check requestList of house to delete overlapped time request
     int size = 0;
     for (int i = size; i < this->houseOwned->requestList.size(); i = size)
@@ -374,6 +370,7 @@ bool Member::acceptRequest(int num)
     return true;
 };
 
+// display all requests that have been sent by this member
 void Member::showRequestList()
 {
     vector<Request *> list = this->requestSentList;
@@ -395,12 +392,10 @@ void Member::showRequestList()
     }
 }
 
-// ----------------------------------------NU------------------------------------- //
-
 template <class T>
-void Member::rate(T *object)
+void Member::rate(T *object) // accept Member and House object
 {
-    for (Rating *r : object->ratings)
+    for (Rating *r : object->ratings) // loop to check if the member have already rate this house/member
     {
         if (r->rater == this)
         {
@@ -413,12 +408,13 @@ void Member::rate(T *object)
     {
         string comment, score, option;
         bool validInput = false; // set validInput back to false for next while loop
+
         while (validInput != true)
         {
             cout << "How many scores would you like to give (-10 -> 10)? \n";
             getline(cin, score);
-            validInput = checkRating(score);
-            if (validInput == 0) // means validInput = false
+            validInput = checkRating(score); // check if user input is valid
+            if (validInput == 0)             // means validInput = false
                 continue;
         }
 
@@ -434,26 +430,27 @@ void Member::rate(T *object)
             comment = "";
         }
         cout << "Thank you! \n";
-        object->ratings.push_back(new Rating(this, comment, stod(score)));
+        object->ratings.push_back(new Rating(this, comment, stod(score))); // add new rating to current object
     }
 };
 
 template void Member::rate(Member *);
 template void Member::rate(House *);
 
+// member rate another occupiers of their house
 void Member::rateMember()
 {
-    if (this->houseOwned == NULL)
+    if (this->houseOwned == NULL) // check if member have a house
     {
         cerr << "\nYou need to add your house first\n";
     }
-    else if (!this->houseOwned->occupierList.empty())
+    else if (!this->houseOwned->occupierList.empty()) // check if there's any occupier to rate
     {
         string option;
-        this->houseOwned->showOccupierList();
+        this->houseOwned->showOccupierList(); // display a list of occupiers for user to select which one to rate
         cout << "\nPlease choose a occupier by entering a number: ";
         getline(cin, option);
-        this->rate<Member>(this->houseOwned->occupierList.at(stoi(option) - 1));
+        this->rate<Member>(this->houseOwned->occupierList.at(stoi(option) - 1)); // call rate function with parameter as Member object
     }
     else
     {
@@ -461,11 +458,12 @@ void Member::rateMember()
     }
 };
 
+// member rate house they have occupy
 void Member::rateHouse()
 {
-    if (this->houseOccupied != NULL)
+    if (this->houseOccupied != NULL) // check if member have occupy any house
     {
-        this->rate<House>(this->houseOccupied);
+        this->rate<House>(this->houseOccupied); // call function rate with a parameter as a House
     }
     else
     {
@@ -473,7 +471,63 @@ void Member::rateHouse()
     }
 };
 
-//--------------------------- calc day between ----------------------------------------//
+// display review of selected house in the availableHouses attribute
+void Member::viewHouseReviews(int num)
+{
+    if (num < 0 || num > this->availableHouses.size()) // check if user input is in the range
+    {
+        cout << "\nInvalid input\n";
+        return;
+    }
+
+    vector<Rating *> list = this->availableHouses.at(num)->ratings;
+
+    if (list.size() > 0)
+    {
+        cout << "\nThere are " << list.size() << " reviews about this house\n";
+        for (int i = 0; i < this->availableHouses.at(num)->ratings.size(); i++)
+        {
+            cout << "\n"
+                 << i + 1 << ". " << list.at(i)->rater->username << "\n";
+            cout << "Score: " << list.at(i)->score << "\n";
+            cout << "Comment: " << list.at(i)->comment << "\n";
+        }
+    }
+    else
+    {
+        cerr << "\nThere are no reviews\n";
+    }
+};
+
+// display review of the member who request to rent this member house
+void Member::viewMemberReviews(int num)
+{
+    if (num < 0 || num > this->houseOwned->requestList.size()) // check if user input is in the range
+    {
+        cout << "\nInvalid input\n";
+        return;
+    }
+
+    vector<Rating *> list = this->houseOwned->requestList.at(num)->sender->ratings;
+
+    if (list.size() > 0)
+    {
+        cout << "\nThere are " << list.size() << " reviews about this Member\n";
+        for (int i = 0; i < list.size(); i++)
+        {
+            cout << "\n"
+                 << i + 1 << ". " << list.at(i)->rater->username << "\n";
+            cout << "Score: " << list.at(i)->score << "\n";
+            cout << "Comment: " << list.at(i)->comment << "\n";
+        }
+    }
+    else
+    {
+        cerr << "There are no reviews\n";
+    }
+};
+
+//--------------------------- calc day between for checkAvailableHouses method ----------------------------------------//
 
 // A date has day 'd', month 'm' and year 'y'
 struct Date
@@ -481,32 +535,29 @@ struct Date
     int d, m, y;
 };
 
-// To store number of days in
-// all months from January to Dec.
+// To store number of days in all months from January to Dec.
 const int monthDays[12] = {31, 28, 31, 30, 31, 30,
                            31, 31, 30, 31, 30, 31};
 
-// This function counts number of
-// leap years before the given date
+// This function counts number of leap years before the given date
 int countLeapYears(Date d)
 {
     int years = d.y;
 
     // Check if the current year needs to be
-    //  considered for the count of leap years
+    // considered for the count of leap years
     // or not
     if (d.m <= 2)
         years--;
 
-    // An year is a leap year if it
+    // A year is a leap year if it
     // is a multiple of 4,
     // multiple of 400 and not a
     // multiple of 100.
     return years / 4 - years / 100 + years / 400;
 }
 
-// This function returns number of
-// days between two given dates
+// This function returns number of days between two given dates
 int getDifference(Date dt1, Date dt2)
 {
     // COUNT TOTAL NUMBER OF DAYS
@@ -535,28 +586,30 @@ int getDifference(Date dt1, Date dt2)
     return (n2 - n1);
 }
 
+// display houses matched with user's search
 bool Member::checkAvailableHouses()
 {
-
-    this->availableHouses.clear();
+    this->availableHouses.clear(); // reset available house lists 
+     
     // member date select
     string m_sMonth, m_sYear, m_sDay;
     string m_eMonth, m_eYear, m_eDay;
     string city;
     bool validInput = false;
+
     cout << "\nPlease provide the below information to search for available houses \n";
 
     while (validInput != true)
     {
         // user input city
-        cout << "City: ";
+        cout << "City (Saigon/Hanoi/Da Nang): ";
         getline(cin, city);
-        validInput = checkCity(city);
+        validInput = checkCity(city); // check if the city is valid
         if (validInput == 0) // means validInput = false
             continue;
     }
 
-    validInput = false;
+    validInput = false; // set validInput back to false for next while loop
     while (validInput != true)
     {
         // user input start day
@@ -589,7 +642,8 @@ bool Member::checkAvailableHouses()
         if (validInput == 0) // means validInput = false
             continue;
     }
-    string startDate = m_sYear + "/" + m_sMonth + "/" + m_sDay;
+
+    string startDate = m_sYear + "/" + m_sMonth + "/" + m_sDay; // start date with the format yyyy/mm/dd
 
     validInput = false; // set validInput back to false for next while loop
     while (validInput != true)
@@ -623,7 +677,7 @@ bool Member::checkAvailableHouses()
             continue;
     }
 
-    string endDate = m_eYear + "/" + m_eMonth + "/" + m_eDay;
+    string endDate = m_eYear + "/" + m_eMonth + "/" + m_eDay; // end date with the format yyyy/mm/dd
 
     // get day, month, year
     int sYear = stoi(m_sYear);
@@ -637,7 +691,7 @@ bool Member::checkAvailableHouses()
     Date date1 = {sDay, sMonth, sYear};
     Date date2 = {eDay, eMonth, eYear};
 
-    int days = getDifference(date1, date2);
+    int days = getDifference(date1, date2); // calculate number of days between start and end date
 
     if (endDate < startDate)
     {
@@ -645,36 +699,52 @@ bool Member::checkAvailableHouses()
         return false;
     }
 
-    double score = Rating::calculateScores(this->ratings);
+    double score = Rating::calculateScores(this->ratings); // calculate average score from all ratings of the member
 
-    for (Member *m : DataHandler::memberList)
+    for (Member *m : DataHandler::memberList) // loop through all the members to check for available houses
     {
-        if (m == this)
+        if (m == this) // if the member is the same as the one in the list
         {
-            continue;
+            continue; // skip because a member cannot rent his/her own house
         }
-        if (m->houseOwned != NULL)
+
+        if (m->houseOwned != NULL) // check if the member has a house
         {
             string HouseStart = m->houseOwned->startDate;
             string HouseEnd = m->houseOwned->endDate;
-            if (city == m->houseOwned->city)
+
+            // check if the date user selected is overlapped with any of the occupiers of this house
+            for (Member *occupier : m->houseOwned->occupierList)
             {
-                if ((HouseStart <= startDate && startDate < HouseEnd) && (HouseStart < endDate && endDate <= HouseEnd))
+                if ((startDate >= occupier->startDate) && (startDate < occupier->endDate) || (endDate > occupier->startDate) && (endDate <= occupier->endDate))
                 {
-                    if (this->credit >= m->houseOwned->consummingCredits * days)
+                    goto cnt; // skip to line 692
+                }
+                else if ((startDate <= occupier->startDate) && (endDate >= occupier->endDate))
+                {
+                    goto cnt; // skip to line 692
+                }
+            }
+
+            if (city == m->houseOwned->city) // check if the city of the house matched
+            {
+                if ((HouseStart <= startDate && startDate < HouseEnd) && (HouseStart < endDate && endDate <= HouseEnd)) // check if the date matched
+                {
+                    if (this->credit >= m->houseOwned->consummingCredits * days) // check if member have enough credits to rent this house
                     {
-                        if (score >= m->houseOwned->minOccRating)
+                        if (score >= m->houseOwned->minOccRating) // check if member's rating is enough to rent this house
                         {
-                            this->availableHouses.push_back(m->houseOwned);
-                            // continue;
+                            this->availableHouses.push_back(m->houseOwned); // add the house to available house list of the member
                         }
                     }
                 }
             }
         }
+    cnt:;
     }
 
-    if (!this->availableHouses.empty())
+    // display all available houses
+    if (!this->availableHouses.empty()) 
     {
         cout << "\nThere are " << this->availableHouses.size() << " houses available to rent: \n";
         this->startDate = startDate;
@@ -695,60 +765,5 @@ bool Member::checkAvailableHouses()
     {
         cerr << "\nNo available houses.\n";
         return false;
-    }
-};
-
-// Display review of selected house in the availableHouses attribute
-void Member::viewHouseReviews(int num)
-{
-    if (num < 0 || num > this->availableHouses.size())
-    {
-        cout << "\nInvalid input\n";
-        return;
-    }
-
-    vector<Rating *> list = this->availableHouses.at(num)->ratings;
-
-    if (list.size() > 0)
-    {
-        cout << "\nThere are " << list.size() << " reviews about this house\n";
-        for (int i = 0; i < this->availableHouses.at(num)->ratings.size(); i++)
-        {
-            cout << "\n"
-                 << i + 1 << ". " << list.at(i)->rater->username << "\n";
-            cout << "Score: " << list.at(i)->score << "\n";
-            cout << "Comment: " << list.at(i)->comment << "\n";
-        }
-    }
-    else
-    {
-        cerr << "\nThere are no reviews\n";
-    }
-};
-
-void Member::viewMemberReviews(int num)
-{
-    if (num < 0 || num > this->houseOwned->requestList.size())
-    {
-        cout << "\nInvalid input\n";
-        return;
-    }
-
-    vector<Rating *> list = this->houseOwned->requestList.at(num)->sender->ratings;
-
-    if (list.size() > 0)
-    {
-        cout << "\nThere are " << list.size() << " reviews about this Member\n";
-        for (int i = 0; i < list.size(); i++)
-        {
-            cout << "\n"
-                 << i + 1 << ". " << list.at(i)->rater->username << "\n";
-            cout << "Score: " << list.at(i)->score << "\n";
-            cout << "Comment: " << list.at(i)->comment << "\n";
-        }
-    }
-    else
-    {
-        cerr << "There are no reviews\n";
     }
 };

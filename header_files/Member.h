@@ -25,7 +25,6 @@ private:
     vector<Rating *> ratings;
 
 public:
-
     Member();
 
     Member(string username, string password, string fullName, string phone, int credit);
@@ -50,16 +49,16 @@ public:
 
     void rateHouse(); // done
 
-    void showMemberInfo(); //done
+    void showMemberInfo(); // done
 
-    void showHouseInfo(); //done
+    void showHouseInfo(); // done
 
     void showRequestList(); // done
 
     template <class T>
     void rate(T *object);
-    bool checkAvailableHouses(); // done
-    void viewHouseReviews(int num);   // done
+    bool checkAvailableHouses();    // done
+    void viewHouseReviews(int num); // done
 
     friend class House;
     friend class Rating;

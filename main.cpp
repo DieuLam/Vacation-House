@@ -12,15 +12,15 @@ int main()
 {
     cout << "\nEEET2482/COSC2082 ASSIGNMENT VACATION HOUSE EXCHANGE APPLICATION\n";
     cout << "Instructor: Mr. Linh Tran\n";
-    cout << "Group: Group 14\n";
-    cout << "s39116151, Cao Ngoc Son\n";
+    cout << "Group: 14\n";
+    cout << "s3916151, Cao Ngoc Son\n";
     cout << "s3878058, Nguyen Hai Minh Trang\n";
     cout << "s3877961, Le Ngoc Nguyen Thuan\n";
     cout << "s3877664, Lam Tin Dieu\n";
 
     DataHandler data;
 
-    data.loadFilesToVector("files_database/registrationInfo.txt", 1); // load all files to corrospond vector
+    data.loadFilesToVector("files_database/registrationInfo.txt", 1); // load all files to corresponding vectors
     data.loadFilesToVector("files_database/houseInfo.txt", 2);        // the second parameter decides which file to load into
     data.loadFilesToVector("files_database/houseRating.txt", 3);
     data.loadFilesToVector("files_database/memberRating.txt", 4);
@@ -36,25 +36,25 @@ int main()
         cout << "Enter your choice (1-4): ";
         getline(cin, appChoices);
 
-        if (appChoices.compare("1") == 0)
-        { // if user select guest;
+        if (appChoices.compare("1") == 0) // if user select guest
+        {
             User user;
             int guestExit = 0;
             while (guestExit != 1)
-            { // 3 stands for exit
+            {
                 cout << "\nSelect guest actions:      1. Register       2. View Houses information     3. Exit to main menu\n";
                 string guestOptions;
                 cout << "Enter your choice (1-3): ";
                 getline(cin, guestOptions);
-                if (guestOptions.compare("1") == 0)
-                { // view member list
+                if (guestOptions.compare("1") == 0) // register
+                {
                     user.Register();
                 }
-                else if (guestOptions.compare("2") == 0)
+                else if (guestOptions.compare("2") == 0) // view house info
                 {
                     user.viewHouse();
                 }
-                else if (guestOptions.compare("3") == 0)
+                else if (guestOptions.compare("3") == 0) // exit guest
                 {
                     cout << "\nExit to main menu\n";
                     guestExit = 1;
@@ -65,14 +65,16 @@ int main()
                 }
             }
         }
-        else if (appChoices.compare("2") == 0)
-        { // if select member
+
+        else if (appChoices.compare("2") == 0) // if user select member
+        {
             cout << "\nPlease login to continue\n";
             Member *login = Member::login();
             bool exitMember = false;
-            if (login != NULL)
+
+            if (login != NULL) // if log in successfully
             {
-                while (exitMember == false)
+                while (exitMember == false) // display the menu when user not select exit
                 {
                     string option;
                     cout << "\nSelect Member actions:\n";
@@ -86,15 +88,15 @@ int main()
                     cout << "Enter your choice (1-7): ";
                     getline(cin, option);
 
-                    if (option.compare("1") == 0)
+                    if (option.compare("1") == 0) // add house
                     {
                         login->addHouse();
                     }
 
-                    else if (option.compare("2") == 0)
+                    else if (option.compare("2") == 0) // list/unlist house
                     {
                         bool exitListHouse = false;
-                        while (!exitListHouse)
+                        while (!exitListHouse) // display the below menu until user select 3
                         {
                             cout << "\nPlease select an option\n";
                             cout << "1. List House\n";
@@ -102,15 +104,16 @@ int main()
                             cout << "3. Back to previous menu\n";
                             cout << "Enter your choice (1-3): ";
                             getline(cin, option);
-                            if (option.compare("1") == 0)
+
+                            if (option.compare("1") == 0) // list house
                             {
                                 login->listHouse();
                             }
-                            else if (option.compare("2") == 0)
+                            else if (option.compare("2") == 0) // unlist house
                             {
                                 login->unlistHouse();
                             }
-                            else if (option.compare("3") == 0)
+                            else if (option.compare("3") == 0) // back
                             {
                                 exitListHouse = true;
                             }
@@ -121,12 +124,12 @@ int main()
                         }
                     }
 
-                    else if (option.compare("3") == 0)
+                    else if (option.compare("3") == 0) // view occupying requests of the house
                     {
                         bool exitHouseRequest = false;
-                        if (login->viewRequest())
+                        if (login->viewRequest()) // display all requests sent to member's house
                         {
-                            while (!exitHouseRequest)
+                            while (!exitHouseRequest) // display the menu until user select 3
                             {
                                 cout << "\nPlease select an option: \n";
                                 cout << "1. Accept a request\n";
@@ -135,15 +138,15 @@ int main()
                                 cout << "Enter your choice: ";
                                 getline(cin, option);
 
-                                if (option.compare("1") == 0)
+                                if (option.compare("1") == 0) // accept request
                                 {
                                     if (login->viewRequest())
                                     {
                                         cout << "\nPlease choose a request by entering a number: ";
                                         getline(cin, option);
-                                        if (isdigit(option[0]))
+                                        if (isdigit(option[0])) // check user input
                                         {
-                                            login->acceptRequest(stoi(option) - 1);
+                                            login->acceptRequest(stoi(option) - 1); // -1 to get the correct index in the vector
                                         }
                                         else
                                         {
@@ -151,16 +154,15 @@ int main()
                                         }
                                     }
                                 }
-
-                                else if (option.compare("2") == 0)
+                                else if (option.compare("2") == 0) // view review of requesters
                                 {
                                     if (login->viewRequest())
                                     {
                                         cout << "\nPlease choose a sender by entering a number: ";
                                         getline(cin, option);
-                                        if (isdigit(option[0]))
+                                        if (isdigit(option[0])) // check user input
                                         {
-                                            login->viewMemberReviews(stoi(option) - 1);
+                                            login->viewMemberReviews(stoi(option) - 1); // -1 to get the correct index in the vector
                                         }
                                         else
                                         {
@@ -168,13 +170,11 @@ int main()
                                         }
                                     }
                                 }
-
-                                else if (option.compare("3") == 0)
+                                else if (option.compare("3") == 0) // back
                                 {
                                     cout << "\nBack to previous menu\n";
                                     exitHouseRequest = true;
                                 }
-
                                 else
                                 {
                                     cout << "\nPlease enter a valid input\n";
@@ -183,12 +183,12 @@ int main()
                         };
                     }
 
-                    else if (option.compare("4") == 0)
+                    else if (option.compare("4") == 0) // view available house
                     {
                         bool exitAvailableHouse = false;
-                        if (login->checkAvailableHouses())
+                        if (login->checkAvailableHouses()) // display all available house to rent
                         {
-                            while (!exitAvailableHouse)
+                            while (!exitAvailableHouse) // display this menu until user select 3
                             {
                                 cout << "\nPlease choose an option: \n";
                                 cout << "1. View detailed reviews of a house \n";
@@ -197,13 +197,13 @@ int main()
                                 cout << "Enter your choice (1-3): ";
                                 getline(cin, option);
 
-                                if (option.compare("1") == 0)
+                                if (option.compare("1") == 0) // view review of the house
                                 {
                                     cout << "\nPlease choose a house by entering a number: ";
                                     getline(cin, option);
-                                    if (isdigit(option[0]))
+                                    if (isdigit(option[0])) // check user input
                                     {
-                                        login->viewHouseReviews(stoi(option) - 1);
+                                        login->viewHouseReviews(stoi(option) - 1); // -1 to get the correct index in the vector
                                     }
                                     else
                                     {
@@ -215,9 +215,9 @@ int main()
                                 {
                                     cout << "\nPlease choose a house by entering a number: ";
                                     getline(cin, option);
-                                    if (isdigit(option[0]))
+                                    if (isdigit(option[0])) // check user input
                                     {
-                                        login->sendRequest(stoi(option) - 1);
+                                        login->sendRequest(stoi(option) - 1); // -1 to get the correct index in the vector
                                     }
                                     else
                                     {
@@ -225,7 +225,7 @@ int main()
                                     }
                                 }
 
-                                else if (option.compare("3") == 0)
+                                else if (option.compare("3") == 0) // back
                                 {
                                     cout << "\nBack to previous menu\n";
                                     exitAvailableHouse = true;
@@ -238,12 +238,11 @@ int main()
                         };
                     }
 
-                    else if (option.compare("5") == 0)
+                    else if (option.compare("5") == 0) // view self and house's profile
                     {
                         bool exitViewProfile = false;
                         while (!exitViewProfile)
                         {
-
                             cout << "\nPlease select an option:\n";
                             cout << "1. View your profile\n";
                             cout << "2. View house profile\n";
@@ -252,19 +251,19 @@ int main()
                             cout << "Enter your choice (1-4): ";
                             getline(cin, option);
 
-                            if (option.compare("1") == 0)
+                            if (option.compare("1") == 0) // all info of this member
                             {
                                 login->showMemberInfo();
                             }
-                            else if (option.compare("2") == 0)
+                            else if (option.compare("2") == 0) // all info of this member's house
                             {
                                 login->showHouseInfo();
                             }
-                            else if (option.compare("3") == 0)
+                            else if (option.compare("3") == 0) // all requests this member have sent
                             {
                                 login->showRequestList();
                             }
-                            else if (option.compare("4") == 0)
+                            else if (option.compare("4") == 0) // back
                             {
                                 cout << "\nBack to previous menu\n";
                                 exitViewProfile = true;
@@ -276,7 +275,7 @@ int main()
                         }
                     }
 
-                    else if (option.compare("6") == 0)
+                    else if (option.compare("6") == 0) // rate
                     {
                         bool exitRate = false;
                         while (!exitRate)
@@ -288,18 +287,15 @@ int main()
                             cout << "Enter your choice: ";
                             getline(cin, option);
 
-                            if (option.compare("1") == 0)
+                            if (option.compare("1") == 0) // rate house this member has occupied
                             {
                                 login->rateHouse();
                             }
-
-                            else if (option.compare("2") == 0)
+                            else if (option.compare("2") == 0) // rate occupiers of this member's house
                             {
-                                // Check if occupier list is not empty
                                 login->rateMember();
                             }
-
-                            else if (option.compare("3") == 0)
+                            else if (option.compare("3") == 0) // back
                             {
                                 cout << "\nBack to previous menu\n";
                                 exitRate = true;
@@ -312,7 +308,7 @@ int main()
                         }
                     }
 
-                    else if (option.compare("7") == 0)
+                    else if (option.compare("7") == 0) // exit member menu
                     {
                         exitMember = true;
                     }
@@ -324,34 +320,38 @@ int main()
                 }
             }
         }
-        else if (appChoices.compare("3") == 0)
-        { // if select admin
+
+        else if (appChoices.compare("3") == 0) // if select admin
+        {
             string inputUsername;
             cout << "\nEnter admin username: ";
             getline(cin, inputUsername);
             string inputPass;
             cout << "Enter admin password: ";
             getline(cin, inputPass);
+
             Admin admin;
             bool loginStatus = admin.login(inputUsername, inputPass);
-            if (loginStatus == true)
-            { // if logged in
+
+            if (loginStatus == true) // if logged in
+            { 
                 int adminExit = 0;
                 while (adminExit != 1)
-                { // 3 stands for exit
+                { 
                     cout << "\nSelect admin actions:      1. View all Member information       2. View all Houses information     3. Exit to main menu\n";
                     string adminOptions;
                     cout << "Enter your choice: ";
                     getline(cin, adminOptions);
-                    if (adminOptions.compare("1") == 0)
-                    { // view member list
+
+                    if (adminOptions.compare("1") == 0) // view member list
+                    { 
                         admin.viewMember();
                     }
-                    else if (adminOptions.compare("2") == 0)
-                    { // view house list
+                    else if (adminOptions.compare("2") == 0) // view house list
+                    { 
                         admin.viewHouse();
                     }
-                    else if (adminOptions.compare("3") == 0)
+                    else if (adminOptions.compare("3") == 0) // exit admin
                     {
                         cout << "\nExit to main menu\n";
                         adminExit = 1;
@@ -363,16 +363,17 @@ int main()
                 }
             }
         }
-        else if (appChoices.compare("4") == 0)
-        { // if exit
+
+        else if (appChoices.compare("4") == 0) // if exit
+        { 
             cout << "\nThank you for using the app \n";
 
             data.saveVectorsToFile(); // from class datahandler
 
             exitStatus = 1;
         }
-        else
-        { // invalid app choice input
+        else // invalid app choice input
+        { 
             cout << "\nPlease enter a valid input(1,2,3 or 4)\n";
         }
     }

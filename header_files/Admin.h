@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
+
 class Admin
 {
 private:

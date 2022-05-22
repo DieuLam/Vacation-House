@@ -1,4 +1,0 @@
-Username|Fullname|Password|Phone|Credits|HouseOccupied|RentStartDate|RentEndDate
-a|a|a|123|545|||
-b|b|b|123|480|a|2022/01/05|2022/01/08
-c|c|c|123|475|a|2022/06/01|2022/06/06
