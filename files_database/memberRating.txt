@@ -1,1 +1,4 @@
-Rater|Comment|Scores
+Rater|Comment|Scores|Member
+a||5.000000|b
+a||7.000000|c
+

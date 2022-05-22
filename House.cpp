@@ -62,6 +62,11 @@ void House::addOccupier(Member *member)
 {
     if (member != this->owner)
     {
+        for (Member *m : this->occupierList) {
+            if (m == member) {
+                return;
+            }
+        }
         this->occupierList.push_back(member);
     }
 };

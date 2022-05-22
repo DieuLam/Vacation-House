@@ -70,7 +70,7 @@ void DataHandler::saveVectorsToFile()
     }
     saveToFile.close();
 
-    // this is for saving requests to requests.txt
+    // this is for saving requests to request.txt
     saveToFile.open("files_database/request.txt");
     saveToFile << "Sender|Owner|Start|End|NumberOfDays\n";
     for (House *house : houseInfoList)
@@ -92,18 +92,19 @@ void DataHandler::saveVectorsToFile()
 
     // this is for saving house ratings to member ratings.txt
     saveToFile.open("files_database/memberRating.txt");
-    saveToFile << "Rater|Comment|Scores\n";
+    saveToFile << "Rater|Comment|Scores|Member\n";
     for (Member *member : memberList)
     {
         vector<Rating *> rating_per_mem = member->ratings;
         // rating_per_mem
         for (Rating *per_rating : rating_per_mem)
         {
-            username = per_rating->rater->username;
+            rater = per_rating->rater->username;
             comment = per_rating->comment;
             score = to_string(per_rating->score);
+            username = member->username;
 
-            lineToSave = username + "|" + comment + "|" + score;
+            lineToSave = rater + "|" + comment + "|" + score + "|" + username;
             saveToFile << lineToSave << "\n";
         }
     }
@@ -200,7 +201,7 @@ void DataHandler::loadFilesToVector(string path, int whichFiles)
             { // memberRating.txt
                 for (Member *member : memberList)
                 {
-                    if (dataPerLine[0].compare(member->username) == 0)
+                    if (member->username.compare(dataPerLine[3]) == 0)
                     {
                         for (Member *m : memberList)
                         {
@@ -220,12 +221,13 @@ void DataHandler::loadFilesToVector(string path, int whichFiles)
                 {
                     if (m->houseOccupied != NULL)
                     {
-                        for (Member *m2 : memberList)
+                        for (House *h : houseInfoList)
                         {
-                            if (m->houseOccupied->owner->username.compare(m2->username) == 0)
+                            if (h->owner->username.compare(m->houseOccupied->owner->username) == 0)
                             {
-                                m->houseOccupied = m2->houseOwned;
-                                m2->houseOwned->addOccupier(m);
+                                m->houseOccupied = h;
+                                h->addOccupier(m);
+                                break;
                             }
                         }
                     }

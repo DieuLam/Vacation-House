@@ -451,7 +451,7 @@ void Member::rateMember()
     {
         string option;
         this->houseOwned->showOccupierList();
-        cout << "\nPlease choose a occupier by entering a number: \n";
+        cout << "\nPlease choose a occupier by entering a number: ";
         getline(cin, option);
         this->rate<Member>(this->houseOwned->occupierList.at(stoi(option) - 1));
     }
@@ -715,7 +715,7 @@ void Member::viewHouseReviews(int num)
         for (int i = 0; i < this->availableHouses.at(num)->ratings.size(); i++)
         {
             cout << "\n"
-                 << i + 1 << ". " << list.at(i)->rater << "\n";
+                 << i + 1 << ". " << list.at(i)->rater->username << "\n";
             cout << "Score: " << list.at(i)->score << "\n";
             cout << "Comment: " << list.at(i)->comment << "\n";
         }
@@ -742,7 +742,7 @@ void Member::viewMemberReviews(int num)
         for (int i = 0; i < list.size(); i++)
         {
             cout << "\n"
-                 << i + 1 << ". " << list.at(i)->rater << "\n";
+                 << i + 1 << ". " << list.at(i)->rater->username << "\n";
             cout << "Score: " << list.at(i)->score << "\n";
             cout << "Comment: " << list.at(i)->comment << "\n";
         }

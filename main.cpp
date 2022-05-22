@@ -24,7 +24,7 @@ int main()
     data.loadFilesToVector("files_database/houseInfo.txt", 2);        // the second parameter decides which file to load into
     data.loadFilesToVector("files_database/houseRating.txt", 3);
     data.loadFilesToVector("files_database/memberRating.txt", 4);
-    data.loadFilesToVector("files_database/registrationInfo", 5);
+    data.loadFilesToVector("files_database/registrationInfo.txt", 5);
     data.loadFilesToVector("files_database/request.txt", 6);
 
     int exitStatus = 0; // if exitStatus = 1, means exit
@@ -139,7 +139,7 @@ int main()
                                 {
                                     if (login->viewRequest())
                                     {
-                                        cout << "\nPlease choose a house by entering a number: ";
+                                        cout << "\nPlease choose a request by entering a number: ";
                                         getline(cin, option);
                                         if (isdigit(option[0]))
                                         {
@@ -156,7 +156,7 @@ int main()
                                 {
                                     if (login->viewRequest())
                                     {
-                                        cout << "\nPlease choose a house by entering a number: ";
+                                        cout << "\nPlease choose a sender by entering a number: ";
                                         getline(cin, option);
                                         if (isdigit(option[0]))
                                         {
