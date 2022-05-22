@@ -43,10 +43,6 @@ void DataHandler::saveVectorsToFile()
         {
             occupiedHouse = member->houseOccupied->owner->username;
         }
-        else
-        {
-            occupiedHouse = "none";
-        }
 
         lineToSave = username + "|" + fullName + "|" + password + "|" + phoneNumber + "|" + creditPoints + "|" + occupiedHouse + "|" + startDate + "|" + endDate;
         saveToFile << lineToSave << "\n";
@@ -160,7 +156,7 @@ void DataHandler::loadFilesToVector(string path, int whichFiles)
             if (whichFiles == 1)
             {
                 addMember(new Member(dataPerLine[0], dataPerLine[2], dataPerLine[1], dataPerLine[3], stod(dataPerLine[4]))); // stod turn string to double
-                if (dataPerLine[5] != "none")
+                if (dataPerLine[5] != "")
                 {
                     memberList.back()->houseOccupied = new House(new Member(dataPerLine[5], "", "", "", 0), "", "", "", "", 0, 0);
                 }

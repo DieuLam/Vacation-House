@@ -199,7 +199,7 @@ int main()
 
                                 if (option.compare("1") == 0)
                                 {
-                                    cout << "\nPlease choose a house by entering a number: \n";
+                                    cout << "\nPlease choose a house by entering a number: ";
                                     getline(cin, option);
                                     if (isdigit(option[0]))
                                     {
@@ -213,7 +213,7 @@ int main()
 
                                 else if (option.compare("2") == 0)
                                 {
-                                    cout << "\nPlease choose a house by entering a number: \n";
+                                    cout << "\nPlease choose a house by entering a number: ";
                                     getline(cin, option);
                                     if (isdigit(option[0]))
                                     {

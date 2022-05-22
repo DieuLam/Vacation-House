@@ -278,7 +278,7 @@ void Member::sendRequest(int num)
     {
         this->availableHouses.at(num)->addRequest(this, this->startDate, this->endDate, this->numDays);
         this->requestSentList.push_back(new Request(this, this->availableHouses.at(num), this->startDate, this->endDate, this->numDays));
-        cout << "Your request has successlly sent to " << this->availableHouses.at(num)->owner->username << "\n";
+        cout << "\nYour request has successlly sent to " << this->availableHouses.at(num)->owner->username << "\n";
     }
     else
     {
@@ -324,8 +324,8 @@ bool Member::acceptRequest(int num)
         return false;
     }
 
-    vector<Request *> list = this->houseOwned->requestList;
-    Request *temp = this->houseOwned->requestList.at(num);
+    vector<Request *> list = this->houseOwned->requestList; // requests sent to this house
+    Request *temp = this->houseOwned->requestList.at(num);  // request selected by owner
 
     for (Member *occupier : this->houseOwned->occupierList)
     {
@@ -336,41 +336,42 @@ bool Member::acceptRequest(int num)
         }
     }
 
-    if (!this->houseOwned->requestList.empty())
+    this->houseOwned->addOccupier(this->houseOwned->requestList.at(num)->sender);
+    this->houseOwned->requestList.at(num)->sender->houseOccupied = this->houseOwned;
+
+    // for (int i = 0; i < this->houseOwned->requestList.at(num)->sender->requestSentList.size(); i++)
+    // {
+    //     this->houseOwned->requestList.at(num)->sender->requestSentList.pop_back();
+    // }
+
+    this->houseOwned->requestList.at(num)->sender->startDate = this->houseOwned->requestList.at(num)->startDate;
+    this->houseOwned->requestList.at(num)->sender->endDate = this->houseOwned->requestList.at(num)->endDate;
+
+    this->houseOwned->requestList.at(num)->sender->credit -= this->houseOwned->requestList.at(num)->numDay * this->houseOwned->consummingCredits;
+    this->credit += this->houseOwned->requestList.at(num)->numDay * this->houseOwned->consummingCredits;
+
+    this->houseOwned->requestList.at(num)->sender->requestSentList.clear();
+    
+    // Check requestList of house to delete overlapped time request
+    int size = 0;
+    for (int i = size; i < this->houseOwned->requestList.size(); i = size)
     {
-        this->houseOwned->addOccupier(this->houseOwned->requestList.at(num)->sender);
-        this->houseOwned->requestList.at(num)->sender->houseOccupied = this->houseOwned;
-        this->houseOwned->requestList.at(num)->sender->requestSentList.clear();
-
-        this->houseOwned->requestList.at(num)->sender->startDate = this->houseOwned->requestList.at(num)->startDate;
-        this->houseOwned->requestList.at(num)->sender->endDate = this->houseOwned->requestList.at(num)->endDate;
-
-        this->houseOwned->requestList.at(num)->sender->credit -= this->houseOwned->requestList.at(num)->numDay * this->houseOwned->consummingCredits;
-        this->credit += this->houseOwned->requestList.at(num)->numDay * this->houseOwned->consummingCredits;
-
-        // Check requestList of house to delete overlapped time request
-        int size = 0;
-        for (int i = size; i < this->houseOwned->requestList.size(); i = size)
+        if ((this->houseOwned->requestList.at(i)->startDate >= temp->startDate) && (this->houseOwned->requestList.at(i)->startDate < temp->endDate) || (this->houseOwned->requestList.at(i)->endDate > temp->startDate) && (this->houseOwned->requestList.at(i)->endDate <= temp->endDate))
         {
-            if ((this->houseOwned->requestList.at(i)->startDate >= temp->startDate) && (this->houseOwned->requestList.at(i)->startDate < temp->endDate) || (this->houseOwned->requestList.at(i)->endDate > temp->startDate) && (this->houseOwned->requestList.at(i)->endDate <= temp->endDate))
-            {
-                this->houseOwned->requestList.erase(this->houseOwned->requestList.begin() + i);
-            }
-            else if ((this->houseOwned->requestList.at(i)->startDate <= temp->startDate) && (this->houseOwned->requestList.at(i)->endDate >= temp->endDate))
-            {
-                this->houseOwned->requestList.erase(this->houseOwned->requestList.begin() + i);
-            }
-            else
-            {
-                size++;
-            }
+            this->houseOwned->requestList.erase(this->houseOwned->requestList.begin() + i);
         }
-
-        cout << "\nYou have accepted this request\n";
-        return true;
+        else if ((this->houseOwned->requestList.at(i)->startDate <= temp->startDate) && (this->houseOwned->requestList.at(i)->endDate >= temp->endDate))
+        {
+            this->houseOwned->requestList.erase(this->houseOwned->requestList.begin() + i);
+        }
+        else
+        {
+            size++;
+        }
     }
 
-    return false;
+    cout << "\nYou have accepted this request\n";
+    return true;
 };
 
 void Member::showRequestList()
@@ -641,6 +642,7 @@ bool Member::checkAvailableHouses()
     if (endDate < startDate)
     {
         cout << "\nInvalid date\n";
+        return false;
     }
 
     double score = Rating::calculateScores(this->ratings);
@@ -655,19 +657,16 @@ bool Member::checkAvailableHouses()
         {
             string HouseStart = m->houseOwned->startDate;
             string HouseEnd = m->houseOwned->endDate;
-            else
+            if (city == m->houseOwned->city)
             {
-                if (city == m->houseOwned->city)
+                if ((HouseStart <= startDate && startDate < HouseEnd) && (HouseStart < endDate && endDate <= HouseEnd))
                 {
-                    if ((HouseStart <= startDate && startDate < HouseEnd) && (HouseStart < endDate && endDate <= HouseEnd))
+                    if (this->credit >= m->houseOwned->consummingCredits * days)
                     {
-                        if (this->credit >= m->houseOwned->consummingCredits * days)
+                        if (score >= m->houseOwned->minOccRating)
                         {
-                            if (score >= m->houseOwned->minOccRating)
-                            {
-                                this->availableHouses.push_back(m->houseOwned);
-                                // continue;
-                            }
+                            this->availableHouses.push_back(m->houseOwned);
+                            // continue;
                         }
                     }
                 }
