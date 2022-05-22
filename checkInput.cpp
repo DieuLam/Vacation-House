@@ -73,7 +73,7 @@ bool checkRating(string input)
 // check city
 bool checkCity(string input)
 {
-    string Arr[3] = {"Saigon", "Hanoi", "Danang"};
+    string Arr[3] = {"Saigon", "Hanoi", "Da Nang"};
     if (input.compare("") == 0)
     {
         cout << "\nCannot be blanked\n";

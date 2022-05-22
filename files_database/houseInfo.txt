@@ -1,4 +1,3 @@
 Owner|City|Description|Start|End|Credits|RequiredRating
-a|Saigon|a|2022/01/01|2022/12/31|5|0.000000
-b|Hanoi|b|||0|0.000000
-c|Saigon|c|2022/01/01|2022/12/31|5|0.000000
+a|Saigon|a's house|2022/01/01|2022/12/31|5|-5.000000
+b|Hanoi|b's house|2022/01/01|2022/01/06|5|0.000000

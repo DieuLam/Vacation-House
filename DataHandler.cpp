@@ -77,10 +77,10 @@ void DataHandler::saveVectorsToFile()
     // this is for saving requests to requests.txt
     saveToFile.open("files_database/request.txt");
     saveToFile << "Sender|Owner|Start|End|NumberOfDays\n";
-    for (Member *member : memberList)
+    for (House *house : houseInfoList)
     {
-        vector<Request *> request_per_mem = member->requestSentList;
-        for (Request *per_request : request_per_mem)
+        vector<Request *> request_per_house = house->requestList;
+        for (Request *per_request : request_per_house)
         {
             username = per_request->sender->username;
             owner = per_request->house->owner->username; // owner of house

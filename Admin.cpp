@@ -21,7 +21,7 @@ bool Admin::login(string inputUsername, string inputPass)
     }
     else
     {
-        cout << "Incorrect username or password\n";
+        cout << "\nIncorrect username or password\n";
         errors = errors + 1;
     }
     if (errors != 0)
@@ -59,12 +59,13 @@ void Admin::viewHouse()
 {
     if (DataHandler::memberList.size() > 0)
     {
-        cout << "Below is all House information for all member\n";
+        cout << "\nBelow is all House information for all member\n";
         cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n";
-        for (int i = 0; i < DataHandler::memberList.size(); i++)
+        for (int i = 0; i < DataHandler::houseInfoList.size(); i++)
         {
-            cout << "\n" << i+1 << ") ";
-            DataHandler::memberList.at(i)->showHouseInfo();
+            cout << "\n"
+                 << i + 1 << ") ";
+            DataHandler::houseInfoList.at(i)->owner->showHouseInfo();
         }
         cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n";
     }

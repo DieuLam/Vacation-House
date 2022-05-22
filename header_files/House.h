@@ -44,4 +44,5 @@ public:
     friend class Rating;
     friend class Request;
     friend class DataHandler;
+    friend class Admin;
 };

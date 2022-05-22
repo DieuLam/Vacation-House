@@ -19,14 +19,13 @@ int main()
     cout << "s3877664, Lam Tin Dieu\n";
 
     DataHandler data;
-    
-    data.loadFilesToVector("files_database/registrationInfo.txt",1); //load all files to corrospond vector
-    data.loadFilesToVector("files_database/houseInfo.txt",2); //the second parameter decides which file to load into
-    data.loadFilesToVector("files_database/houseRating.txt",3); 
-    data.loadFilesToVector("files_database/memberRating.txt",4);
-    data.loadFilesToVector("files_database/registrationInfo",5);  
-    data.loadFilesToVector("files_database/request.txt",6); 
 
+    data.loadFilesToVector("files_database/registrationInfo.txt", 1); // load all files to corrospond vector
+    data.loadFilesToVector("files_database/houseInfo.txt", 2);        // the second parameter decides which file to load into
+    data.loadFilesToVector("files_database/houseRating.txt", 3);
+    data.loadFilesToVector("files_database/memberRating.txt", 4);
+    data.loadFilesToVector("files_database/registrationInfo", 5);
+    data.loadFilesToVector("files_database/request.txt", 6);
 
     int exitStatus = 0; // if exitStatus = 1, means exit
 
@@ -138,16 +137,36 @@ int main()
 
                                 if (option.compare("1") == 0)
                                 {
-                                    cout << "\nPlease choose a house by entering a number: \n";
-                                    getline(cin, option);
-                                    login->acceptRequest(stoi(option) - 1);
+                                    if (login->viewRequest())
+                                    {
+                                        cout << "\nPlease choose a house by entering a number: ";
+                                        getline(cin, option);
+                                        if (isdigit(option[0]))
+                                        {
+                                            login->acceptRequest(stoi(option) - 1);
+                                        }
+                                        else
+                                        {
+                                            cout << "\nInvalid input\n";
+                                        }
+                                    }
                                 }
 
                                 else if (option.compare("2") == 0)
                                 {
-                                    cout << "\nPlease choose a house by entering a number: \n";
-                                    getline(cin, option);
-                                    login->viewMemberReviews(stoi(option) - 1);
+                                    if (login->viewRequest())
+                                    {
+                                        cout << "\nPlease choose a house by entering a number: ";
+                                        getline(cin, option);
+                                        if (isdigit(option[0]))
+                                        {
+                                            login->viewMemberReviews(stoi(option) - 1);
+                                        }
+                                        else
+                                        {
+                                            cout << "\nInvalid input\n";
+                                        }
+                                    }
                                 }
 
                                 else if (option.compare("3") == 0)
@@ -180,16 +199,36 @@ int main()
 
                                 if (option.compare("1") == 0)
                                 {
-                                    cout << "\nPlease choose a house by entering a number: \n";
-                                    getline(cin, option);
-                                    login->viewHouseReviews(stoi(option) - 1);
+                                    if (login->checkAvailableHouses())
+                                    {
+                                        cout << "\nPlease choose a house by entering a number: \n";
+                                        getline(cin, option);
+                                        if (isdigit(option[0]))
+                                        {
+                                            login->viewHouseReviews(stoi(option) - 1);
+                                        }
+                                        else
+                                        {
+                                            cout << "\nInvalid input\n";
+                                        }
+                                    }
                                 }
 
                                 else if (option.compare("2") == 0)
                                 {
-                                    cout << "\nPlease choose a house by entering a number: \n";
-                                    getline(cin, option);
-                                    login->sendRequest(stoi(option) - 1);
+                                    if (login->checkAvailableHouses())
+                                    {
+                                        cout << "\nPlease choose a house by entering a number: \n";
+                                        getline(cin, option);
+                                        if (isdigit(option[0]))
+                                        {
+                                            login->sendRequest(stoi(option) - 1);
+                                        }
+                                        else
+                                        {
+                                            cout << "\nInvalid input\n";
+                                        }
+                                    }
                                 }
 
                                 else if (option.compare("3") == 0)
@@ -334,8 +373,8 @@ int main()
         { // if exit
             cout << "\nThank you for using the app \n";
 
-           data.saveVectorsToFile(); //from class datahandler
-            
+            data.saveVectorsToFile(); // from class datahandler
+
             exitStatus = 1;
         }
         else
