@@ -58,7 +58,9 @@ void Member::showHouseInfo()
                  << i + 1 << ". " << this->houseOwned->occupierList.at(i)->username << "\n";
             cout << "Time: " << this->houseOwned->occupierList.at(i)->startDate << " to " << this->houseOwned->occupierList.at(i)->endDate << "\n";
         }
-    } else {
+    }
+    else
+    {
         cerr << "\nYou need to add your house first\n";
     }
 };
@@ -315,7 +317,7 @@ bool Member::viewRequest()
 
 bool Member::acceptRequest(int num)
 {
-    
+
     if (num < 0 || num > this->houseOwned->requestList.size())
     {
         cout << "\nInvalid input\n";
@@ -636,7 +638,10 @@ bool Member::checkAvailableHouses()
 
     int days = getDifference(date1, date2);
 
-    // cout << days << "\n";
+    if (endDate < startDate)
+    {
+        cout << "\nInvalid date\n";
+    }
 
     double score = Rating::calculateScores(this->ratings);
 
@@ -650,10 +655,6 @@ bool Member::checkAvailableHouses()
         {
             string HouseStart = m->houseOwned->startDate;
             string HouseEnd = m->houseOwned->endDate;
-            if (endDate < startDate)
-            {
-                cout << "\nInvalid date\n";
-            }
             else
             {
                 if (city == m->houseOwned->city)
@@ -662,7 +663,6 @@ bool Member::checkAvailableHouses()
                     {
                         if (this->credit >= m->houseOwned->consummingCredits * days)
                         {
-                            cout << m->houseOwned->consummingCredits * days;
                             if (score >= m->houseOwned->minOccRating)
                             {
                                 this->availableHouses.push_back(m->houseOwned);

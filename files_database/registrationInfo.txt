@@ -1,5 +1,5 @@
 Username|Fullname|Password|Phone|Credits|HouseOccupied|RentStartDate|RentEndDate
-a|a|a|123|560|none||
+a|a|a|123|600|none||
 b|b|b|123|500|none||
-c|c|c|123|440|a|2022/01/02|2022/01/06
-d|1|d|123|500|none||
+c|c|c|123|400|a|2022/01/02|2022/01/06
+d|1|d|123|500|none|2022/01/01|2022/01/08

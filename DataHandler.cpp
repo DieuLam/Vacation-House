@@ -164,7 +164,7 @@ void DataHandler::loadFilesToVector(string path, int whichFiles)
                 {
                     memberList.back()->houseOccupied = new House(new Member(dataPerLine[5], "", "", "", 0), "", "", "", "", 0, 0);
                 }
-                
+
                 memberList.back()->startDate = dataPerLine[6];
                 memberList.back()->endDate = dataPerLine[7];
             }

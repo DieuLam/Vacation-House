@@ -199,41 +199,35 @@ int main()
 
                                 if (option.compare("1") == 0)
                                 {
-                                    if (login->checkAvailableHouses())
+                                    cout << "\nPlease choose a house by entering a number: \n";
+                                    getline(cin, option);
+                                    if (isdigit(option[0]))
                                     {
-                                        cout << "\nPlease choose a house by entering a number: \n";
-                                        getline(cin, option);
-                                        if (isdigit(option[0]))
-                                        {
-                                            login->viewHouseReviews(stoi(option) - 1);
-                                        }
-                                        else
-                                        {
-                                            cout << "\nInvalid input\n";
-                                        }
+                                        login->viewHouseReviews(stoi(option) - 1);
+                                    }
+                                    else
+                                    {
+                                        cout << "\nInvalid input\n";
                                     }
                                 }
 
                                 else if (option.compare("2") == 0)
                                 {
-                                    if (login->checkAvailableHouses())
+                                    cout << "\nPlease choose a house by entering a number: \n";
+                                    getline(cin, option);
+                                    if (isdigit(option[0]))
                                     {
-                                        cout << "\nPlease choose a house by entering a number: \n";
-                                        getline(cin, option);
-                                        if (isdigit(option[0]))
-                                        {
-                                            login->sendRequest(stoi(option) - 1);
-                                        }
-                                        else
-                                        {
-                                            cout << "\nInvalid input\n";
-                                        }
+                                        login->sendRequest(stoi(option) - 1);
+                                    }
+                                    else
+                                    {
+                                        cout << "\nInvalid input\n";
                                     }
                                 }
 
                                 else if (option.compare("3") == 0)
                                 {
-                                    cout << "\nBack to previous menu\n\n";
+                                    cout << "\nBack to previous menu\n";
                                     exitAvailableHouse = true;
                                 }
                                 else
