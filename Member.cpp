@@ -326,9 +326,9 @@ bool Member::acceptRequest(int num)
 
         this->houseOwned->requestList.at(num)->sender->startDate = this->houseOwned->requestList.at(num)->startDate;
         this->houseOwned->requestList.at(num)->sender->endDate = this->houseOwned->requestList.at(num)->endDate;
-
-        this->houseOwned->requestList.at(num)->sender->credit -= this->houseOwned->requestList.at(num)->sender->numDays * this->houseOwned->consummingCredits;
-        this->credit += this->houseOwned->requestList.at(num)->sender->numDays * this->houseOwned->consummingCredits;
+        
+        this->houseOwned->requestList.at(num)->sender->credit -= this->houseOwned->requestList.at(num)->numDay * this->houseOwned->consummingCredits;
+        this->credit += this->houseOwned->requestList.at(num)->numDay * this->houseOwned->consummingCredits;
 
         // Check requestList of house to delete overlapped time request
         int size = 0;
@@ -336,12 +336,10 @@ bool Member::acceptRequest(int num)
         {
             if ((this->houseOwned->requestList.at(i)->startDate >= temp->startDate) && (this->houseOwned->requestList.at(i)->startDate < temp->endDate) || (this->houseOwned->requestList.at(i)->endDate > temp->startDate) && (this->houseOwned->requestList.at(i)->endDate <= temp->endDate))
             { 
-                cout << "1\n";
                 this->houseOwned->requestList.erase(this->houseOwned->requestList.begin() + i);
             }
             else if ((this->houseOwned->requestList.at(i)->startDate <= temp->startDate) && (this->houseOwned->requestList.at(i)->endDate >= temp->endDate))
             {
-                cout << "2\n";
                 this->houseOwned->requestList.erase(this->houseOwned->requestList.begin() + i);
             }
             else {
